@@ -15,7 +15,7 @@ public class MailConfig {
 
         javaMailSender.setHost("smtp.naver.com");
         javaMailSender.setUsername("nemo_auth@naver.com");
-        javaMailSender.setPassword("@@nemo1234");
+        javaMailSender.setPassword("보안상의 이유로 비공개");
         javaMailSender.setPort(465);
         javaMailSender.setJavaMailProperties(getMailProperties());
 
