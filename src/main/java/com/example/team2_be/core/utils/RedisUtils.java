@@ -17,4 +17,8 @@ public class RedisUtils {
         Duration expireDuration = Duration.ofSeconds(duration);
         valueOperations.set(key, value, expireDuration);
     }
+
+    public void deleteData(String key) {
+        stringRedisTemplate.delete(key);
+    }
 }
