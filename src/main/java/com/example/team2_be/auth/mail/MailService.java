@@ -49,6 +49,7 @@ public class MailService {
 
         try {
             javaMailSender.send(message);
+            redisUtils.setDataExpire(to, authCode, 60 * 5L);
         } catch (MailException e) {
             e.printStackTrace();
             throw new IllegalArgumentException();
