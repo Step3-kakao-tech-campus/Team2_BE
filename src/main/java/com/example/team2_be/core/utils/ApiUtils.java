@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 public class ApiUtils {
+    public static <T> ApiResult<T> success(T response) {
+        return new ApiResult<>(true, response, null);
+    }
+
     @Getter
     @AllArgsConstructor
     public static class ApiResult<T> {
