@@ -1,5 +1,7 @@
 package com.example.team2_be.auth.mail;
 
+import com.example.team2_be.auth.AuthRequest;
+import com.example.team2_be.core.utils.RedisUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,6 +19,7 @@ import java.util.Random;
 @Transactional(readOnly = true)
 public class MailService {
     private final JavaMailSender javaMailSender;
+    private final RedisUtils redisUtils;
 
     public String createKey() {
         StringBuilder key = new StringBuilder();
@@ -79,5 +82,19 @@ public class MailService {
         message.setFrom(new InternetAddress("nemo_auth@naver.com", "네모"));// 보내는 사람
 
         return message;
+    }
+
+    public void checkAuthCode(AuthRequest.CheckMailDTO checkMailDTO) {
+        String findAuthCode = redisUtils.getData(checkMailDTO.getEmail());
+
+        if(findAuthCode == null) {
+            throw new IllegalArgumentException("인증 객체를 찾지 못하였습니다.");
+        }
+
+        if(!findAuthCode.equals(checkMailDTO.getAuthCode())) {
+            throw new IllegalArgumentException("인증번호가 불일치 합니다.");
+        }
+
+        redisUtils.deleteData(checkMailDTO.getEmail()); //인증 후 인증 객체 삭제
     }
 }
