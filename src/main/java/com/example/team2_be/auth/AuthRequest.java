@@ -4,10 +4,17 @@ import lombok.Getter;
 
 import javax.validation.constraints.Email;
 
-class AuthRequest {
+public class AuthRequest {
     @Getter
     public static class SendMailDTO {
         @Email
         private String email;
+    }
+
+    @Getter
+    public static class CheckMailDTO {
+        @Email
+        private String email;
+        private String authCode;
     }
 }
