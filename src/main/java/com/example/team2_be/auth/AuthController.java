@@ -18,4 +18,11 @@ public class AuthController {
 
         return ResponseEntity.ok(ApiUtils.success(null));
     }
+
+    @PostMapping("/mail/check")
+    public ResponseEntity<?> checkMail(@RequestBody AuthRequest.CheckMailDTO checkMailDTO) {
+        mailService.checkAuthCode(checkMailDTO);
+
+        return ResponseEntity.ok(ApiUtils.success(null));
+    }
 }
