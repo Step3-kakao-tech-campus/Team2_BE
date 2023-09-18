@@ -1,6 +1,7 @@
 package com.example.team2_be.auth.mail;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +39,20 @@ public class MailService {
         }
 
         return key.toString();
+    }
+
+    public void sendSimpleMessage(String to) throws Exception {
+
+        String authCode = createKey(); // 랜덤 인증번호 생성
+
+        MimeMessage message = createMessage(to, authCode);
+
+        try {
+            javaMailSender.send(message);
+        } catch (MailException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException();
+        }
     }
 
     public MimeMessage createMessage(String to, String authCode) throws MessagingException, UnsupportedEncodingException {
