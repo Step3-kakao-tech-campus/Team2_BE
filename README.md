@@ -23,10 +23,12 @@
 
 ### 형식
 
-`<type><break or not>: <subject>
+```
+<type><break or not>: <subject>
 <BLANK LINE>
 <body>
-<BLANK LINE>`
+<BLANK LINE>
+```
 
 ## 이슈, PR 템플릿
 
