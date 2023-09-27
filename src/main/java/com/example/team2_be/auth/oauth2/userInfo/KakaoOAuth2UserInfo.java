@@ -1,8 +1,10 @@
-package com.example.team2_be.auth.oauth2;
+package com.example.team2_be.auth.oauth2.userInfo;
+
+import com.example.team2_be.auth.oauth2.userInfo.OAuth2UserInfo;
 
 import java.util.Map;
 
-public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
+public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
 
     public KakaoOAuth2UserInfo(Map<String, Object> attributes){
         super(attributes);

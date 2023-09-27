@@ -1,4 +1,4 @@
-package com.example.team2_be.auth.oauth2;
+package com.example.team2_be.auth.oauth2.userInfo;
 
 import java.util.Map;
 

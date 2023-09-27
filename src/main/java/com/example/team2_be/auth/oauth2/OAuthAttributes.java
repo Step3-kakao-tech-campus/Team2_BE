@@ -1,5 +1,8 @@
 package com.example.team2_be.auth.oauth2;
 
+import com.example.team2_be.auth.oauth2.userInfo.GoogleOAuth2UserInfo;
+import com.example.team2_be.auth.oauth2.userInfo.KakaoOAuth2UserInfo;
+import com.example.team2_be.auth.oauth2.userInfo.OAuth2UserInfo;
 import lombok.Builder;
 import lombok.Getter;
 

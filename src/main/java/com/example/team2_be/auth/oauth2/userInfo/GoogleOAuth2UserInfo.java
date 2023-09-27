@@ -1,8 +1,8 @@
-package com.example.team2_be.auth.oauth2;
+package com.example.team2_be.auth.oauth2.userInfo;
 
 import java.util.Map;
 
-public class GoogleOAuth2UserInfo extends OAuth2UserInfo{
+public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
 
     public GoogleOAuth2UserInfo(Map<String, Object> attributes){
         super(attributes);
