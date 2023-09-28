@@ -3,3 +3,9 @@ spring:
     host: 127.0.0.1
     port: 6379
 
+kakao:
+  authUrl: https://kauth.kakao.com/oauth/authorize
+  restapiKey: 여기에 REST API KEY 입력
+  redirectUrl:  http://localhost:8080/callback
+
+
