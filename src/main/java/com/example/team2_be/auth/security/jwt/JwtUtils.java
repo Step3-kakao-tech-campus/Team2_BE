@@ -24,4 +24,14 @@ public class JwtUtils {
                 .parseClaimsJws(token).getBody();
     }
 
+    private String getUserEmailFromToken(String token) {
+        Claims claims = getClaimsFormToken(token);
+        return (String) claims.get("email");
+    }
+
+    private Role getRoleFromToken(String token) {
+        Claims claims = getClaimsFormToken(token);
+        return (Role) claims.get("role");
+    }
+
 }
