@@ -1,4 +1,4 @@
-package com.example.team2_be.kakao;
+package com.example.team2_be.kakao.DTO;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

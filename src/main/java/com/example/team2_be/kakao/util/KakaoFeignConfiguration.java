@@ -1,4 +1,4 @@
-package com.example.team2_be.kakao;
+package com.example.team2_be.kakao.util;
 
 import feign.Client;
 import org.springframework.context.annotation.Bean;
