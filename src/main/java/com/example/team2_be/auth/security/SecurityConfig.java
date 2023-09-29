@@ -1,38 +1,72 @@
 package com.example.team2_be.auth.security;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        JwtAuthenticationFilter jwtAuthFilter = new JwtAuthenticationFilter(AuthenticationManager.class);
+@Configuration
+public class SecurityConfig {
 
-        http
-                .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .anyRequest().authenticated().and() // 해당 요청을 인증된 사용자만 사용 가능
-                .headers()
-                .frameOptions()
-                .sameOrigin().and()
-                .cors().configurationSource(configurationSource()).and()
-                .csrf().disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
-        // 인증, 권한 실패 처리 미구현
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    private CorsConfigurationSource configurationSource() {
+    public class CustomSecurityFilterManager extends AbstractHttpConfigurer<CustomSecurityFilterManager, HttpSecurity> {
+        @Override
+        public void configure(HttpSecurity builder) throws Exception {
+            AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
+            builder.addFilter(new JwtAuthenticationFilter(authenticationManager));
+            super.configure(builder);
+        }
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // 1. CSRF 해제
+        http.csrf().disable(); // postman 접근해야 함!! - CSR 할때!!
+
+        // 2. iframe 거부
+        http.headers().frameOptions().sameOrigin();
+
+        // 3. cors 재설정
+        http.cors().configurationSource(configurationSource());
+
+        // 4. jSessionId 사용 거부 (5번을 설정하면 jsessionId가 거부되기 때문에 4번은 사실 필요 없다)
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        // 5. form 로긴 해제 (UsernamePasswordAuthenticationFilter 비활성화)
+        http.formLogin().disable();
+
+        // 6. 로그인 인증창이 뜨지 않게 비활성화
+        http.httpBasic().disable();
+
+        // 7. 커스텀 필터 적용 (시큐리티 필터 교환)
+        http.apply(new CustomSecurityFilterManager());
+
+
+        // 11. 인증, 권한 필터 설정
+        http.authorizeRequests(
+                authorize -> authorize.antMatchers("/callback", "/auth/login", "/").permitAll()
+                        .antMatchers("/admin/**")
+                        .access("hasRole('ADMIN')")
+                        .anyRequest().authenticated()
+        );
+
+        return http.build();
+    }
+
+    public CorsConfigurationSource configurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*"); // GET, POST, PUT, DELETE (Javascript 요청 허용)
@@ -44,3 +78,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 }
+
