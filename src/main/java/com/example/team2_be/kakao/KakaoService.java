@@ -4,18 +4,23 @@ import com.example.team2_be.auth.security.JwtTokenProvider;
 import com.example.team2_be.kakao.DTO.KakaoAccount;
 import com.example.team2_be.kakao.DTO.KakaoToken;
 import com.example.team2_be.kakao.util.KakaoClient;
+import com.example.team2_be.user.Role;
+import com.example.team2_be.user.User;
+import com.example.team2_be.user.UserJPARepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class KakaoService {
 
+    private final UserJPARepository userJPARepository;
     private final KakaoClient client;
 
     @Value("${kakao.token-url}")
@@ -43,8 +48,21 @@ public class KakaoService {
             log.error("유저 정보 확인 오류");
         }
 
-        //email로 user 확인 후 없으면 DB에 생성 하는 로직 필요, KakaoAccount 내의 정보 사용
-        //있으면 user 정보를 가져오는 로직 필요
+        // DB 안의 user 정보 확인
+        User user = userJPARepository.findByEmail(kakaoAccount.getEmail());
+        // 없을 경우 생성 및 추가
+        if (user == null){
+            user = User.builder()
+                    .userId("")
+                    .password("")
+                    .email(kakaoAccount.getEmail())
+                    .nickname(kakaoAccount.getProfile().getNickname())
+                    .image("")
+                    .role(Role.ROLE_USER)
+                    .createAt(LocalDateTime.now())
+                    .build();
+            userJPARepository.save(user);
+        }
 
         return JwtTokenProvider.create(user);
     }
