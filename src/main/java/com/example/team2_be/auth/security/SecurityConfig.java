@@ -1,6 +1,6 @@
 package com.example.team2_be.auth.security;
 
-import com.example.team2_be.auth.AuthTokenProvider;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -11,11 +11,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final AuthTokenProvider authTokenProvider;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        JwtAuthenticationFilter jwtAuthFilter = new JwtAuthenticationFilter(authTokenProvider);
+        JwtAuthenticationFilter jwtAuthFilter = new JwtAuthenticationFilter(AuthenticationManager.class);
 
         http
                 .authorizeRequests()
