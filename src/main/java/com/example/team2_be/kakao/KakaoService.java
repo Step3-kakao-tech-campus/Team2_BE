@@ -18,7 +18,10 @@ public class KakaoService {
 
     private final KakaoClient client;
 
-    @Value("${kakao.auth-url}")
+    @Value("${kakao.token-url}")
+    private String kakaoTokenUrl;
+
+    @Value("&{kakao.auth-url}")
     private String kakaoAuthUrl;
 
     @Value("${kakao.restapi-key}")
@@ -40,13 +43,16 @@ public class KakaoService {
             log.error("유저 정보 확인 오류");
         }
 
-        return JwtTokenProvider.create(userService.dto(kakaoAccount)); //kakao에서 받아온 kakaoAccount를 user dto로 변경하는 로직 필요
+        //email로 user 확인 후 없으면 DB에 생성 하는 로직 필요, KakaoAccount 내의 정보 사용
+        //있으면 user 정보를 가져오는 로직 필요
+
+        return JwtTokenProvider.create(user);
     }
 
 
     public KakaoToken getToken(String code) {
         try {
-            return client.getToken(new URI(kakaoAuthUrl), restapiKey, redirectUrl, code, "authorization_code");
+            return client.getToken(new URI(kakaoTokenUrl), restapiKey, redirectUrl, code, "authorization_code");
         } catch (Exception e) {
             return KakaoToken.fail();
         }
