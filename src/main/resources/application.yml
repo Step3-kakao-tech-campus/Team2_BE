@@ -3,9 +3,14 @@ spring:
     host: 127.0.0.1
     port: 6379
 
+jwt:
+  secret-key: Z29nby10bddS1zZXJ2ZXItZGxyamVvYW9yb3JodGaa9kZ290c3Atam9vbmdhbmduaW0teWVvbHNpbWhpaGFsZ2Vv
+
 kakao:
   authUrl: https://kauth.kakao.com/oauth/token
-  restapiKey: 여기에 REST API KEY 입력
+  userApiUrl: https://kapi.kakao.com/v2/user/me
+  restapiKey: 0efff2c2f5f7de603b91cb6230b131ab
   redirectUrl:  http://localhost:8080/callback
+
 
 
