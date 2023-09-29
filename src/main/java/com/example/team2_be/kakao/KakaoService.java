@@ -22,12 +22,16 @@ public class KakaoService {
     private String redirectUrl;
 
     public KakaoToken getToken(String code) {
-
+        try {
+            return client.getToken(new URI(kakaoAuthUrl), restapiKey, redirectUrl, code, "authorization_code");
+        } catch (Exception e) {
+            return KakaoToken.fail();
+        }
     }
 
-    //https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={여기에 REST API KEY를 입력해주세요}&redirect_uri=http://localhost:3000/callback
+    //https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={여기에 REST API KEY를 입력해주세요}&redirect_uri=http://localhost:8080/callback
     public String getAuthCodeUrl() {
-        String url = kakaoAuthUrl+"response_type=code&"+restapiKey+redirectUrl;
+        String url = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id="+restapiKey+"&redirect_uri="+redirectUrl;
         return url;
     }
 }
