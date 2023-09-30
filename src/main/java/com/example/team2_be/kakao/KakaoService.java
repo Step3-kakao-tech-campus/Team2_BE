@@ -38,6 +38,8 @@ public class KakaoService {
     @Value("${kakao.user-api-url}")
     private String kakaoUserApiUrl;
 
+    public static final String DEFAULT_IMAGE_URL = "";
+
     public String login(String code) {
         KakaoToken kakaoToken = getToken(code);
         KakaoAccount kakaoAccount = null;
@@ -55,7 +57,7 @@ public class KakaoService {
             user = User.builder()
                     .email(kakaoAccount.getEmail())
                     .nickname(kakaoAccount.getProfile().getNickname())
-                    .image("")
+                    .image(DEFAULT_IMAGE_URL)
                     .role(Role.ROLE_USER)
                     .createAt(LocalDateTime.now())
                     .build();
