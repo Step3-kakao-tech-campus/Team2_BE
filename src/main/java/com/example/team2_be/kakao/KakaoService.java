@@ -53,8 +53,6 @@ public class KakaoService {
         // 없을 경우 생성 및 추가
         if (user == null){
             user = User.builder()
-                    .userId("")
-                    .password("")
                     .email(kakaoAccount.getEmail())
                     .nickname(kakaoAccount.getProfile().getNickname())
                     .image("")
