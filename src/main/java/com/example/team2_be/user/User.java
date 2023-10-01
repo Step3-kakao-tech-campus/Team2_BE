@@ -42,4 +42,8 @@ public class User {
         this.role = role;
         this.createAt = createAt;
     }
+
+    void update(String newNickname) {
+        this.nickname = newNickname;
+    }
 }
