@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-
 @Component
 public class JwtTokenProvider {
     public static final Long EXP = 1000L * 60 * 60 * 48; // 48시간 - 테스트 하기 편함.
@@ -22,6 +21,7 @@ public class JwtTokenProvider {
         String jwt = JWT.create()
                 .withSubject(user.getEmail())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXP))
+                .withClaim("id", user.getId())
                 .withClaim("role", user.getRole().toString())
                 .sign(Algorithm.HMAC512(SECRET));
         return TOKEN_PREFIX + jwt;
