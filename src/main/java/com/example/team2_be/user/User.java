@@ -17,7 +17,7 @@ public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 128, nullable = false)
+    @Column(length = 128, nullable = false, unique = true)
     private String email;
 
     @Column(length = 32, nullable = false, unique = true)
