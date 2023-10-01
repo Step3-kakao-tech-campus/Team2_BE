@@ -25,7 +25,7 @@ public class KakaoService {
     @Value("${kakao.token-url}")
     private String kakaoTokenUrl;
 
-    @Value("&{kakao.auth-url}")
+    @Value("${kakao.auth-url}")
     private String kakaoAuthUrl;
 
     @Value("${kakao.restapi-key}")
