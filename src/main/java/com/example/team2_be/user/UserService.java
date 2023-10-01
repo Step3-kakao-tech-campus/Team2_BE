@@ -39,4 +39,10 @@ public class UserService {
 
         return newUser;
     }
+
+    public UserResponse.FindDTO findUser(User user) {
+        User findUser = userJPARepository.findByEmail(user.getEmail());
+
+        return new UserResponse.FindDTO(findUser);
+    }
 }
