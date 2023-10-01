@@ -26,6 +26,7 @@ public class User {
     @Column(length = 512, nullable = false)
     private String image;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(length = 16, nullable = false)
     private Role role;
 
