@@ -7,8 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService {
 
     private final UserJPARepository userJPARepository;
@@ -37,5 +38,22 @@ public class UserService {
         userJPARepository.save(newUser);
 
         return newUser;
+    }
+
+    public UserResponse.FindDTO findUser(User user) {
+        User findUser = userJPARepository.findByEmail(user.getEmail());
+
+        // 예외 처리 : 유저 찾기 실패
+
+        return new UserResponse.FindDTO(findUser);
+    }
+
+    @Transactional
+    public void updateUserInfo(UserRequest.UpdateDTO updateDTO, User user) {
+        User findUser = userJPARepository.findByEmail(user.getEmail());
+
+        // 예외 처리 : 본인이 맞는지 권한 체크
+
+        findUser.update(updateDTO.getNewNickname());
     }
 }

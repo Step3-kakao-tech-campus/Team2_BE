@@ -17,7 +17,7 @@ public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 128, nullable = false)
+    @Column(length = 128, nullable = false, unique = true)
     private String email;
 
     @Column(length = 32, nullable = false, unique = true)
@@ -26,6 +26,7 @@ public class User {
     @Column(length = 512, nullable = false)
     private String image;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(length = 16, nullable = false)
     private Role role;
 
@@ -40,5 +41,9 @@ public class User {
         this.image = image;
         this.role = role;
         this.createAt = createAt;
+    }
+
+    void update(String newNickname) {
+        this.nickname = newNickname;
     }
 }
