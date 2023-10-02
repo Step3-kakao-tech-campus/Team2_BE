@@ -3,6 +3,9 @@ spring:
     host: 127.0.0.1
     port: 6379
 
+jwt:
+  secretKey: Z29nby10bddS1zZXJ2ZXItZGxyamVvYW9yb3JodGaa9kZ290c3Atam9vbmdhbmduaW0teWVvbHNpbWhpaGFsZ2Vv
+
 kakao:
   tokenUrl: https://kauth.kakao.com/oauth/token
   userApiUrl: https://kapi.kakao.com/v2/user/me
