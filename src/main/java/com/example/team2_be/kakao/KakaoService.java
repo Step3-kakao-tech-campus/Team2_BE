@@ -20,6 +20,7 @@ public class KakaoService {
 
     private final KakaoClient client;
     private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
 
 
     @Value("${kakao.token-url}")
@@ -50,7 +51,7 @@ public class KakaoService {
 
         User user = userService.checkUser(kakaoAccount);
 
-        return JwtTokenProvider.create(user);
+        return jwtTokenProvider.create(user);
     }
 
 
