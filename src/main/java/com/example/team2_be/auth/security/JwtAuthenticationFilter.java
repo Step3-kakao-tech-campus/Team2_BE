@@ -21,13 +21,16 @@ import java.io.IOException;
 @Slf4j
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+    private final JwtTokenProvider jwtTokenProvider;
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
         super(authenticationManager);
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String jwt = request.getHeader(JwtTokenProvider.HEADER);
+        String jwt = request.getHeader(jwtTokenProvider.HEADER);
 
         if (jwt == null) {
             chain.doFilter(request, response);
@@ -35,7 +38,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         }
 
         try {
-            DecodedJWT decodedJWT = JwtTokenProvider.verify(jwt);
+            DecodedJWT decodedJWT = jwtTokenProvider.verify(jwt);
             Long id = decodedJWT.getClaim("id").asLong();
             String role = decodedJWT.getClaim("role").asString();
             Role userRole = Role.valueOf(role);
@@ -44,7 +47,6 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(
                             myUserDetails,
-                            myUserDetails.getPassword(),
                             myUserDetails.getAuthorities()
                     );
             SecurityContextHolder.getContext().setAuthentication(authentication);

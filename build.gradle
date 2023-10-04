@@ -30,10 +30,6 @@ dependencyManagement {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-	//redis
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation 'it.ozimov:embedded-redis:0.7.2'
-
 	//implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -53,6 +49,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation group: 'com.auth0', name: 'java-jwt', version: '4.3.0'
+
+	//yml 파일 암호화
+	implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3")
+	implementation("org.bouncycastle:bcprov-jdk15on:1.64")
 
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 }
