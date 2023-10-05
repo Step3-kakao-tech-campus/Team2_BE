@@ -13,3 +13,5 @@ INSERT INTO users (`id`, `email`, `nickname`, `title`, `image`, `role`, `create_
 INSERT INTO reward (`id`, `reward_name`, `description`, `level`, `goal_count`) VALUES ('1', '우리들의 첫번째 추억 기록', '첫번째 앨범 페이지를 생성해보세요.', 'bronze');
 INSERT INTO reward (`id`, `reward_name`, `description`, `level`, `goal_count`) VALUES ('2', '콜롬버스 등장', '네모에 오신 것을 환영합니다.', 'gold');
 
+-- 진행도
+INSERT INTO progress (`id`, `count`, `success`, `users_id`, `reward_id`) VALUES ('1', '0', 'Y', '1', '2');
