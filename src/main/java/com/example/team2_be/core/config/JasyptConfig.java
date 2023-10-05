@@ -1,4 +1,4 @@
-package com.example.team2_be.auth.util;
+package com.example.team2_be.core.config;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
