@@ -23,6 +23,9 @@ public class User {
     @Column(length = 32, nullable = false, unique = true)
     private String nickname;
 
+    @Column(length = 16)
+    private String title;
+
     @Column(length = 512, nullable = false)
     private String image;
 
