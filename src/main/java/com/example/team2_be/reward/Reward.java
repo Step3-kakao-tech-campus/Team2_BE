@@ -1,6 +1,5 @@
 package com.example.team2_be.reward;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -27,13 +26,4 @@ public class Reward {
 
     @Column(nullable = false)
     private int goalCount;
-
-    @Builder
-    public Reward(Long id, String rewardName, String description, String level, int goalCount) {
-        this.id = id;
-        this.rewardName = rewardName;
-        this.description = description;
-        this.level = level;
-        this.goalCount = goalCount;
-    }
 }
