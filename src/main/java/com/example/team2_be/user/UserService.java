@@ -1,6 +1,8 @@
 package com.example.team2_be.user;
 
-import com.example.team2_be.kakao.DTO.KakaoAccount;
+import com.example.team2_be.kakao.dto.KakaoAccount;
+import com.example.team2_be.user.dto.UserInfoFindResponseDTO;
+import com.example.team2_be.user.dto.UserInfoUpdateRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,16 +42,16 @@ public class UserService {
         return newUser;
     }
 
-    public UserResponse.FindDTO findUser(User user) {
+    public UserInfoFindResponseDTO findUser(User user) {
         User findUser = userJPARepository.findByEmail(user.getEmail());
 
         // 예외 처리 : 유저 찾기 실패
 
-        return new UserResponse.FindDTO(findUser);
+        return new UserInfoFindResponseDTO(findUser);
     }
 
     @Transactional
-    public void updateUserInfo(UserRequest.UpdateDTO updateDTO, User user) {
+    public void updateUserInfo(UserInfoUpdateRequestDTO updateDTO, User user) {
         User findUser = userJPARepository.findByEmail(user.getEmail());
 
         // 예외 처리 : 본인이 맞는지 권한 체크
