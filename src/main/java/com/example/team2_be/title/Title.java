@@ -1,7 +1,6 @@
 package com.example.team2_be.title;
 
 import com.example.team2_be.reward.Reward;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -23,11 +22,4 @@ public class Title {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reward_id")
     private Reward reward;
-
-    @Builder
-    public Title(Long id, String titleName, Reward reward) {
-        this.id = id;
-        this.titleName = titleName;
-        this.reward = reward;
-    }
 }
