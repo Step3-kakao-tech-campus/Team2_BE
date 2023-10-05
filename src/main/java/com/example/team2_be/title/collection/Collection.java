@@ -20,7 +20,7 @@ public class Collection {
     private Long id;
 
     @Column(nullable = false)
-    private LocalDateTime creatAt;
+    private LocalDateTime createAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id")
@@ -33,7 +33,7 @@ public class Collection {
     @Builder
     public Collection(Long id, User user, Title title) {
         this.id = id;
-        this.creatAt = LocalDateTime.now();
+        this.createAt = LocalDateTime.now();
         this.user = user;
         this.title = title;
     }
