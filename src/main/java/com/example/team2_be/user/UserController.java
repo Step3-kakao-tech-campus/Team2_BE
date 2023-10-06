@@ -37,4 +37,11 @@ public class UserController {
 
         return ResponseEntity.ok(ApiUtils.success(rewardFindResponseDTO));
     }
+
+    @GetMapping("/titles")
+    public ResponseEntity<?> findTitle(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        UserTitleFindResponseDTO titleFindResponseDTO = userService.findUserTitle(userDetails.getUser());
+
+        return ResponseEntity.ok(ApiUtils.success(titleFindResponseDTO));
+    }
 }
