@@ -16,3 +16,14 @@ public class UserTitleFindResponseDTO {
                 .collect(Collectors.toList());
     }
 }
+
+@Getter
+class TitleDTO {
+    private Long id;
+    private String titleName;
+
+    public TitleDTO(Collection collection) {
+        this.id = collection.getId();
+        this.titleName = collection.getTitle().getTitleName();
+    }
+}
