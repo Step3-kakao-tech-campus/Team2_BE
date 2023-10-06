@@ -14,7 +14,9 @@ INSERT INTO reward (`id`, `reward_name`, `description`, `level`, `goal_count`) V
 INSERT INTO reward (`id`, `reward_name`, `description`, `level`, `goal_count`) VALUES ('2', '콜롬버스 등장', '네모에 오신 것을 환영합니다.', 'gold', '1');
 
 -- 진행도
-INSERT INTO progress (`id`, `count`, `success`, `users_id`, `reward_id`) VALUES ('1', '0', 'Y', '1', '2');
+INSERT INTO progress (`id`, `count`, `success`, `users_id`, `reward_id`) VALUES ('1', '0', 'N', '1', '1');
+INSERT INTO progress (`id`, `count`, `success`, `users_id`, `reward_id`) VALUES ('2', '0', 'Y', '1', '2');
+
 
 -- 칭호
 INSERT INTO title (`id` , `title_name`, `reward_id`) VALUES ('1', '방문객', '2');
