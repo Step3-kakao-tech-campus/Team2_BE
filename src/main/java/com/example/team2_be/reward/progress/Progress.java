@@ -33,8 +33,7 @@ public class Progress {
     private Reward reward;
 
     @Builder
-    public Progress(Long id, char success, User user, Reward reward) {
-        this.id = id;
+    public Progress(char success, User user, Reward reward) {
         this.count = 0;
         this.success = success;
         this.user = user;
