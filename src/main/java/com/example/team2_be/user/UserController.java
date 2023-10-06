@@ -4,6 +4,8 @@ import com.example.team2_be.core.security.CustomUserDetails;
 import com.example.team2_be.core.utils.ApiUtils;
 import com.example.team2_be.user.dto.UserInfoFindResponseDTO;
 import com.example.team2_be.user.dto.UserInfoUpdateRequestDTO;
+import com.example.team2_be.user.dto.UserRewardFindResponseDTO;
+import com.example.team2_be.user.dto.UserTitleFindResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,5 +29,12 @@ public class UserController {
         userService.updateUserInfo(updateDTO, userDetails.getUser());
 
         return ResponseEntity.ok(null);
+    }
+
+    @GetMapping("/rewards")
+    public ResponseEntity<?> findReward(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        UserRewardFindResponseDTO rewardFindResponseDTO = userService.findUserReward(userDetails.getUser());
+
+        return ResponseEntity.ok(ApiUtils.success(rewardFindResponseDTO));
     }
 }
