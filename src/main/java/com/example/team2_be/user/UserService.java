@@ -79,4 +79,11 @@ public class UserService {
 
         return new UserRewardFindResponseDTO(findRewards, findProgresses);
     }
+
+    public UserTitleFindResponseDTO findUserTitle(User user) {
+        User findUser = userJPARepository.findByEmail(user.getEmail());
+        List<Collection> collections = collectionJPARepository.findByUserId(findUser.getId());
+
+        return new UserTitleFindResponseDTO(collections);
+    }
 }
