@@ -1,20 +1,32 @@
 package com.example.team2_be.user;
 
 import com.example.team2_be.kakao.dto.KakaoAccount;
+import com.example.team2_be.reward.Reward;
+import com.example.team2_be.reward.RewardJPARepository;
+import com.example.team2_be.reward.progress.Progress;
+import com.example.team2_be.reward.progress.ProgressJPARepository;
+import com.example.team2_be.title.collection.Collection;
+import com.example.team2_be.title.collection.CollectionJPARepository;
 import com.example.team2_be.user.dto.UserInfoFindResponseDTO;
 import com.example.team2_be.user.dto.UserInfoUpdateRequestDTO;
+import com.example.team2_be.user.dto.UserRewardFindResponseDTO;
+import com.example.team2_be.user.dto.UserTitleFindResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UserService {
-
     private final UserJPARepository userJPARepository;
+    private final RewardJPARepository rewardJPARepository;
+    private final ProgressJPARepository progressJPARepository;
+    private final CollectionJPARepository collectionJPARepository;
+
     public static final String DEFAULT_IMAGE_URL = "";
 
     @Transactional
@@ -57,5 +69,14 @@ public class UserService {
         // 예외 처리 : 본인이 맞는지 권한 체크
 
         findUser.update(updateDTO.getNewNickname());
+    }
+
+    public UserRewardFindResponseDTO findUserReward(User user) {
+        List<Reward> findRewards = rewardJPARepository.findAll();
+
+        User findUser = userJPARepository.findByEmail(user.getEmail());
+        List<Progress> findProgresses = progressJPARepository.findByUserId(findUser.getId());
+
+        return new UserRewardFindResponseDTO(findRewards, findProgresses);
     }
 }
