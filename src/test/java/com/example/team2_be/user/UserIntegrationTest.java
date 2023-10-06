@@ -36,4 +36,18 @@ class UserIntegrationTest {
         resultActions.andExpect(jsonPath("$.success").value("true"))
                 .andDo(print());
     }
+
+    @Test
+    @DisplayName("유저의 칭호 조회 테스트")
+    @WithUserDetails(value = "admin")
+    void find_user_title_test() throws Exception {
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                get("/users/titles")
+        );
+
+        //then
+        resultActions.andExpect(jsonPath("$.success").value("true"))
+                .andDo(print());
+    }
 }
