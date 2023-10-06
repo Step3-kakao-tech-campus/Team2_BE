@@ -5,7 +5,6 @@ import com.example.team2_be.reward.progress.Progress;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
