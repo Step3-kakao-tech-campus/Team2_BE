@@ -11,6 +11,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -44,6 +45,23 @@ class UserIntegrationTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 get("/users/titles")
+        );
+
+        //then
+        resultActions.andExpect(jsonPath("$.success").value("true"))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("유저의 칭호 변경 테스트")
+    @WithUserDetails(value = "admin")
+    void update_user_title_test() throws Exception {
+        //given
+        Long id = 2L;
+
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                put("/users/titles/{id}", id)
         );
 
         //then
