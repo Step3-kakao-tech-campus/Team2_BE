@@ -23,7 +23,7 @@ public class AlbumMemberController {
 
     @PostMapping("/{userId}")
     public ResponseEntity<Void> addMember(@PathVariable Long groupId, @PathVariable Long userId){
-        albumMemberService.addUser(userId, groupId);
+        albumMemberService.addMember(userId, groupId);
 
         return ResponseEntity.ok(null);
     }
