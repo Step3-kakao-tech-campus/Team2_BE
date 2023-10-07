@@ -95,7 +95,5 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 칭호를 찾을 수 없음"));
 
         findUser.updateTitle(findCollection.getTitle().getTitleName());
-
-        System.out.println("findUser = " + findUser);
     }
 }
