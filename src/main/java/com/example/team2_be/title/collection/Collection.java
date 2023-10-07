@@ -31,8 +31,7 @@ public class Collection {
     private Title title;
 
     @Builder
-    public Collection(Long id, User user, Title title) {
-        this.id = id;
+    public Collection(User user, Title title) {
         this.createAt = LocalDateTime.now();
         this.user = user;
         this.title = title;
