@@ -33,8 +33,7 @@ public class Album {
     private LocalDateTime createAt;
 
     @Builder
-    public Album (Long id, String albumName, String description, String image, Category category, LocalDateTime createAt){
-        this.id= id;
+    public Album (String albumName, String description, String image, Category category, LocalDateTime createAt){
         this.albumName=albumName;
         this.description=description;
         this.image=image;
