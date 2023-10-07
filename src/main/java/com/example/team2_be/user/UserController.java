@@ -44,4 +44,11 @@ public class UserController {
 
         return ResponseEntity.ok(ApiUtils.success(titleFindResponseDTO));
     }
+
+    @PutMapping("/titles/{id}")
+    public ResponseEntity<ApiUtils.ApiResult<Object>> updateTitle(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        userService.updateUserTitle(id, userDetails.getUser());
+
+        return ResponseEntity.ok(ApiUtils.success(null));
+    }
 }
