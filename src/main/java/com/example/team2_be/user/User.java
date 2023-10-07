@@ -1,5 +1,6 @@
 package com.example.team2_be.user;
 
+import com.example.team2_be.title.Title;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,5 +49,9 @@ public class User {
 
     void update(String newNickname) {
         this.nickname = newNickname;
+    }
+
+    void updateTitle(String newTitle) {
+        this.title = newTitle;
     }
 }
