@@ -2,12 +2,16 @@ package com.example.team2_be.album.member;
 
 import com.example.team2_be.album.Album;
 import com.example.team2_be.album.AlbumJPARepository;
+import com.example.team2_be.album.dto.AlbumMemberFindResponseDTO;
 import com.example.team2_be.core.error.exception.Exception404;
 import com.example.team2_be.user.User;
 import com.example.team2_be.user.UserJPARepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +21,15 @@ public class AlbumMemberService {
     private final UserJPARepository userJPARepository;
     private final AlbumJPARepository albumJPARepository;
     private final AlbumMemberJPARepository albumMemberJPARepository;
+
+    public AlbumMemberFindResponseDTO findMembers(Long albumId){
+        List<AlbumMember> members = albumMemberJPARepository.findAllByGroup_Id(albumId);
+        List<User> users = members.stream()
+                .map(member -> userJPARepository.getReferenceById(member.getUser().getId()))
+                .collect(Collectors.toList());
+
+        return new AlbumMemberFindResponseDTO(users);
+    }
 
     public void addUser(Long userId, Long albumId){
         User user = userJPARepository.getReferenceById(userId);
