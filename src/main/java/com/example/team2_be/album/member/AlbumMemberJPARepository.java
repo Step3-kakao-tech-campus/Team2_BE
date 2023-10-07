@@ -1,9 +1,10 @@
 package com.example.team2_be.album.member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Optional;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface AlbumMemberJPARepository extends JpaRepository<AlbumMember, Long> {
-    public AlbumMember findByUserAndGroup(Long userId, Long groupId);
+    @Query("select m from AlbumMember m where m.user.id = :userId and m.group.id = :groupId")
+    public AlbumMember findByUserAndGroup(@Param("userId") Long userId, @Param("groupId") Long groupId);
 }
