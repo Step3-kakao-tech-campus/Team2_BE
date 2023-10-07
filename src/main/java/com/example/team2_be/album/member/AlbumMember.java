@@ -1,5 +1,7 @@
 package com.example.team2_be.album.member;
 
+import com.example.team2_be.album.Album;
+import com.example.team2_be.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,14 +19,16 @@ public class AlbumMember {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(nullable = false)
-    private Long group;
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private Album group;
 
     @Builder
-    public AlbumMember(Long user, Long group){
+    public AlbumMember(User user, Album group){
         this.user = user;
         this.group = group;
     }
