@@ -46,4 +46,10 @@ public class AlbumMemberService {
             albumMemberJPARepository.save(albumMember);
         }
     }
+
+    public void deleteMember(Long userId, Long albumId){
+        AlbumMember albumMember = albumMemberJPARepository.findByUserAndGroup(userId, albumId);
+
+        albumMemberJPARepository.delete(albumMember);
+    }
 }
