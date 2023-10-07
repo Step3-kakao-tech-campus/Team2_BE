@@ -27,4 +27,11 @@ public class AlbumMemberController {
 
         return ResponseEntity.ok(null);
     }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteMember(@PathVariable Long groupId, @PathVariable Long userId){
+        albumMemberService.deleteMember(userId, groupId);
+
+        return ResponseEntity.ok(null);
+    }
 }
