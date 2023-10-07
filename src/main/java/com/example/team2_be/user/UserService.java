@@ -86,4 +86,16 @@ public class UserService {
 
         return new UserTitleFindResponseDTO(collections);
     }
+
+    @Transactional
+    public void updateUserTitle(Long id, User user) {
+        User findUser = userJPARepository.findByEmail(user.getEmail());
+
+        Collection findCollection = collectionJPARepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 칭호를 찾을 수 없음"));
+
+        findUser.updateTitle(findCollection.getTitle().getTitleName());
+
+        System.out.println("findUser = " + findUser);
+    }
 }
