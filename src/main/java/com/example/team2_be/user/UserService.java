@@ -55,10 +55,8 @@ public class UserService {
         return newUser;
     }
 
-    public UserInfoFindResponseDTO findUser(User user) {
+    public UserInfoFindResponseDTO findUserInfo(User user) {
         User findUser = userJPARepository.findByEmail(user.getEmail());
-
-        // 예외 처리 : 유저 찾기 실패
 
         return new UserInfoFindResponseDTO(findUser);
     }
@@ -66,8 +64,6 @@ public class UserService {
     @Transactional
     public void updateUserInfo(UserInfoUpdateRequestDTO updateDTO, User user) {
         User findUser = userJPARepository.findByEmail(user.getEmail());
-
-        // 예외 처리 : 본인이 맞는지 권한 체크
 
         findUser.update(updateDTO.getNewNickname());
     }
