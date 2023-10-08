@@ -31,6 +31,7 @@ public class AlbumMemberService {
         return new AlbumMemberFindResponseDTO(users);
     }
 
+    @Transactional
     public void addMember(Long userId, Long albumId){
         User user = userJPARepository.getReferenceById(userId);
         // 앨범이 없을 경우 예외 처리, 후에 추가 수정
@@ -47,6 +48,7 @@ public class AlbumMemberService {
         }
     }
 
+    @Transactional
     public void deleteMember(Long userId, Long albumId){
         AlbumMember albumMember = albumMemberJPARepository.findByUserAndGroup(userId, albumId);
 
