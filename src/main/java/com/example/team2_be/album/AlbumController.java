@@ -14,13 +14,13 @@ import javax.validation.Valid;
 import java.util.List;
 @RestController
 @RequiredArgsConstructor
-//@RequestMapping("/groups")
+//@RequestMapping("/albums")
 public class AlbumController {
     private final AlbumService albumService;
 
     // 앨범 생성기능 POST
-    // /groups/create
-    @PostMapping ("groups/create")
+    // /albums/create
+    @PostMapping ("albums/create")
     public ResponseEntity<?> createAlbums(@RequestBody @Valid AlbumCreateRequestDTO requestDTO, @AuthenticationPrincipal CustomUserDetails userDetails){
         albumService.createAlbum(requestDTO,userDetails.getUser());
 
