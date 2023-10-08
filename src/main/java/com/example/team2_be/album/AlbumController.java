@@ -1,6 +1,7 @@
 package com.example.team2_be.album;
 
 import com.example.team2_be.album.dto.AlbumCreateRequestDTO;
+import com.example.team2_be.album.dto.AlbumFindAllResponseDTO;
 import com.example.team2_be.album.dto.AlbumUpdaterequestDTO;
 import com.example.team2_be.core.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class AlbumController {
     // 앨범 생성기능 POST
     // /albums/create
     @PostMapping ("albums/create")
-    public ResponseEntity<?> createAlbums(@RequestBody @Valid AlbumCreateRequestDTO requestDTO, @AuthenticationPrincipal CustomUserDetails userDetails){
+    public ResponseEntity<?> createAlbum(@RequestBody @Valid AlbumCreateRequestDTO requestDTO, @AuthenticationPrincipal CustomUserDetails userDetails){
         albumService.createAlbum(requestDTO,userDetails.getUser());
 
         return ResponseEntity.ok(null);
@@ -28,8 +29,17 @@ public class AlbumController {
     // 앨범 수정 기능 PUT
     // /albums/{id}/update
     @PutMapping("albums/{id}/update")
-    public ResponseEntity<?> updateAlbums(@RequestBody @Valid AlbumUpdaterequestDTO requestDTO, @AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long id){
+    public ResponseEntity<?> updateAlbum (@RequestBody @Valid AlbumUpdaterequestDTO requestDTO, @AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long id){
         albumService.updateAlbum(requestDTO,userDetails.getUser(),id);
+
+        return ResponseEntity.ok(null);
+    }
+
+    // 앨범 조회 기능 GET
+    // /albums
+    @GetMapping("albums")
+    public ResponseEntity<?> findAllAlbum (@AuthenticationPrincipal CustomUserDetails userDetails){
+        AlbumFindAllResponseDTO responseDTO = albumService.findAllAlbum(userDetails.getUser());
 
         return ResponseEntity.ok(null);
     }
