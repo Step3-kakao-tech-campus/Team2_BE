@@ -1,10 +1,12 @@
 package com.example.team2_be.album;
 
 import com.example.team2_be.album.dto.AlbumCreateRequestDTO;
+import com.example.team2_be.album.dto.AlbumFindAllResponseDTO;
 import com.example.team2_be.album.dto.AlbumUpdaterequestDTO;
 import com.example.team2_be.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class AlbumService {
         return newAlbum;
     }
 
+    //앨범 정보 수정 기능
     public Album updateAlbum(AlbumUpdaterequestDTO requestDTO, User user, Long id) {
         Album album = albumJPARepository.findByAlbumId(id);
         //유저 확인,,필요
@@ -42,4 +45,10 @@ public class AlbumService {
         return album;
     }
 
+    // 앨범 조회 기능
+    @Transactional(readOnly = true)
+    public AlbumFindAllResponseDTO findAll (User user){
+        List<Album> albumList = albumJPARepository.findALLByEmail(user.getEmail());
+        return new AlbumFindAllResponseDTO(albumList);
+    }
 }
