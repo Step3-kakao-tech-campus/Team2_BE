@@ -1,5 +1,6 @@
 package com.example.team2_be.user;
 
+import com.example.team2_be.core.error.exception.Exception404;
 import com.example.team2_be.kakao.dto.KakaoAccount;
 import com.example.team2_be.reward.Reward;
 import com.example.team2_be.reward.RewardJPARepository;
@@ -92,7 +93,7 @@ public class UserService {
         User findUser = userJPARepository.findByEmail(user.getEmail());
 
         Collection findCollection = collectionJPARepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 칭호를 찾을 수 없음"));
+                .orElseThrow(() -> new Exception404("해당 칭호를 찾을 수 없습니다."));
 
         findUser.updateTitle(findCollection.getTitle().getTitleName());
     }
