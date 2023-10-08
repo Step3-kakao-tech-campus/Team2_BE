@@ -47,7 +47,7 @@ public class AlbumService {
 
     // 앨범 조회 기능
     @Transactional(readOnly = true)
-    public AlbumFindAllResponseDTO findAll (User user){
+    public AlbumFindAllResponseDTO findAllAlbum (User user){
         List<Album> albumList = albumJPARepository.findALLByEmail(user.getEmail());
         return new AlbumFindAllResponseDTO(albumList);
     }
