@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -19,13 +21,13 @@ public class UserController {
 
     @GetMapping("/find")
     public ResponseEntity<?> find(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        UserInfoFindResponseDTO findDTO = userService.findUser(userDetails.getUser());
+        UserInfoFindResponseDTO findDTO = userService.findUserInfo(userDetails.getUser());
 
         return ResponseEntity.ok(ApiUtils.success(findDTO));
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> update(@RequestBody UserInfoUpdateRequestDTO updateDTO, @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<?> update(@RequestBody @Valid UserInfoUpdateRequestDTO updateDTO, @AuthenticationPrincipal CustomUserDetails userDetails) {
         userService.updateUserInfo(updateDTO, userDetails.getUser());
 
         return ResponseEntity.ok(null);
