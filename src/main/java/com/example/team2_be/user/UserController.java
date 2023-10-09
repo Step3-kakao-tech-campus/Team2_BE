@@ -33,9 +33,9 @@ public class UserController {
         return ResponseEntity.ok(null);
     }
 
-    @GetMapping("/rewards")
-    public ResponseEntity<?> findReward(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        UserRewardFindResponseDTO rewardFindResponseDTO = userService.findUserReward(userDetails.getUser());
+    @GetMapping("/{userId}/rewards")
+    public ResponseEntity<?> findReward(@PathVariable Long userId) {
+        UserRewardFindResponseDTO rewardFindResponseDTO = userService.findUserReward(userId);
 
         return ResponseEntity.ok(ApiUtils.success(rewardFindResponseDTO));
     }
