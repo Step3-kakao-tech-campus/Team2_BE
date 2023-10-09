@@ -1,9 +1,8 @@
 package com.example.team2_be.kakao;
 
-import com.example.team2_be.auth.security.JwtTokenProvider;
-import com.example.team2_be.kakao.DTO.KakaoAccount;
-import com.example.team2_be.kakao.DTO.KakaoToken;
-import com.example.team2_be.kakao.util.KakaoClient;
+import com.example.team2_be.core.security.JwtTokenProvider;
+import com.example.team2_be.kakao.dto.KakaoAccount;
+import com.example.team2_be.kakao.dto.KakaoToken;
 import com.example.team2_be.user.User;
 import com.example.team2_be.user.UserService;
 import lombok.RequiredArgsConstructor;
