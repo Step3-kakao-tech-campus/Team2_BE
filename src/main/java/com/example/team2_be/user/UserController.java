@@ -19,37 +19,37 @@ import javax.validation.Valid;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/find")
-    public ResponseEntity<?> find(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        UserInfoFindResponseDTO findDTO = userService.findUserInfo(userDetails.getUser());
+    @GetMapping("/{userId}")
+    public ResponseEntity<ApiUtils.ApiResult<UserInfoFindResponseDTO>> find(@PathVariable Long userId) {
+        UserInfoFindResponseDTO findDTO = userService.findUserInfo(userId);
 
         return ResponseEntity.ok(ApiUtils.success(findDTO));
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<?> update(@RequestBody @Valid UserInfoUpdateRequestDTO updateDTO, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        userService.updateUserInfo(updateDTO, userDetails.getUser());
+    @PutMapping("/{userId}")
+    public ResponseEntity<?> update(@PathVariable Long userId, @RequestBody @Valid UserInfoUpdateRequestDTO updateDTO) {
+        userService.updateUserInfo(updateDTO, userId);
 
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(ApiUtils.success(null));
     }
 
-    @GetMapping("/rewards")
-    public ResponseEntity<?> findReward(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        UserRewardFindResponseDTO rewardFindResponseDTO = userService.findUserReward(userDetails.getUser());
+    @GetMapping("/{userId}/rewards")
+    public ResponseEntity<?> findReward(@PathVariable Long userId) {
+        UserRewardFindResponseDTO rewardFindResponseDTO = userService.findUserReward(userId);
 
         return ResponseEntity.ok(ApiUtils.success(rewardFindResponseDTO));
     }
 
-    @GetMapping("/titles")
-    public ResponseEntity<?> findTitle(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        UserTitleFindResponseDTO titleFindResponseDTO = userService.findUserTitle(userDetails.getUser());
+    @GetMapping("/{userId}/titles")
+    public ResponseEntity<?> findTitle(@PathVariable Long userId) {
+        UserTitleFindResponseDTO titleFindResponseDTO = userService.findUserTitle(userId);
 
         return ResponseEntity.ok(ApiUtils.success(titleFindResponseDTO));
     }
 
-    @PutMapping("/titles/{id}")
-    public ResponseEntity<ApiUtils.ApiResult<Object>> updateTitle(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        userService.updateUserTitle(id, userDetails.getUser());
+    @PutMapping("/{userId}/titles/{titleId}")
+    public ResponseEntity<ApiUtils.ApiResult<Object>> updateTitle(@PathVariable Long userId, @PathVariable Long titleId) {
+        userService.updateUserTitle(userId, titleId);
 
         return ResponseEntity.ok(ApiUtils.success(null));
     }
