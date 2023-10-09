@@ -63,8 +63,9 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserInfo(UserInfoUpdateRequestDTO updateDTO, User user) {
-        User findUser = userJPARepository.findByEmail(user.getEmail());
+    public void updateUserInfo(UserInfoUpdateRequestDTO updateDTO, Long id) {
+        User findUser = userJPARepository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 유저를 찾을 수 없습니다."));
 
         findUser.update(updateDTO.getNewNickname());
     }
