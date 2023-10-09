@@ -6,6 +6,12 @@ import com.example.team2_be.album.dto.AlbumMemberFindResponseDTO;
 import com.example.team2_be.core.error.exception.Exception404;
 import com.example.team2_be.user.User;
 import com.example.team2_be.user.UserJPARepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +23,7 @@ public class AlbumMemberService {
     private final AlbumMemberJPARepository albumMemberJPARepository;
 
     public AlbumMemberFindResponseDTO findMembers(Long albumId){
-        List<AlbumMember> members = albumMemberJPARepository.findAllByGroup_Id(albumId);
+        List<AlbumMember> members = albumMemberJPARepository.findAllByGroupId(albumId);
         List<User> users = members.stream()
                 .map(member -> userJPARepository.getReferenceById(member.getUser().getId()))
                 .collect(Collectors.toList());
@@ -32,7 +38,7 @@ public class AlbumMemberService {
         Album album = albumJPARepository.findById(albumId)
                 .orElseThrow(() -> new Exception404("해당 앨범이 존재하지 않습니다."));
 
-        AlbumMember albumMember = albumMemberJPARepository.findByUserAndGroup(userId, albumId);
+        AlbumMember albumMember = albumMemberJPARepository.findByUserIdAndGroupId(userId, albumId);
         if(albumMember == null) {
             albumMember = AlbumMember.builder()
                     .user(user)
@@ -44,7 +50,7 @@ public class AlbumMemberService {
 
     @Transactional
     public void deleteMember(Long userId, Long albumId){
-        AlbumMember albumMember = albumMemberJPARepository.findByUserAndGroup(userId, albumId);
+        AlbumMember albumMember = albumMemberJPARepository.findByUserIdAndGroupId(userId, albumId);
 
         albumMemberJPARepository.delete(albumMember);
     }
