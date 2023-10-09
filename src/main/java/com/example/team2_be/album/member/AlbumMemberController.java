@@ -1,6 +1,7 @@
 package com.example.team2_be.album.member;
 
 
+
 import com.example.team2_be.album.dto.AlbumMemberFindResponseDTO;
 import com.example.team2_be.core.utils.ApiUtils;
 import lombok.RequiredArgsConstructor;

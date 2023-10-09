@@ -6,12 +6,6 @@ import com.example.team2_be.album.dto.AlbumMemberFindResponseDTO;
 import com.example.team2_be.core.error.exception.Exception404;
 import com.example.team2_be.user.User;
 import com.example.team2_be.user.UserJPARepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
