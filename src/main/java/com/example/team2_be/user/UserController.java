@@ -26,9 +26,9 @@ public class UserController {
         return ResponseEntity.ok(ApiUtils.success(findDTO));
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<?> update(@RequestBody @Valid UserInfoUpdateRequestDTO updateDTO, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        userService.updateUserInfo(updateDTO, userDetails.getUser());
+    @PutMapping("/{userId}")
+    public ResponseEntity<?> update(@PathVariable Long userId, @RequestBody @Valid UserInfoUpdateRequestDTO updateDTO) {
+        userService.updateUserInfo(updateDTO, userId);
 
         return ResponseEntity.ok(null);
     }
