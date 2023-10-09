@@ -80,8 +80,9 @@ public class UserService {
         return new UserRewardFindResponseDTO(findRewards, findProgresses);
     }
 
-    public UserTitleFindResponseDTO findUserTitle(User user) {
-        User findUser = userJPARepository.findByEmail(user.getEmail());
+    public UserTitleFindResponseDTO findUserTitle(Long id) {
+        User findUser = userJPARepository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 유저를 찾을 수 없습니다."));
         List<Collection> collections = collectionJPARepository.findByUserId(findUser.getId());
 
         return new UserTitleFindResponseDTO(collections);
