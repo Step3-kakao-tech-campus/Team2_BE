@@ -30,7 +30,7 @@ public class UserController {
     public ResponseEntity<?> update(@PathVariable Long userId, @RequestBody @Valid UserInfoUpdateRequestDTO updateDTO) {
         userService.updateUserInfo(updateDTO, userId);
 
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(ApiUtils.success(null));
     }
 
     @GetMapping("/{userId}/rewards")
