@@ -47,7 +47,7 @@ public class User {
         this.createAt = createAt;
     }
 
-    void update(String newNickname) {
+    void updateNickname(String newNickname) {
         this.nickname = newNickname;
     }
 
