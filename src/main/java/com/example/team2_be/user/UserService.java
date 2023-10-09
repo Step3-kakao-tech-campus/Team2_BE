@@ -89,10 +89,11 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserTitle(Long id, User user) {
-        User findUser = userJPARepository.findByEmail(user.getEmail());
+    public void updateUserTitle(Long userId, Long titleId) {
+        User findUser = userJPARepository.findById(userId)
+                .orElseThrow(() -> new Exception404("해당 유저를 찾을 수 없습니다."));
 
-        Collection findCollection = collectionJPARepository.findById(id)
+        Collection findCollection = collectionJPARepository.findById(titleId)
                 .orElseThrow(() -> new Exception404("해당 칭호를 찾을 수 없습니다."));
 
         findUser.updateTitle(findCollection.getTitle().getTitleName());
