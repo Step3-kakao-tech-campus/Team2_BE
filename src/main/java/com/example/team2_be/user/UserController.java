@@ -40,9 +40,9 @@ public class UserController {
         return ResponseEntity.ok(ApiUtils.success(rewardFindResponseDTO));
     }
 
-    @GetMapping("/titles")
-    public ResponseEntity<?> findTitle(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        UserTitleFindResponseDTO titleFindResponseDTO = userService.findUserTitle(userDetails.getUser());
+    @GetMapping("/{userId}/titles")
+    public ResponseEntity<?> findTitle(@PathVariable Long userId) {
+        UserTitleFindResponseDTO titleFindResponseDTO = userService.findUserTitle(userId);
 
         return ResponseEntity.ok(ApiUtils.success(titleFindResponseDTO));
     }
