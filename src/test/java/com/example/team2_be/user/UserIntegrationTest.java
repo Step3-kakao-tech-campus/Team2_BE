@@ -25,12 +25,32 @@ class UserIntegrationTest {
     MockMvc mockMvc;
 
     @Test
+    @DisplayName("유저 정보 조회 테스트")
+    @WithUserDetails(value = "admin")
+    void find_user_info_test() throws Exception {
+        //given
+        Long id = 1L;
+
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                get("/users/{userId}", id)
+        );
+
+        //then
+        resultActions.andExpect(jsonPath("$.success").value("true"))
+                .andDo(print());
+    }
+
+    @Test
     @DisplayName("유저의 도전과제 조회 테스트")
     @WithUserDetails(value = "admin")
     void find_user_reward_test() throws Exception {
+        //given
+        Long id = 1L;
+
         //when
         ResultActions resultActions = mockMvc.perform(
-                get("/users/rewards")
+                get("/users/{userId}/rewards", id)
         );
 
         //then
@@ -42,9 +62,12 @@ class UserIntegrationTest {
     @DisplayName("유저의 칭호 조회 테스트")
     @WithUserDetails(value = "admin")
     void find_user_title_test() throws Exception {
+        //given
+        Long id = 1L;
+
         //when
         ResultActions resultActions = mockMvc.perform(
-                get("/users/titles")
+                get("/users/{userId}/titles", id)
         );
 
         //then
@@ -57,11 +80,12 @@ class UserIntegrationTest {
     @WithUserDetails(value = "admin")
     void update_user_title_test() throws Exception {
         //given
-        Long id = 2L;
+        Long userId = 1L;
+        Long titleId = 2L;
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                put("/users/titles/{id}", id)
+                put("/users/{userId}/titles/{titleId}", userId, titleId)
         );
 
         //then
