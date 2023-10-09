@@ -15,9 +15,9 @@ INSERT INTO reward (`id`, `reward_name`, `description`, `level`, `goal_count`) V
 INSERT INTO reward (`id`, `reward_name`, `description`, `level`, `goal_count`) VALUES ('3', '콜롬버스 등장', '네모에 오신 것을 환영합니다.', 'gold', '1');
 
 -- 진행도
-INSERT INTO progress (`id`, `count`, `success`, `users_id`, `reward_id`) VALUES ('1', '10000000', 'Y', '1', '1');
-INSERT INTO progress (`id`, `count`, `success`, `users_id`, `reward_id`) VALUES ('2', '0', 'N', '1', '2');
-INSERT INTO progress (`id`, `count`, `success`, `users_id`, `reward_id`) VALUES ('3', '0', 'Y', '1', '3');
+INSERT INTO progress (`id`, `count`, `success`, `user_id`, `reward_id`) VALUES ('1', '10000000', 'Y', '1', '1');
+INSERT INTO progress (`id`, `count`, `success`, `user_id`, `reward_id`) VALUES ('2', '0', 'N', '1', '2');
+INSERT INTO progress (`id`, `count`, `success`, `user_id`, `reward_id`) VALUES ('3', '0', 'Y', '1', '3');
 
 
 -- 칭호
@@ -26,5 +26,5 @@ INSERT INTO title (`id` , `title_name`, `reward_id`) VALUES ('2', '추억 앨범
 INSERT INTO title (`id` , `title_name`, `reward_id`) VALUES ('3', '방문객', '3');
 
 -- 칭호 획득
-INSERT INTO collection (`id`, `create_at`, `users_id`, `title_id`) VALUES ('1', '2023-08-29 13:54:19.823', '1', '1');
-INSERT INTO collection (`id`, `create_at`, `users_id`, `title_id`) VALUES ('2', '2023-08-29 13:54:19.823', '1', '3');
+INSERT INTO collection (`id`, `create_at`, `user_id`, `title_id`) VALUES ('1', '2023-08-29 13:54:19.823', '1', '1');
+INSERT INTO collection (`id`, `create_at`, `user_id`, `title_id`) VALUES ('2', '2023-08-29 13:54:19.823', '1', '3');
