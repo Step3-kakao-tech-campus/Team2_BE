@@ -19,9 +19,9 @@ import javax.validation.Valid;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/find")
-    public ResponseEntity<?> find(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        UserInfoFindResponseDTO findDTO = userService.findUserInfo(userDetails.getUser());
+    @GetMapping("/{userId}")
+    public ResponseEntity<ApiUtils.ApiResult<UserInfoFindResponseDTO>> find(@PathVariable Long userId) {
+        UserInfoFindResponseDTO findDTO = userService.findUserInfo(userId);
 
         return ResponseEntity.ok(ApiUtils.success(findDTO));
     }
