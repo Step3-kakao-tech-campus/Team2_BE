@@ -1,10 +1,13 @@
 package com.example.team2_be.user;
 
+import com.example.team2_be.user.dto.UserInfoUpdateRequestDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
@@ -24,6 +27,9 @@ class UserIntegrationTest {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     @Test
     @DisplayName("유저 정보 조회 테스트")
     @WithUserDetails(value = "admin")
@@ -34,6 +40,29 @@ class UserIntegrationTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 get("/users/{userId}", id)
+        );
+
+        //then
+        resultActions.andExpect(jsonPath("$.success").value("true"))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("유저 정보 수정 테스트")
+    @WithUserDetails(value = "admin")
+    void update_user_info_test() throws Exception {
+        //given
+        Long id = 1L;
+        UserInfoUpdateRequestDTO updateDTO = new UserInfoUpdateRequestDTO();
+        updateDTO.setNewNickname("테스트");
+
+        String requestBody = objectMapper.writeValueAsString(updateDTO);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                put("/users/{userId}", id)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
         );
 
         //then
