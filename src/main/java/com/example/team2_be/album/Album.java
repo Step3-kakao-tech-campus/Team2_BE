@@ -40,4 +40,11 @@ public class Album {
         this.category=category;
         this.createAt=createAt;
     }
+
+    // 앨범 업데이트
+    public void update (String albumName, String description, String image){
+        this.albumName=albumName;
+        this.description=description;
+        this.image=image;
+    }
 }

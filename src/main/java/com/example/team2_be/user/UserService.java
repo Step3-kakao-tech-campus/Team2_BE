@@ -55,40 +55,45 @@ public class UserService {
         return newUser;
     }
 
-    public UserInfoFindResponseDTO findUserInfo(User user) {
-        User findUser = userJPARepository.findByEmail(user.getEmail());
+    public UserInfoFindResponseDTO findUserInfo(Long id) {
+        User findUser = userJPARepository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 유저를 찾을 수 없습니다."));
 
         return new UserInfoFindResponseDTO(findUser);
     }
 
     @Transactional
-    public void updateUserInfo(UserInfoUpdateRequestDTO updateDTO, User user) {
-        User findUser = userJPARepository.findByEmail(user.getEmail());
+    public void updateUserInfo(UserInfoUpdateRequestDTO updateDTO, Long id) {
+        User findUser = userJPARepository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 유저를 찾을 수 없습니다."));
 
-        findUser.update(updateDTO.getNewNickname());
+        findUser.updateNickname(updateDTO.getNewNickname());
     }
 
-    public UserRewardFindResponseDTO findUserReward(User user) {
+    public UserRewardFindResponseDTO findUserReward(Long id) {
         List<Reward> findRewards = rewardJPARepository.findAll();
 
-        User findUser = userJPARepository.findByEmail(user.getEmail());
+        User findUser = userJPARepository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 유저를 찾을 수 없습니다."));
         List<Progress> findProgresses = progressJPARepository.findByUserId(findUser.getId());
 
         return new UserRewardFindResponseDTO(findRewards, findProgresses);
     }
 
-    public UserTitleFindResponseDTO findUserTitle(User user) {
-        User findUser = userJPARepository.findByEmail(user.getEmail());
+    public UserTitleFindResponseDTO findUserTitle(Long id) {
+        User findUser = userJPARepository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 유저를 찾을 수 없습니다."));
         List<Collection> collections = collectionJPARepository.findByUserId(findUser.getId());
 
         return new UserTitleFindResponseDTO(collections);
     }
 
     @Transactional
-    public void updateUserTitle(Long id, User user) {
-        User findUser = userJPARepository.findByEmail(user.getEmail());
+    public void updateUserTitle(Long userId, Long titleId) {
+        User findUser = userJPARepository.findById(userId)
+                .orElseThrow(() -> new Exception404("해당 유저를 찾을 수 없습니다."));
 
-        Collection findCollection = collectionJPARepository.findById(id)
+        Collection findCollection = collectionJPARepository.findById(titleId)
                 .orElseThrow(() -> new Exception404("해당 칭호를 찾을 수 없습니다."));
 
         findUser.updateTitle(findCollection.getTitle().getTitleName());

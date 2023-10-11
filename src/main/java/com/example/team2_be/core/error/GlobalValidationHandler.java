@@ -1,5 +1,6 @@
 package com.example.team2_be.core.error;
 
+import com.example.team2_be.core.error.exception.Exception400;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
