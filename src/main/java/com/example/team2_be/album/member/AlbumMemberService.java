@@ -23,7 +23,7 @@ public class AlbumMemberService {
     private final AlbumMemberJPARepository albumMemberJPARepository;
 
     public AlbumMemberFindResponseDTO findMembers(Long albumId){
-        List<AlbumMember> members = albumMemberJPARepository.findAllByGroupId(albumId);
+        List<AlbumMember> members = albumMemberJPARepository.findAllByAlbumId(albumId);
         List<User> users = members.stream()
                 .map(member -> userJPARepository.getReferenceById(member.getUser().getId()))
                 .collect(Collectors.toList());
@@ -42,7 +42,7 @@ public class AlbumMemberService {
         if(albumMember == null) {
             albumMember = AlbumMember.builder()
                     .user(user)
-                    .group(album)
+                    .album(album)
                     .build();
             albumMemberJPARepository.save(albumMember);
         }

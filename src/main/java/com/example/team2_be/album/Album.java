@@ -1,13 +1,16 @@
 package com.example.team2_be.album;
 
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "album")
+@Table(name = "albums")
 @Getter
 @ToString
 @NoArgsConstructor

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service
@@ -33,7 +34,8 @@ public class AlbumService {
     //앨범 정보 수정 기능
     @Transactional
     public Album updateAlbum(AlbumUpdaterequestDTO requestDTO, User user, Long id) {
-        Album album = albumJPARepository.findByAlbumId(id);
+        Album album = albumJPARepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("해당 id값을 가진 앨범을 찾을 수 없습니다. : " + id));
         //유저 확인,,필요
 
         String updatedAlbumName = requestDTO.getAlbumName() != null ? requestDTO.getAlbumName() : album.getAlbumName();
