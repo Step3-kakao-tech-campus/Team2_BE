@@ -17,8 +17,8 @@ public class JwtTokenProvider {
     public static final String TOKEN_PREFIX = "Bearer "; // 스페이스 필요함
     public static final String HEADER = "Authorization";
 
-    @Value("${jwt.secret-key}")
-    private String secret;
+    //@Value("${jwt.secret-key}")
+    private String secret = "rhalstjr";
 
     public  String create(User user) {
         String jwt = JWT.create()
@@ -36,5 +36,4 @@ public class JwtTokenProvider {
                 .build().verify(jwt);
         return decodedJWT;
     }
-
 }

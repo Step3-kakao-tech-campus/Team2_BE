@@ -1,9 +1,13 @@
 package com.example.team2_be.user.dto;
 
 import lombok.Getter;
+import lombok.Setter;
+
+import javax.validation.constraints.Size;
 
 @Getter
 public class UserInfoUpdateRequestDTO {
-    // 요청에 담긴 데이터의 유효성 판별 필요
+    @Setter
+    @Size(min = 2, message = "닉네임은 두 글자 이상이어야 합니다.")
     private String newNickname;
 }
