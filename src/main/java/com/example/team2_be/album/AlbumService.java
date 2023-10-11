@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -25,7 +24,6 @@ public class AlbumService {
                 .description(requestDTO.getDescription())
                 .image(requestDTO.getImage())
                 .category(requestDTO.getCategory())
-                .createAt(LocalDateTime.now())
                 .build();
         albumJPARepository.save(newAlbum);
 
@@ -49,7 +47,7 @@ public class AlbumService {
 
     // 앨범 조회 기능
     public AlbumFindAllResponseDTO findAllAlbum (User user){
-        List<Album> albumList = albumJPARepository.findAllByEmail(user.getEmail());
-        return new AlbumFindAllResponseDTO(albumList);
+        List<Album> albums = albumJPARepository.findAllByEmail(user.getEmail());
+        return new AlbumFindAllResponseDTO(albums);
     }
 }

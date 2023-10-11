@@ -1,9 +1,8 @@
 package com.example.team2_be.album.dto;
 
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
+@Getter
 public class AlbumUpdaterequestDTO {
     private String albumName;
     private String Description;

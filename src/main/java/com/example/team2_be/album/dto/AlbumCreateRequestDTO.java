@@ -2,17 +2,17 @@ package com.example.team2_be.album.dto;
 
 import com.example.team2_be.album.Category;
 import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
 
-@Getter @Setter
+import javax.validation.constraints.NotNull;
+
+@Getter
 public class AlbumCreateRequestDTO {
-    @NonNull
+    @NotNull
     private Category category;
-    @NonNull
+    @NotNull
     private String albumName;
-    @NonNull
+    @NotNull
     private String description;
-    @NonNull
+    @NotNull
     private String image;
 }
