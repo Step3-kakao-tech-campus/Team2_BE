@@ -12,7 +12,7 @@ public class AlbumCreateRequestDTO {
     @NonNull
     private String albumName;
     @NonNull
-    private String Description;
+    private String description;
     @NonNull
     private String image;
 }

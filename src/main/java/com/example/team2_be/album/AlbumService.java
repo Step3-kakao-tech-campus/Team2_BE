@@ -9,15 +9,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class AlbumService {
     private final AlbumJPARepository albumJPARepository;
 
     //앨범 생성 기능
+    @Transactional
     public Album createAlbum(AlbumCreateRequestDTO requestDTO, User user){
         Album newAlbum = Album.builder()
                 .albumName(requestDTO.getAlbumName())
@@ -32,6 +33,7 @@ public class AlbumService {
     }
 
     //앨범 정보 수정 기능
+    @Transactional
     public Album updateAlbum(AlbumUpdaterequestDTO requestDTO, User user, Long id) {
         Album album = albumJPARepository.findByAlbumId(id);
         //유저 확인,,필요
@@ -46,9 +48,8 @@ public class AlbumService {
     }
 
     // 앨범 조회 기능
-    @Transactional(readOnly = true)
     public AlbumFindAllResponseDTO findAllAlbum (User user){
-        List<Album> albumList = albumJPARepository.findALLByEmail(user.getEmail());
+        List<Album> albumList = albumJPARepository.findAllByEmail(user.getEmail());
         return new AlbumFindAllResponseDTO(albumList);
     }
 }

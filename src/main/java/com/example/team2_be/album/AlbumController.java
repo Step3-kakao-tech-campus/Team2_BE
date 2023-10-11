@@ -29,7 +29,6 @@ public class AlbumController {
     @PutMapping("/{id}/update")
     public ResponseEntity<?> updateAlbum (@RequestBody @Valid AlbumUpdaterequestDTO requestDTO, @AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long id){
         albumService.updateAlbum(requestDTO,userDetails.getUser(),id);
-
         return ResponseEntity.ok(null);
     }
 

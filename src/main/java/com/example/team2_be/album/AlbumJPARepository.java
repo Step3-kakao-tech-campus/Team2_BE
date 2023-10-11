@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface AlbumJPARepository extends JpaRepository<Album, Long> {
-    List<Album> findALLByEmail(String email);
+    List<Album> findAllByEmail(String email);
     Album findByAlbumId(Long id);
 }
