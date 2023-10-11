@@ -48,7 +48,7 @@ class UserIntegrationTest {
     }
 
     @Test
-    @DisplayName("유저 정보 수정 테스트")
+    @DisplayName("유저 닉네임 수정 테스트")
     @WithUserDetails(value = "admin")
     void update_user_info_test() throws Exception {
         //given
@@ -67,6 +67,29 @@ class UserIntegrationTest {
 
         //then
         resultActions.andExpect(jsonPath("$.success").value("true"))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("실패 테스트 - 유저 닉네임 수정 테스트")
+    @WithUserDetails(value = "admin")
+    void update_failed_user_info_test() throws Exception {
+        //given
+        Long id = 1L;
+        UserInfoUpdateRequestDTO updateDTO = new UserInfoUpdateRequestDTO();
+        updateDTO.setNewNickname("테");
+
+        String requestBody = objectMapper.writeValueAsString(updateDTO);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                put("/users/{userId}", id)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        resultActions.andExpect(jsonPath("$.success").value("false"))
                 .andDo(print());
     }
 
