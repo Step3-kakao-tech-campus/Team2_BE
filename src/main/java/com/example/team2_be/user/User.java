@@ -1,5 +1,6 @@
 package com.example.team2_be.user;
 
+import com.example.team2_be.title.Title;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,9 @@ public class User {
     @Column(length = 32, nullable = false, unique = true)
     private String nickname;
 
+    @Column(length = 16)
+    private String title;
+
     @Column(length = 512, nullable = false)
     private String image;
 
@@ -43,7 +47,11 @@ public class User {
         this.createAt = createAt;
     }
 
-    void update(String newNickname) {
+    void updateNickname(String newNickname) {
         this.nickname = newNickname;
+    }
+
+    void updateTitle(String newTitle) {
+        this.title = newTitle;
     }
 }
