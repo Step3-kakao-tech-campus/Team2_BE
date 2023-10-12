@@ -2,7 +2,6 @@ package com.example.team2_be.user;
 
 import com.example.team2_be.auth.dto.UserAccountDTO;
 import com.example.team2_be.core.error.exception.Exception404;
-import com.example.team2_be.kakao.dto.KakaoAccount;
 import com.example.team2_be.reward.Reward;
 import com.example.team2_be.reward.RewardJPARepository;
 import com.example.team2_be.reward.progress.Progress;
