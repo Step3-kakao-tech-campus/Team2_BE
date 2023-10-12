@@ -29,14 +29,18 @@ public class GlobalExceptionHandler {
         ApiUtils.ApiResult<?> apiResult = ApiUtils.error(e.getMessage(),
                 HttpStatus.INTERNAL_SERVER_ERROR);
 
+        saveError(e);
+
+        return new ResponseEntity<>(apiResult, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private void saveError(Exception e) {
         Error error = Error.builder()
                 .message(e.getMessage())
                 .stackTrace(filterStackTraceOnException(e).toString())
                 .createAt(LocalDateTime.now())
                 .build();
         errorJPARepository.save(error);
-
-        return new ResponseEntity<>(apiResult, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private StringBuilder filterStackTraceOnException(Exception e) {
