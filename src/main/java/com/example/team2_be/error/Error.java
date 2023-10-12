@@ -1,5 +1,6 @@
 package com.example.team2_be.error;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -26,4 +27,12 @@ public class Error {
 
     @Column(nullable = false)
     private LocalDateTime createAt;
+
+    @Builder
+    public Error(String message, int status, String stackTrace, LocalDateTime createAt) {
+        this.message = message;
+        this.status = status;
+        this.stackTrace = stackTrace;
+        this.createAt = createAt;
+    }
 }
