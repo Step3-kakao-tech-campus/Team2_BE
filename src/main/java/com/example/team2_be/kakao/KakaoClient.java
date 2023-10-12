@@ -1,6 +1,6 @@
 package com.example.team2_be.kakao;
 
-import com.example.team2_be.core.config.KakaoFeignConfig;
+import com.example.team2_be.core.config.AuthFeignConfig;
 import com.example.team2_be.kakao.dto.KakaoInfo;
 import com.example.team2_be.kakao.dto.KakaoToken;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.net.URI;
 
-@FeignClient(name = "kakaoClient", configuration = KakaoFeignConfig.class)
+@FeignClient(name = "kakaoClient", configuration = AuthFeignConfig.class)
 public interface KakaoClient {
 
     @PostMapping
