@@ -10,8 +10,8 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class UserInfo {
-    private UserAccount userAccount;
+public class UserInfoDTO {
+    private UserAccountDTO userAccount;
 
-    public static UserInfo fail(){return null;}
+    public static UserInfoDTO fail(){return null;}
 }

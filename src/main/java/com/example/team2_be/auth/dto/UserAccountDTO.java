@@ -5,6 +5,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class Profile {
-    private String nickname;
+public class UserAccountDTO {
+    private ProfileDTO profile;
+    private String email;
 }

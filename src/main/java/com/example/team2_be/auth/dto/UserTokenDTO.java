@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class UserToken {
+public class UserTokenDTO {
     private String accessToken;
     private String refreshToken;
-
-    public static UserToken fail(){
-        return new UserToken(null, null);
+    
+    public static UserTokenDTO fail(){
+        return new UserTokenDTO(null, null);
     }
     
-    private UserToken(final String accessToken, final String refreshToken){
+    private UserTokenDTO(final String accessToken, final String refreshToken){
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }
