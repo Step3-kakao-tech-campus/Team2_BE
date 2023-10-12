@@ -9,8 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class UserTokenDTO {
+    private String tokenType;
     private String accessToken;
     private String refreshToken;
+    private Long expiresIn;
+    private Long refreshTokenExpiresIn;
     
     public static UserTokenDTO fail(){
         return new UserTokenDTO(null, null);
