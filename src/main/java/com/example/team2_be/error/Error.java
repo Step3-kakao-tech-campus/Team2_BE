@@ -16,22 +16,18 @@ public class Error {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 4096, nullable = false)
+    @Column(length = 1024, nullable = false)
     private String message;
 
-    @Column(nullable = false)
-    private int status;
-
-    @Column(length = 1024, nullable = false)
+    @Column(length = 4096, nullable = false)
     private String stackTrace;
 
     @Column(nullable = false)
     private LocalDateTime createAt;
 
     @Builder
-    public Error(String message, int status, String stackTrace, LocalDateTime createAt) {
+    public Error(String message, String stackTrace, LocalDateTime createAt) {
         this.message = message;
-        this.status = status;
         this.stackTrace = stackTrace;
         this.createAt = createAt;
     }
