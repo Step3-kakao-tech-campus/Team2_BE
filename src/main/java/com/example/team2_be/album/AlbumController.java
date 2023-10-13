@@ -28,14 +28,16 @@ public class AlbumController {
         Album newAlbum = albumService.createAlbum(requestDTO);
         // album을 생성하는 유저를 albumMember로 추가
         albumMemberService.addMember(newAlbum.getId(),user.getId());
+
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
     // 앨범 수정 기능 PUT "/albums/{albumId}"
     @PutMapping("/{albumId}")
-    public ResponseEntity<Void> updateAlbum (@RequestBody @Valid AlbumUpdaterequestDTO requestDTO, @AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long id){
-        albumService.updateAlbum(requestDTO,userDetails.getUser(),id);
-        return ResponseEntity.ok(null);
+    public ResponseEntity<ApiUtils.ApiResult> updateAlbum (@RequestBody AlbumUpdaterequestDTO requestDTO, @PathVariable Long albumId){
+        albumService.updateAlbum(requestDTO,albumId);
+
+        return ResponseEntity.ok(ApiUtils.success(null));
     }
 
     // 앨범 조회 기능 GET "/albums"
