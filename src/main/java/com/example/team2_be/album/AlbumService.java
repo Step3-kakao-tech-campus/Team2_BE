@@ -50,8 +50,10 @@ public class AlbumService {
     }
 
     // 앨범 조회 기능
-    public AlbumFindAllResponseDTO findAllAlbum (User user){
-        List<Album> albums = albumJPARepository.findAllByEmail(user.getEmail());
+    public AlbumFindAllResponseDTO findAllAlbum (Long userId){
+
+        List<Album> albums = albumJPARepository.findAllByUserId(userId);
+
         return new AlbumFindAllResponseDTO(albums);
     }
 }
