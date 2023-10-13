@@ -42,9 +42,10 @@ public class AlbumController {
 
     // 앨범 조회 기능 GET "/albums"
     @GetMapping("")
-    public ResponseEntity<Void> findAllAlbum (@AuthenticationPrincipal CustomUserDetails userDetails){
-        AlbumFindAllResponseDTO responseDTO = albumService.findAllAlbum(userDetails.getUser());
+    public ResponseEntity<ApiUtils.ApiResult<AlbumFindAllResponseDTO>> findAllAlbum (@AuthenticationPrincipal CustomUserDetails userDetails){
 
-        return ResponseEntity.ok(null);
+        AlbumFindAllResponseDTO findDTO = albumService.findAllAlbum(userId);
+
+        return ResponseEntity.ok(ApiUtils.success(findDTO));
     }
 }
