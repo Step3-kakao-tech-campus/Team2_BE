@@ -4,6 +4,7 @@ import com.example.team2_be.album.dto.AlbumCreateRequestDTO;
 import com.example.team2_be.album.dto.AlbumFindAllResponseDTO;
 import com.example.team2_be.album.dto.AlbumUpdaterequestDTO;
 import com.example.team2_be.user.User;
+import com.example.team2_be.user.UserJPARepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +17,12 @@ import java.util.NoSuchElementException;
 @Transactional(readOnly = true)
 public class AlbumService {
     private final AlbumJPARepository albumJPARepository;
+    private final UserJPARepository userJPARepository;
 
     //앨범 생성 기능
     @Transactional
-    public Album createAlbum(AlbumCreateRequestDTO requestDTO, User user){
+    public Album createAlbum(AlbumCreateRequestDTO requestDTO){
+
         Album newAlbum = Album.builder()
                 .albumName(requestDTO.getAlbumName())
                 .description(requestDTO.getDescription())
