@@ -31,7 +31,7 @@ public class UserService {
     public static final String DEFAULT_IMAGE_URL = "";
 
     @Transactional
-    public User checkUser(KakaoAccount kakaoAccount) {
+    public User getUser(KakaoAccount kakaoAccount) {
         // DB 안의 user 정보 확인
         User user = userJPARepository.findByEmail(kakaoAccount.getEmail());
 
