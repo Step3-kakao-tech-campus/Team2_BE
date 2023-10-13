@@ -27,7 +27,6 @@ public class SecurityConfig {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    @RequiredArgsConstructor
     public class CustomSecurityFilterManager extends AbstractHttpConfigurer<CustomSecurityFilterManager, HttpSecurity> {
 
         @Override
@@ -40,31 +39,36 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // 1. CSRF 해제
-        http.csrf().disable(); // postman 접근해야 함!! - CSR 할때!!
+         String[] swaggerPermitUrls = {
+                // swagger v2
+                "/v2/api-docs",
+                "/swagger-resources",
+                "/swagger-resources/**",
+                "/configuration/ui",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**",
+                // swagger v3
+                "/v3/api-docs/**",
+                "/swagger-ui/**"
+        };
 
-        // 2. iframe 거부
-        http.headers().frameOptions().sameOrigin();
-
-        // 3. cors 재설정
-        http.cors().configurationSource(configurationSource());
-
-        // 4. jSessionId 사용 거부 (5번을 설정하면 jsessionId가 거부되기 때문에 4번은 사실 필요 없다)
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        // 5. form 로긴 해제 (UsernamePasswordAuthenticationFilter 비활성화)
-        http.formLogin().disable();
-
-        // 6. 로그인 인증창이 뜨지 않게 비활성화
-        http.httpBasic().disable();
-
-        // 7. 커스텀 필터 적용 (시큐리티 필터 교환)
-        http.apply(new CustomSecurityFilterManager());
-
+        http
+                .csrf().disable()
+                .cors().disable()
+                .httpBasic().disable()
+                .formLogin().disable()
+                .rememberMe().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .apply(new CustomSecurityFilterManager())
+                .and()
+                .headers().frameOptions().sameOrigin();
 
         // 11. 인증, 권한 필터 설정
         http.authorizeRequests(
                 authorize -> authorize.antMatchers("/callback", "/auth/login", "/").permitAll()
+                        .antMatchers(swaggerPermitUrls).permitAll()
                         .antMatchers("/admin/**")
                         .access("hasRole('ADMIN')")
                         .anyRequest().authenticated()
