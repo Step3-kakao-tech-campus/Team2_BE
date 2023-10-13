@@ -22,7 +22,6 @@ public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
 
     public class CustomSecurityFilterManager extends AbstractHttpConfigurer<CustomSecurityFilterManager, HttpSecurity> {
-
         @Override
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
@@ -33,7 +32,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-         String[] swaggerPermitUrls = {
+         final String[] swaggerPermitUrls = {
                 // swagger v2
                 "/v2/api-docs",
                 "/swagger-resources",
@@ -59,9 +58,8 @@ public class SecurityConfig {
                 .and()
                 .headers().frameOptions().sameOrigin();
 
-        // 11. 인증, 권한 필터 설정
-        http.authorizeRequests(
-                authorize -> authorize
+        http
+                .authorizeRequests(authorize -> authorize
                         .antMatchers(swaggerPermitUrls).permitAll()
                         .anyRequest().authenticated()
         );
