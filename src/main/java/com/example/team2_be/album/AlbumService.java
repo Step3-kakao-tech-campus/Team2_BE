@@ -3,6 +3,7 @@ package com.example.team2_be.album;
 import com.example.team2_be.album.dto.AlbumCreateRequestDTO;
 import com.example.team2_be.album.dto.AlbumFindAllResponseDTO;
 import com.example.team2_be.album.dto.AlbumUpdaterequestDTO;
+import com.example.team2_be.core.error.exception.Exception404;
 import com.example.team2_be.user.User;
 import com.example.team2_be.user.UserJPARepository;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service
@@ -36,10 +36,9 @@ public class AlbumService {
 
     //앨범 정보 수정 기능
     @Transactional
-    public Album updateAlbum(AlbumUpdaterequestDTO requestDTO, User user, Long id) {
-        Album album = albumJPARepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("해당 id값을 가진 앨범을 찾을 수 없습니다. : " + id));
-        //유저 확인,,필요
+    public Album updateAlbum(AlbumUpdaterequestDTO requestDTO, Long AlbumId) {
+        Album album = albumJPARepository.findById(AlbumId)
+                .orElseThrow(() -> new Exception404("해당 id값을 가진 앨범을 찾을 수 없습니다. : " + AlbumId));
 
         String updatedAlbumName = requestDTO.getAlbumName() != null ? requestDTO.getAlbumName() : album.getAlbumName();
         String updatedDescription = requestDTO.getDescription() != null ? requestDTO.getDescription() : album.getDescription();
