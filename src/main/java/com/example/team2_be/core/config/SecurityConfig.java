@@ -61,10 +61,8 @@ public class SecurityConfig {
 
         // 11. 인증, 권한 필터 설정
         http.authorizeRequests(
-                authorize -> authorize.antMatchers("/callback", "/auth/login", "/").permitAll()
+                authorize -> authorize
                         .antMatchers(swaggerPermitUrls).permitAll()
-                        .antMatchers("/admin/**")
-                        .access("hasRole('ADMIN')")
                         .anyRequest().authenticated()
         );
 
