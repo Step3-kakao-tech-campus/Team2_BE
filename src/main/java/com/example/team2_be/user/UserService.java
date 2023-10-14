@@ -34,9 +34,10 @@ public class UserService {
     public User checkUser(UserAccountDTO userAccount) {
         // DB 안의 user 정보 확인
         User user = userJPARepository.findByEmail(userAccount.getEmail());
-
         if(user == null){
             return saveUser(userAccount);
+        }else {
+            System.out.println("user: " + user.getEmail());
         }
         return user;
     }
@@ -52,6 +53,7 @@ public class UserService {
                 .build();
         userJPARepository.save(newUser);
 
+        System.out.println("new user: " + newUser.getEmail());
         return newUser;
     }
 

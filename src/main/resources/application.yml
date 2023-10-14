@@ -7,6 +7,7 @@ spring:
   h2:
     console:
       enabled: true
+      path: /h2-console
   jpa:
     hibernate:
       ddl-auto: create
@@ -28,6 +29,13 @@ kakao:
   tokenUrl: https://kauth.kakao.com/oauth/token
   userApiUrl: https://kapi.kakao.com/v2/user/me
   restapiKey: 0efff2c2f5f7de603b91cb6230b131ab
-  redirectUrl:  http://localhost:8080/callback
+  redirectUrl:  http://localhost:3000
   authUrl: https://kauth.kakao.com/oauth/authorize?response_type=code
 #  authUrl: https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=
+
+google:
+  token-url: https://oauth2.googleapis.com/token
+  user-api-url: https://www.googleapis.com/oauth2/v3/userinfo
+  redirectUrl: http://localhost:3000/login/google
+  client-id: ${GOOGLE_CLIENT_ID}
+  client-secret: ${GOOGLE_CLIENT_SECRET}
