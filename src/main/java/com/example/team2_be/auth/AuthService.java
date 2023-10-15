@@ -67,7 +67,7 @@ public class AuthService {
         try {
             userAccount = kakaoAuthUserClient.getInfo(userToken.getTokenType() + " " + userToken.getAccessToken());
         } catch (Exception e) {
-            log.error("유저 정보 확인 오류입니다");
+            new Exception400("유저 정보 확인 오류입니다");
         }
 
         User user = userService.getUser(userAccount);
@@ -83,7 +83,7 @@ public class AuthService {
         try {
             userAccount = googleAuthUserClient.getInfo(googleTokenDTO.getTokenType() + " " + deCoding(googleTokenDTO.getAccessToken()));
         } catch (Exception e) {
-            log.error("유저 정보 확인 오류입니다");
+            new Exception400("유저 정보 확인 오류입니다");
         }
 
         User user = userService.getUser(userAccount);
