@@ -47,6 +47,22 @@ public class AuthService {
     @Value("${google.redirect-url}")
     private String googleRedirectUrl;
 
+    //https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={여기에 REST API KEY를 입력해주세요}&redirect_uri=http://localhost:8080/callback
+    private KakaoTokenDTO getKakaoAccessToken(String code){
+        try {
+            return kakaoAuthTokenClient.getToken(KakaoAccessTokenRequestDTO.builder()
+                    .clientId(kakaoRrestapiKey)
+                    .code(code)
+                    .redirectUri(kakaoRedirectUrl)
+                    .grantType("authorization_code")
+                    .build());
+        } catch (Exception e) {
+            log.error("토큰 발급 오류입니다");
+            return KakaoTokenDTO.fail();
+        }
+    }
+
+
     public String kakaoLogin(String code){
         KakaoTokenDTO userToken = getKakaoAccessToken(code);
         UserAccountDTO userAccount = null;
