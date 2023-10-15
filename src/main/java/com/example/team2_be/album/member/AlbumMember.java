@@ -26,11 +26,11 @@ public class AlbumMember {
 
     @ManyToOne
     @JoinColumn(name = "group_id")
-    private Album group;
+    private Album album;
 
     @Builder
-    public AlbumMember(User user, Album group){
+    public AlbumMember(User user, Album album){
         this.user = user;
-        this.group = group;
+        this.album = album;
     }
 }
