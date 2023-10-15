@@ -14,4 +14,9 @@ public class AuthController {
     public @ResponseBody ResponseEntity<ApiUtils.ApiResult<String>> kakaoLogin(@RequestBody String code){
         return ResponseEntity.ok(ApiUtils.success(authService.kakaoLogin(code)));
     }
+
+    @PostMapping("/google/login")
+    public @ResponseBody ResponseEntity<ApiUtils.ApiResult<String>> googleLogin(@RequestBody String code){
+        return ResponseEntity.ok(ApiUtils.success(authService.googleLogin(code)));
+    }
 }
