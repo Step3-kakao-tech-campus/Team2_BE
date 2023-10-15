@@ -47,6 +47,7 @@ public class AuthService {
     @Value("${google.redirect-url}")
     private String googleRedirectUrl;
 
+
     //https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={여기에 REST API KEY를 입력해주세요}&redirect_uri=http://localhost:8080/callback
     private KakaoTokenDTO getKakaoAccessToken(String code){
         try {
@@ -61,7 +62,6 @@ public class AuthService {
             return KakaoTokenDTO.fail();
         }
     }
-
 
     public String kakaoLogin(String code){
         KakaoTokenDTO userToken = getKakaoAccessToken(code);
@@ -78,4 +78,13 @@ public class AuthService {
         return jwtTokenProvider.create(user);
     }
 
+    private String deCoding(String code){
+        String decodedCode = "";
+        try {
+            decodedCode = java.net.URLDecoder.decode(code, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            log.error(e.toString());
+        }
+        return decodedCode;
+    }
 }
