@@ -11,7 +11,7 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "albumMember")
+@Table(name = "albumMember", indexes = {@Index(name = "idx_user_id", columnList = "user_id"), @Index(name = "idx_album_id", columnList = "album_id")})
 @Getter
 @ToString
 @NoArgsConstructor
@@ -25,7 +25,7 @@ public class AlbumMember {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "album_id")
     private Album album;
 
     @Builder
