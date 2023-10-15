@@ -6,6 +6,7 @@ import com.example.team2_be.auth.dto.google.GoogleAccountDTO;
 import com.example.team2_be.auth.dto.google.GoogleTokenDTO;
 import com.example.team2_be.auth.dto.kakao.KakaoAccessTokenRequestDTO;
 import com.example.team2_be.auth.dto.kakao.KakaoTokenDTO;
+import com.example.team2_be.core.error.exception.Exception400;
 import com.example.team2_be.core.security.JwtTokenProvider;
 import com.example.team2_be.user.User;
 import com.example.team2_be.user.UserService;
@@ -54,7 +55,7 @@ public class AuthService {
                     .grantType("authorization_code")
                     .build());
         } catch (Exception e) {
-            log.error("토큰 발급 오류입니다");
+            new Exception400("토큰 발급 오류입니다");
             return KakaoTokenDTO.fail();
         }
     }
@@ -100,7 +101,8 @@ public class AuthService {
                     .grantType("authorization_code")
                     .build());
         } catch (Exception e) {
-            log.error("토큰 발급 오류입니다");
+            new Exception400("토큰 발급 오류입니다");
+
             return GoogleTokenDTO.fail();
         }
     }
