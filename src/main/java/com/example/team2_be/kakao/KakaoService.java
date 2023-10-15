@@ -48,7 +48,7 @@ public class KakaoService {
             log.error("유저 정보 확인 오류");
         }
 
-        User user = userService.checkUser(kakaoAccount);
+        User user = userService.getUser(kakaoAccount);
 
         return jwtTokenProvider.create(user);
     }

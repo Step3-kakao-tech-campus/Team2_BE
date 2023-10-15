@@ -2,7 +2,6 @@ package com.example.team2_be.album.member;
 
 import com.example.team2_be.album.Album;
 import com.example.team2_be.user.User;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

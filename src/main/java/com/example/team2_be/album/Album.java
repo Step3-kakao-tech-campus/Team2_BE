@@ -1,7 +1,10 @@
 package com.example.team2_be.album;
 
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -39,5 +42,12 @@ public class Album {
         this.image=image;
         this.category=category;
         this.createAt=createAt;
+    }
+
+    // 앨범 업데이트
+    public void update (String albumName, String description, String image){
+        this.albumName=albumName;
+        this.description=description;
+        this.image=image;
     }
 }
