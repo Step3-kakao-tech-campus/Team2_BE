@@ -17,7 +17,7 @@ public class AuthService {
     private final KakaoAuthTokenClient kakaoAuthTokenClient;
     private final GoogleAuthUserClient googleAuthUserClient;
     private final GoogleAuthTokenClient googleAuthTokenClient;
-    private final UserService userService;
+    private final UserService userService;팅
     private final JwtTokenProvider jwtTokenProvider;
 
     @Value("${kakao.rest-api-key}")
