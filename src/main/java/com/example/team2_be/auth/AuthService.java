@@ -1,6 +1,6 @@
 package com.example.team2_be.auth;
 
-import com.example.team2_be.auth.dto.*;
+import com.example.team2_be.auth.dto.UserAccountDTO;
 import com.example.team2_be.auth.dto.google.GoogleAccessTokenRequestDTO;
 import com.example.team2_be.auth.dto.google.GoogleAccountDTO;
 import com.example.team2_be.auth.dto.google.GoogleTokenDTO;
@@ -26,7 +26,7 @@ public class AuthService {
     private final KakaoAuthTokenClient kakaoAuthTokenClient;
     private final GoogleAuthUserClient googleAuthUserClient;
     private final GoogleAuthTokenClient googleAuthTokenClient;
-    private final UserService userService;팅
+    private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Value("${kakao.rest-api-key}")
@@ -34,9 +34,6 @@ public class AuthService {
 
     @Value("${kakao.redirect-url}")
     private String kakaoRedirectUrl;
-
-    @Value("${kakao.user-api-url}")
-    private String kakaoUserApiUrl;
 
     @Value("${google.client-id}")
     private String googleClientId;
@@ -48,7 +45,6 @@ public class AuthService {
     private String googleRedirectUrl;
 
 
-    //https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={여기에 REST API KEY를 입력해주세요}&redirect_uri=http://localhost:8080/callback
     private KakaoTokenDTO getKakaoAccessToken(String code){
         try {
             return kakaoAuthTokenClient.getToken(KakaoAccessTokenRequestDTO.builder()
@@ -86,15 +82,12 @@ public class AuthService {
         try {
             userAccount = googleAuthUserClient.getInfo(googleTokenDTO.getTokenType() + " " + deCoding(googleTokenDTO.getAccessToken()));
         } catch (Exception e) {
-            log.error(e.toString());
             log.error("유저 정보 확인 오류입니다");
         }
 
         User user = userService.getUser(userAccount);
 
-        String jwtToken = jwtTokenProvider.create(user);
-        System.out.println("jwtToken: " + jwtToken);
-        return jwtToken;
+        return jwtTokenProvider.create(user);
     }
 
     private GoogleTokenDTO getGoogleAccessToken(String code){
