@@ -78,6 +78,25 @@ public class AuthService {
         return jwtTokenProvider.create(user);
     }
 
+    @Transactional
+    public String googleLogin(String code){
+        GoogleTokenDTO googleTokenDTO = getGoogleAccessToken(code);
+        GoogleAccountDTO userAccount = null;
+
+        try {
+            userAccount = googleAuthUserClient.getInfo(googleTokenDTO.getTokenType() + " " + deCoding(googleTokenDTO.getAccessToken()));
+        } catch (Exception e) {
+            log.error(e.toString());
+            log.error("유저 정보 확인 오류입니다");
+        }
+
+        User user = userService.getUser(userAccount);
+
+        String jwtToken = jwtTokenProvider.create(user);
+        System.out.println("jwtToken: " + jwtToken);
+        return jwtToken;
+    }
+
     private String deCoding(String code){
         String decodedCode = "";
         try {
