@@ -1,7 +1,7 @@
 package com.example.team2_be.user;
 
+import com.example.team2_be.auth.dto.UserAccountDTO;
 import com.example.team2_be.core.error.exception.Exception404;
-import com.example.team2_be.kakao.dto.KakaoAccount;
 import com.example.team2_be.reward.Reward;
 import com.example.team2_be.reward.RewardJPARepository;
 import com.example.team2_be.reward.progress.Progress;
@@ -31,21 +31,21 @@ public class UserService {
     public static final String DEFAULT_IMAGE_URL = "";
 
     @Transactional
-    public User getUser(KakaoAccount kakaoAccount) {
+    public User getUser(UserAccountDTO userAccount ) {
         // DB 안의 user 정보 확인
-        User user = userJPARepository.findByEmail(kakaoAccount.getEmail());
+        User user = userJPARepository.findByEmail(userAccount.getEmail());
 
         if(user == null){
-            return saveUser(kakaoAccount);
+            return saveUser(userAccount);
         }
         return user;
     }
 
-    private User saveUser(KakaoAccount kakaoAccount){
+    private User saveUser(UserAccountDTO userAccount){
         // 없을 경우 생성 및 추가
         User newUser = User.builder()
-                .email(kakaoAccount.getEmail())
-                .nickname(kakaoAccount.getProfile().getNickname())
+                .email(userAccount.getEmail())
+                .nickname(userAccount.getNickname())
                 .image(DEFAULT_IMAGE_URL)
                 .role(Role.ROLE_USER)
                 .createAt(LocalDateTime.now())
