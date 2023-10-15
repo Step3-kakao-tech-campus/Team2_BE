@@ -97,6 +97,21 @@ public class AuthService {
         return jwtToken;
     }
 
+    private GoogleTokenDTO getGoogleAccessToken(String code){
+        try {
+            return googleAuthTokenClient.getToken(GoogleAccessTokenRequestDTO.builder()
+                    .clientId(googleClientId)
+                    .clientSecret(googleClientSecret)
+                    .redirectUri(googleRedirectUrl)
+                    .code(deCoding(code))
+                    .grantType("authorization_code")
+                    .build());
+        } catch (Exception e) {
+            log.error("토큰 발급 오류입니다");
+            return GoogleTokenDTO.fail();
+        }
+    }
+
     private String deCoding(String code){
         String decodedCode = "";
         try {
