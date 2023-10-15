@@ -1,6 +1,11 @@
 package com.example.team2_be.auth;
 
 import com.example.team2_be.auth.dto.*;
+import com.example.team2_be.auth.dto.google.GoogleAccessTokenRequestDTO;
+import com.example.team2_be.auth.dto.google.GoogleAccountDTO;
+import com.example.team2_be.auth.dto.google.GoogleTokenDTO;
+import com.example.team2_be.auth.dto.kakao.KakaoAccessTokenRequestDTO;
+import com.example.team2_be.auth.dto.kakao.KakaoTokenDTO;
 import com.example.team2_be.core.security.JwtTokenProvider;
 import com.example.team2_be.user.User;
 import com.example.team2_be.user.UserService;
@@ -11,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
 @Slf4j
@@ -20,29 +24,21 @@ import java.nio.charset.StandardCharsets;
 @Transactional(readOnly = true)
 public class AuthService {
 
-    private final AuthClient client;
+    private final KakaoAuthUserClient kakaoAuthUserClient;
+    private final KakaoAuthTokenClient kakaoAuthTokenClient;
     private final GoogleAuthUserClient googleAuthUserClient;
     private final GoogleAuthTokenClient googleAuthTokenClient;
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Value("${kakao.token-url}")
-    private String kakaoTokenUrl;
+    @Value("${kakao.rest-api-key}")
+    private String kakaoRrestapiKey;
 
-    @Value("${kakao.restapi-key}")
-    private String restapiKey;
-
-    @Value("${kakao.redirectUrl}")
-    private String redirectUrl;
+    @Value("${kakao.redirect-url}")
+    private String kakaoRedirectUrl;
 
     @Value("${kakao.user-api-url}")
     private String kakaoUserApiUrl;
-
-    @Value("${google.token-url}")
-    private String googleTokenUrl;
-
-    @Value("${google.user-api-url}")
-    private String googleUserApiUrl;
 
     @Value("${google.client-id}")
     private String googleClientId;
@@ -50,25 +46,30 @@ public class AuthService {
     @Value("${google.client-secret}")
     private String googleClientSecret;
 
-    @Value("${google.redirectUrl}")
+    @Value("${google.redirect-url}")
     private String googleRedirectUrl;
 
     //https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={여기에 REST API KEY를 입력해주세요}&redirect_uri=http://localhost:8080/callback
-    private UserTokenDTO getKakaoAccessToken(String code){
+    private KakaoTokenDTO getKakaoAccessToken(String code){
         try {
-            return client.getToken(new URI(kakaoTokenUrl), restapiKey, redirectUrl, code, "authorization_code");
+            return kakaoAuthTokenClient.getToken(KakaoAccessTokenRequestDTO.builder()
+                            .clientId(kakaoRrestapiKey)
+                            .code(code)
+                            .redirectUri(kakaoRedirectUrl)
+                            .grantType("authorization_code")
+                    .build());
         } catch (Exception e) {
             log.error("토큰 발급 오류입니다");
-            return UserTokenDTO.fail();
+            return KakaoTokenDTO.fail();
         }
     }
 
     public String kakaoLogin(String code){
-        UserTokenDTO userToken = getKakaoAccessToken(code);
+        KakaoTokenDTO userToken = getKakaoAccessToken(code);
         UserAccountDTO userAccount = null;
 
         try {
-            userAccount = client.getInfo(new URI(kakaoUserApiUrl), userToken.getTokenType() + " " + userToken.getAccessToken()).getUserAccount();
+            userAccount = kakaoAuthUserClient.getInfo(userToken.getTokenType() + " " + userToken.getAccessToken());
         } catch (Exception e) {
             log.error("유저 정보 확인 오류입니다");
         }
@@ -105,14 +106,8 @@ public class AuthService {
         GoogleTokenDTO googleTokenDTO = getGoogleAccessToken(code);
         GoogleAccountDTO userAccount = null;
 
-        String decodedCode = "";
         try {
-            decodedCode = java.net.URLDecoder.decode(googleTokenDTO.getAccessToken(), StandardCharsets.UTF_8.name());
-        } catch (UnsupportedEncodingException e) {
-            log.error(e.toString());
-        }
-        try {
-            userAccount = googleAuthUserClient.getInfo(googleTokenDTO.getTokenType() + " " + decodedCode);
+            userAccount = googleAuthUserClient.getInfo(googleTokenDTO.getTokenType() + " " + deCoding(googleTokenDTO.getAccessToken()));
         } catch (Exception e) {
             log.error(e.toString());
             log.error("유저 정보 확인 오류입니다");
@@ -123,5 +118,15 @@ public class AuthService {
         String jwtToken = jwtTokenProvider.create(user);
         System.out.println("jwtToken: " + jwtToken);
         return jwtToken;
+    }
+
+    private String deCoding(String code){
+        String decodedCode = "";
+        try {
+            decodedCode = java.net.URLDecoder.decode(code, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            log.error(e.toString());
+        }
+        return decodedCode;
     }
 }

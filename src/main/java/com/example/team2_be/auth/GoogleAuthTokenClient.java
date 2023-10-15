@@ -1,7 +1,7 @@
 package com.example.team2_be.auth;
 
-import com.example.team2_be.auth.dto.GoogleAccessTokenRequestDTO;
-import com.example.team2_be.auth.dto.GoogleTokenDTO;
+import com.example.team2_be.auth.dto.google.GoogleAccessTokenRequestDTO;
+import com.example.team2_be.auth.dto.google.GoogleTokenDTO;
 import com.example.team2_be.core.config.AuthFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;

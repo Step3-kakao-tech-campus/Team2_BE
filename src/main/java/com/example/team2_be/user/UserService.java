@@ -46,7 +46,7 @@ public class UserService {
         // 없을 경우 생성 및 추가
         User newUser = User.builder()
                 .email(userAccount.getEmail())
-                .nickname(userAccount.getProfile().getNickname())
+                .nickname(userAccount.getNickname())
                 .image(DEFAULT_IMAGE_URL)
                 .role(Role.ROLE_USER)
                 .createAt(LocalDateTime.now())

@@ -1,13 +1,12 @@
-package com.example.team2_be.auth.dto;
+package com.example.team2_be.auth.dto.kakao;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class GoogleAccessTokenRequestDTO {
+public class KakaoAccessTokenRequestDTO{
     private String clientId;
-    private String clientSecret;
     private String redirectUri;
     private String code;
     private String grantType;

@@ -1,6 +1,5 @@
-package com.example.team2_be.auth.dto;
+package com.example.team2_be.auth.dto.google;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;

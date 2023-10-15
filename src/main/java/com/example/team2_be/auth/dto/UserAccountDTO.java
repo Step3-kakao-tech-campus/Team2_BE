@@ -6,6 +6,8 @@ import lombok.ToString;
 @Getter
 @ToString
 public class UserAccountDTO {
-    private ProfileDTO profile;
-    private String email;
+    protected String nickname;
+    protected String email;
+
+    public static UserAccountDTO fail(){return null;}
 }
