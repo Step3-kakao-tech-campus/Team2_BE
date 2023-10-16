@@ -15,7 +15,7 @@ public class GoogleAccountDTO extends UserAccountDTO {
     private String pictureUrl;
 
     @JsonSetter("name")
-    public void setNickname(String name) {
+    private void setNickname(String name) {
         this.nickname = name;
     }
 }
