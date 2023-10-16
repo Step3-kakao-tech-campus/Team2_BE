@@ -48,7 +48,6 @@ public class UserService {
                 .nickname(kakaoAccount.getProfile().getNickname())
                 .image(DEFAULT_IMAGE_URL)
                 .role(Role.ROLE_USER)
-                .createAt(LocalDateTime.now())
                 .build();
         userJPARepository.save(newUser);
 
