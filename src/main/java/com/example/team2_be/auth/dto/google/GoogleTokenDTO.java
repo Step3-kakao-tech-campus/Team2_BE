@@ -21,15 +21,4 @@ public class GoogleTokenDTO {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }
-
-    @Override
-    public String toString() {
-        return "GoogleTokenDTO{" +
-                "tokenType='" + tokenType + '\'' +
-                ", accessToken='" + accessToken + '\'' +
-                ", refreshToken='" + refreshToken + '\'' +
-                ", expiresIn=" + expiresIn +
-                ", idToken='" + idToken + '\'' +
-                '}';
-    }
 }
