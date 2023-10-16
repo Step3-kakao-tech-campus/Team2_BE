@@ -38,7 +38,6 @@ public class GlobalExceptionHandler {
         Error error = Error.builder()
                 .message(e.getMessage())
                 .stackTrace(filterStackTraceOnException(e).toString())
-                .createAt(LocalDateTime.now())
                 .build();
         errorJPARepository.save(error);
     }
