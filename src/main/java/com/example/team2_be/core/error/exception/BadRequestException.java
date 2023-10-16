@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 
 
 @Getter
-public class NotFoundException extends ApiException {
-    public NotFoundException(String message) {
+public class BadRequestException extends ApiException {
+    public BadRequestException(String message) {
         super(message);
     }
 
