@@ -1,6 +1,6 @@
 package com.example.team2_be.core.error;
 
-import com.example.team2_be.core.error.exception.Exception400;
+import com.example.team2_be.core.error.exception.NotFoundException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -18,7 +18,7 @@ public class GlobalValidationHandler {
             if (arg instanceof Errors) {
                 Errors errors = (Errors) arg;
                 if (errors.hasErrors()) {
-                    throw new Exception400(
+                    throw new NotFoundException(
                             errors.getFieldErrors().get(0).getField()+":"+errors.getFieldErrors().get(0).getDefaultMessage()
                     );
                 }
