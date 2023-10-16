@@ -22,7 +22,7 @@ public class AlbumController {
 
     // 앨범 생성기능 POST "/albums"
     @PostMapping ("")
-    public ResponseEntity<ApiUtils.ApiResult> createAlbum(@RequestBody @Valid AlbumCreateRequestDTO requestDTO, @AuthenticationPrincipal CustomUserDetails userDetails){
+    public ResponseEntity<ApiUtils.ApiResult> createAlbum(@RequestBody @Valid AlbumCreateRequestDTO requestDTO, Error errors, @AuthenticationPrincipal CustomUserDetails userDetails){
         Long userId = userDetails.getUser().getId();
         Album newAlbum = albumService.createAlbum(requestDTO);
         // album을 생성하는 유저를 albumMember로 추가
