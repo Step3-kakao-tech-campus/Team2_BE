@@ -1,5 +1,6 @@
 package com.example.team2_be.reward.progress;
 
+import com.example.team2_be.BaseEntity;
 import com.example.team2_be.reward.Reward;
 import com.example.team2_be.user.User;
 import lombok.Builder;
@@ -14,10 +15,7 @@ import javax.persistence.*;
 @Getter
 @ToString
 @NoArgsConstructor
-public class Progress {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Progress extends BaseEntity {
     @Column(nullable = false)
     private int count;
 
