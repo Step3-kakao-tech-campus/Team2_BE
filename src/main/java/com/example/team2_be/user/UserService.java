@@ -1,7 +1,8 @@
 package com.example.team2_be.user;
 
+
+import com.example.team2_be.core.error.exception.NotFoundException;
 import com.example.team2_be.auth.dto.UserAccountDTO;
-import com.example.team2_be.core.error.exception.Exception404;
 import com.example.team2_be.reward.Reward;
 import com.example.team2_be.reward.RewardJPARepository;
 import com.example.team2_be.reward.progress.Progress;
@@ -16,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -48,7 +48,6 @@ public class UserService {
                 .nickname(userAccount.getNickname())
                 .image(DEFAULT_IMAGE_URL)
                 .role(Role.ROLE_USER)
-                .createAt(LocalDateTime.now())
                 .build();
         userJPARepository.save(newUser);
 
@@ -57,7 +56,7 @@ public class UserService {
 
     public UserInfoFindResponseDTO findUserInfo(Long id) {
         User findUser = userJPARepository.findById(id)
-                .orElseThrow(() -> new Exception404("해당 유저를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
 
         return new UserInfoFindResponseDTO(findUser);
     }
@@ -65,7 +64,7 @@ public class UserService {
     @Transactional
     public void updateUserInfo(UserInfoUpdateRequestDTO updateDTO, Long id) {
         User findUser = userJPARepository.findById(id)
-                .orElseThrow(() -> new Exception404("해당 유저를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
 
         findUser.updateNickname(updateDTO.getNewNickname());
     }
@@ -74,7 +73,7 @@ public class UserService {
         List<Reward> findRewards = rewardJPARepository.findAll();
 
         User findUser = userJPARepository.findById(id)
-                .orElseThrow(() -> new Exception404("해당 유저를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
         List<Progress> findProgresses = progressJPARepository.findByUserId(findUser.getId());
 
         return new UserRewardFindResponseDTO(findRewards, findProgresses);
@@ -82,7 +81,7 @@ public class UserService {
 
     public UserTitleFindResponseDTO findUserTitle(Long id) {
         User findUser = userJPARepository.findById(id)
-                .orElseThrow(() -> new Exception404("해당 유저를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
         List<Collection> collections = collectionJPARepository.findByUserId(findUser.getId());
 
         return new UserTitleFindResponseDTO(collections);
@@ -91,10 +90,10 @@ public class UserService {
     @Transactional
     public void updateUserTitle(Long userId, Long titleId) {
         User findUser = userJPARepository.findById(userId)
-                .orElseThrow(() -> new Exception404("해당 유저를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
 
         Collection findCollection = collectionJPARepository.findById(titleId)
-                .orElseThrow(() -> new Exception404("해당 칭호를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundException("해당 칭호를 찾을 수 없습니다."));
 
         findUser.updateTitle(findCollection.getTitle().getTitleName());
     }

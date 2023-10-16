@@ -1,5 +1,6 @@
 package com.example.team2_be.title.collection;
 
+import com.example.team2_be.BaseEntity;
 import com.example.team2_be.title.Title;
 import com.example.team2_be.user.User;
 import lombok.Builder;
@@ -15,12 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @NoArgsConstructor
-public class Collection {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
-    private LocalDateTime createAt;
+public class Collection extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -32,7 +28,6 @@ public class Collection {
 
     @Builder
     public Collection(User user, Title title) {
-        this.createAt = LocalDateTime.now();
         this.user = user;
         this.title = title;
     }
