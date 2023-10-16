@@ -18,16 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpStatusCodeException;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AuthService {
-    private final KakaoAuthUserClient kakaoAuthUserClient;
-    private final KakaoAuthTokenClient kakaoAuthTokenClient;
-    private final GoogleAuthUserClient googleAuthUserClient;
-    private final GoogleAuthTokenClient googleAuthTokenClient;
+    private final KakaoAuthClient kakaoAuthClient;
+    private final GoogleAuthClient googleAuthClient;
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -36,6 +35,12 @@ public class AuthService {
 
     @Value("${kakao.redirect-url}")
     private String kakaoRedirectUrl;
+
+    @Value("${kakao.token-url}")
+    private String kakaoTokenUrl;
+
+    @Value("${kakao.user-api-url}")
+    private String kakaoUserUrl;
 
     @Value("${google.client-id}")
     private String googleClientId;
@@ -46,10 +51,16 @@ public class AuthService {
     @Value("${google.redirect-url}")
     private String googleRedirectUrl;
 
+    @Value("${google.token-url}")
+    private String googleTokenUrl;
+
+    @Value("${google.user-api-url}")
+    private String googleUserUrl;
+
 
     private KakaoTokenDTO getKakaoAccessToken(String code){
         try {
-            return kakaoAuthTokenClient.getToken(KakaoAccessTokenRequestDTO.builder()
+            return kakaoAuthClient.getToken(URI.create(kakaoTokenUrl), KakaoAccessTokenRequestDTO.builder()
                     .clientId(kakaoRrestapiKey)
                     .code(code)
                     .redirectUri(kakaoRedirectUrl)
@@ -79,7 +90,7 @@ public class AuthService {
         UserAccountDTO userAccount = null;
 
         try {
-            userAccount = kakaoAuthUserClient.getInfo(userToken.getTokenType() + " " + userToken.getAccessToken());
+            userAccount = kakaoAuthClient.getInfo(URI.create(kakaoUserUrl), userToken.getTokenType() + " " + userToken.getAccessToken());
         } catch (HttpStatusCodeException e){
             switch (e.getStatusCode().value()){
                 case 400:
@@ -109,7 +120,7 @@ public class AuthService {
         GoogleAccountDTO userAccount = null;
 
         try {
-            userAccount = googleAuthUserClient.getInfo(googleTokenDTO.getTokenType() + " " + decoding(googleTokenDTO.getAccessToken()));
+            userAccount = googleAuthClient.getInfo(URI.create(googleUserUrl), googleTokenDTO.getTokenType() + " " + decoding(googleTokenDTO.getAccessToken()));
         } catch (HttpStatusCodeException e){
             switch (e.getStatusCode().value()){
                 case 400:
@@ -135,7 +146,7 @@ public class AuthService {
 
     private GoogleTokenDTO getGoogleAccessToken(String code){
         try {
-            return googleAuthTokenClient.getToken(GoogleAccessTokenRequestDTO.builder()
+            return googleAuthClient.getToken(URI.create(googleTokenUrl), GoogleAccessTokenRequestDTO.builder()
                     .clientId(googleClientId)
                     .clientSecret(googleClientSecret)
                     .redirectUri(googleRedirectUrl)
