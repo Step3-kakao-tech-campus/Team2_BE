@@ -8,6 +8,4 @@ import lombok.ToString;
 public class UserAccountDTO {
     protected String nickname;
     protected String email;
-
-    public static UserAccountDTO fail(){return null;}
 }
