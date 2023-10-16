@@ -23,8 +23,8 @@ public class SwaggerConfig {
     public Docket api(){
         return new Docket(DocumentationType.OAS_30)
                 .useDefaultResponseMessages(false)
-                .securityContexts(List.of(this.securityContext())) // SecurityContext 설정
-                .securitySchemes(List.of(this.apiKey())) //
+                .securityContexts(List.of(this.securityContext()))
+                .securitySchemes(List.of(this.apiKey()))
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.any())
