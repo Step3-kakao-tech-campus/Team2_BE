@@ -1,13 +1,12 @@
 package com.example.team2_be.core.error.exception;
 
-import com.example.team2_be.core.utils.ApiUtils;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-public class Exception404 extends ApiException{
+public class NotFoundException extends ApiException{
 
-    public Exception404(String message) {
+    public NotFoundException(String message) {
         super(message);
     }
 
