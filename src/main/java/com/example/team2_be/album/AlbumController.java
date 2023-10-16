@@ -6,7 +6,6 @@ import com.example.team2_be.album.dto.AlbumUpdaterequestDTO;
 import com.example.team2_be.album.member.AlbumMemberService;
 import com.example.team2_be.core.security.CustomUserDetails;
 import com.example.team2_be.core.utils.ApiUtils;
-import com.example.team2_be.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,10 +23,10 @@ public class AlbumController {
     // 앨범 생성기능 POST "/albums"
     @PostMapping ("")
     public ResponseEntity<ApiUtils.ApiResult> createAlbum(@RequestBody @Valid AlbumCreateRequestDTO requestDTO, @AuthenticationPrincipal CustomUserDetails userDetails){
-        User user = userDetails.getUser();
+        Long userId = userDetails.getUser().getId();
         Album newAlbum = albumService.createAlbum(requestDTO);
         // album을 생성하는 유저를 albumMember로 추가
-        albumMemberService.addMember(newAlbum.getId(),user.getId());
+        albumMemberService.addMember(newAlbum.getId(),userId);
 
         return ResponseEntity.ok(ApiUtils.success(null));
     }
