@@ -1,5 +1,6 @@
 package com.example.team2_be.reward;
 
+import com.example.team2_be.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,10 +12,7 @@ import javax.persistence.*;
 @Getter
 @ToString
 @NoArgsConstructor
-public class Reward {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Reward extends BaseEntity {
     @Column(length = 128, nullable = false)
     private String rewardName;
 

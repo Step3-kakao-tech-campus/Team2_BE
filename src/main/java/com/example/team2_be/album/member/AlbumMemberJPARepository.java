@@ -7,8 +7,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface AlbumMemberJPARepository extends JpaRepository<AlbumMember, Long> {
-    @Query("select m from AlbumMember m where m.user.id = :userId and m.group.id = :groupId")
-    AlbumMember findByUserIdAndGroupId(@Param("userId") Long userId, @Param("groupId") Long groupId);
 
-    List<AlbumMember> findAllByGroupId(Long groupId);
+    AlbumMember findByUserIdAndAlbumId(@Param("userId") Long userId, @Param("albumId") Long albumId);
+
+    List<AlbumMember> findAllByAlbumId(Long albumId);
 }

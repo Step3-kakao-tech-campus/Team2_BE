@@ -1,7 +1,11 @@
 package com.example.team2_be.album;
 
 
-import lombok.*;
+import com.example.team2_be.BaseEntity;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,10 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @NoArgsConstructor
-public class Album {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Album extends BaseEntity {
 
     @Column(length = 32, nullable = false)
     private String albumName;
@@ -29,16 +30,12 @@ public class Album {
     @Column(length = 16, nullable = false)
     private Category category;
 
-    @Column(nullable = false)
-    private LocalDateTime createAt;
-
     @Builder
-    public Album (String albumName, String description, String image, Category category, LocalDateTime createAt){
+    public Album (String albumName, String description, String image, Category category){
         this.albumName=albumName;
         this.description=description;
         this.image=image;
         this.category=category;
-        this.createAt=createAt;
     }
 
     // 앨범 업데이트
