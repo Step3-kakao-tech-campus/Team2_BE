@@ -1,22 +1,16 @@
 package com.example.team2_be.user;
 
-import com.example.team2_be.title.Title;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.example.team2_be.BaseEntity;
+import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
 @Getter
 @ToString
 @NoArgsConstructor
-public class User {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BaseEntity {
 
     @Column(length = 128, nullable = false, unique = true)
     private String email;
@@ -34,17 +28,13 @@ public class User {
     @Column(length = 16, nullable = false)
     private Role role;
 
-    @Column(nullable = false)
-    private LocalDateTime createAt;
-
     @Builder
-    public User(Long id, String email, String nickname, String image, Role role, LocalDateTime createAt) {
-        this.id = id;
+    public User(Long id, String email, String nickname, String image, Role role) {
+        super(id);
         this.email = email;
         this.nickname = nickname;
         this.image = image;
         this.role = role;
-        this.createAt = createAt;
     }
 
     void updateNickname(String newNickname) {

@@ -2,8 +2,8 @@ package com.example.team2_be.core.error.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class Exception405 extends ApiException{
-    public Exception405(String message) {
+public class MethodNotAllowedException extends ApiException{
+    public MethodNotAllowedException(String message) {
         super(message);
     }
 
