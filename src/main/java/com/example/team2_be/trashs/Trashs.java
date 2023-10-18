@@ -34,7 +34,7 @@ public class Trashs extends BaseEntity {
         super(id);
         this.user = user;
         this.albumPage =albumPage;
-        // 앨범 페이지 삭제 시간
+        // 앨범 페이지 삭제 시간 - 여기서 할지 serviced에서 할지 테스트 필요
         this.deleteAt = this.getCreateAt().plusDays(7);
     }
 }
