@@ -1,4 +1,4 @@
-package com.example.team2_be.trashs;
+package com.example.team2_be.trash;
 
 import com.example.team2_be.core.security.CustomUserDetails;
 import com.example.team2_be.core.utils.ApiUtils;
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/albums/{albumId}/trashs")
-public class TrashsController {
+public class TrashController {
 
     //휴지통 조회 GET
     @GetMapping("/")
-    public ResponseEntity<ApiUtils.ApiResult> findTrashs(@AuthenticationPrincipal CustomUserDetails userDetails){
+    public ResponseEntity<ApiUtils.ApiResult> findTrashs (@AuthenticationPrincipal CustomUserDetails userDetails){
         Long userId = userDetails.getUser().getId();
 
     }

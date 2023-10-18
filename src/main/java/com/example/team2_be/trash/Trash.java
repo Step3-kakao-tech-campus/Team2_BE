@@ -1,4 +1,4 @@
-package com.example.team2_be.trashs;
+package com.example.team2_be.trash;
 
 import com.example.team2_be.BaseEntity;
 import com.example.team2_be.album.page.AlbumPage;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @NoArgsConstructor
-public class Trashs extends BaseEntity {
+public class Trash extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
@@ -30,7 +30,7 @@ public class Trashs extends BaseEntity {
     private LocalDateTime deleteAt;
 
     @Builder
-    public Trashs(Long id, User user, AlbumPage albumPage) {
+    public Trash(Long id, User user, AlbumPage albumPage) {
         super(id);
         this.user = user;
         this.albumPage =albumPage;
