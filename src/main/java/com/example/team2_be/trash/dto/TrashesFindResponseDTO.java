@@ -23,13 +23,15 @@ public class TrashesFindResponseDTO {
     @Getter
     public static class TrashDTO{
         private Long trashId;
-        private Long albumPageId;
+        private String image;
+        private String deleter;
         private LocalDateTime createAt;
         private LocalDateTime deleteAt;
 
         public TrashDTO(Trash trash) {
             this.trashId = trash.getId();
-            this.albumPageId = trash.getAlbumPage().getId();
+            this.image = trash.getAlbumPage().getImage();
+            this.deleter = trash.getUser().getNickname();
             this.createAt = trash.getCreateAt();
             this.deleteAt = trash.getDeleteAt();
         }
