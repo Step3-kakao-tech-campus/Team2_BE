@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class TrashsFindResponseDTO {
+public class TrashesFindResponseDTO {
     private Long albumId;
-    private List<TrashDTO> Trashs;
+    private List<TrashDTO> Trashes;
 
 
-    public TrashsFindResponseDTO (Long albumId, List<Trash> trashs){
+    public TrashesFindResponseDTO(Long albumId, List<Trash> trashes){
         this.albumId = albumId;
-        this.Trashs = trashs.stream()
+        this.Trashes = trashes.stream()
                 .map(TrashDTO::new)
                 .collect((Collectors.toList()));
     }
