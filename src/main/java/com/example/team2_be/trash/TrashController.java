@@ -6,10 +6,7 @@ import com.example.team2_be.trash.dto.TrashesFindResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,4 +23,10 @@ public class TrashController {
         return ResponseEntity.ok(ApiUtils.success(findDTO));
     }
 
+    @PostMapping("/{trashId}")
+    public ResponseEntity<ApiUtils.ApiResult<Void>> restoreTrash(@PathVariable String albumId, @PathVariable Long trashId){
+        trashService.restoreTrash(trashId);
+
+        return ResponseEntity.ok(ApiUtils.success(null));
+    }
 }
