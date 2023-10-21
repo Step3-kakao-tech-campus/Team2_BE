@@ -15,7 +15,7 @@ public class TrashService {
 
     private final TrashJPARepository trashJPARepository;
 
-    public TrashesFindResponseDTO findAll(Long albumId){
+    public TrashesFindResponseDTO findTrashes(Long albumId){
         List<Trash> trashes = trashJPARepository.findAllByAlbumId(albumId);
 
         return new TrashesFindResponseDTO(albumId, trashes);
