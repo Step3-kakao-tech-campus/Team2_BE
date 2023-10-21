@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class trashService {
+public class TrashService {
 
     private final TrashJPARepository trashJPARepository;
 
