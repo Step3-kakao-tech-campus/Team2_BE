@@ -12,7 +12,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "trashs")
 @Getter
 @ToString
 @NoArgsConstructor
