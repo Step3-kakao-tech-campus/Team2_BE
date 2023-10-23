@@ -10,12 +10,12 @@ import java.util.stream.Collectors;
 @Getter
 public class TrashesFindResponseDTO {
     private Long albumId;
-    private List<TrashDTO> Trashes;
+    private List<TrashDTO> trashes;
 
 
     public TrashesFindResponseDTO(Long albumId, List<Trash> trashes){
         this.albumId = albumId;
-        this.Trashes = trashes.stream()
+        this.trashes = trashes.stream()
                 .map(TrashDTO::new)
                 .collect((Collectors.toList()));
     }
