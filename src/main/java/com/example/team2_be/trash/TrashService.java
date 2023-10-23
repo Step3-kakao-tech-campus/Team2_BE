@@ -21,6 +21,7 @@ public class TrashService {
         return new TrashesFindResponseDTO(albumId, trashes);
     }
 
+    @Transactional
     public void restoreTrash(Long trashId){
         Trash trash = trashJPARepository.findById(trashId)
                 .orElseThrow(() -> new NotFoundException("해당 페이지가 휴지통 내에 존재하지 않습니다."));
