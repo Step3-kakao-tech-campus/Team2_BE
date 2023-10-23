@@ -69,19 +69,19 @@ public class AuthService {
         } catch (HttpStatusCodeException e){
             switch (e.getStatusCode().value()){
                 case 400:
-                    throw new Exception400("잘못된 요청입니다");
+                    throw new BadRequestException("잘못된 요청입니다");
                 case 401:
-                    throw new Exception401("인증되지 않은 사용자입니다");
+                    throw new UnauthorizedException("인증되지 않은 사용자입니다");
                 case 403:
-                    throw new Exception403("접근이 허용되지 않습니다");
+                    throw new ForbiddenException("접근이 허용되지 않습니다");
                 case 404:
-                    throw new Exception404("해당 사용자를 찾을 수 없습니다");
+                    throw new NotFoundException("해당 사용자를 찾을 수 없습니다");
                 default:
-                    throw new Exception500("토큰 발급 오류입니다");
+                    throw new InternalSeverErrorException("토큰 발급 오류입니다");
             }
         }
         catch (Exception e) {
-            throw new Exception500("토큰 발급 오류입니다");
+            throw new InternalSeverErrorException("토큰 발급 오류입니다");
         }
     }
 
@@ -94,19 +94,19 @@ public class AuthService {
         } catch (HttpStatusCodeException e){
             switch (e.getStatusCode().value()){
                 case 400:
-                    throw new Exception400("잘못된 요청입니다");
+                    throw new BadRequestException("잘못된 요청입니다");
                 case 401:
-                    throw new Exception401("인증되지 않은 사용자입니다");
+                    throw new UnauthorizedException("인증되지 않은 사용자입니다");
                 case 403:
-                    throw new Exception403("접근이 허용되지 않습니다");
+                    throw new ForbiddenException("접근이 허용되지 않습니다");
                 case 404:
-                    throw new Exception404("해당 사용자를 찾을 수 없습니다");
+                    throw new NotFoundException("해당 사용자를 찾을 수 없습니다");
                 default:
-                    throw new Exception500("유저 정보 확인 오류입니다");
+                    throw new InternalSeverErrorException("유저 정보 확인 오류입니다");
             }
         }
         catch (Exception e) {
-            throw new Exception500("유저 정보 확인 오류입니다");
+            throw new InternalSeverErrorException("유저 정보 확인 오류입니다");
         }
 
         User user = userService.getUser(userAccount);
@@ -124,19 +124,19 @@ public class AuthService {
         } catch (HttpStatusCodeException e){
             switch (e.getStatusCode().value()){
                 case 400:
-                    throw new Exception400("잘못된 요청입니다");
+                    throw new BadRequestException("잘못된 요청입니다");
                 case 401:
-                    throw new Exception401("인증되지 않은 사용자입니다");
+                    throw new UnauthorizedException("인증되지 않은 사용자입니다");
                 case 403:
-                    throw new Exception403("접근이 허용되지 않습니다");
+                    throw new ForbiddenException("접근이 허용되지 않습니다");
                 case 404:
-                    throw new Exception404("해당 사용자를 찾을 수 없습니다");
+                    throw new NotFoundException("해당 사용자를 찾을 수 없습니다");
                 default:
-                    throw new Exception500("유저 정보 확인 오류입니다");
+                    throw new InternalSeverErrorException("유저 정보 확인 오류입니다");
             }
         }
         catch (Exception e) {
-            throw new Exception500("유저 정보 확인 오류입니다");
+            throw new InternalSeverErrorException("유저 정보 확인 오류입니다");
         }
 
         User user = userService.getUser(userAccount);
@@ -156,19 +156,19 @@ public class AuthService {
         } catch (HttpStatusCodeException e){
             switch (e.getStatusCode().value()){
                 case 400:
-                    throw new Exception400("잘못된 요청입니다");
+                    throw new BadRequestException("잘못된 요청입니다");
                 case 401:
-                    throw new Exception401("인증되지 않은 사용자입니다");
+                    throw new UnauthorizedException("인증되지 않은 사용자입니다");
                 case 403:
-                    throw new Exception403("접근이 허용되지 않습니다");
+                    throw new ForbiddenException("접근이 허용되지 않습니다");
                 case 404:
-                    throw new Exception404("해당 사용자를 찾을 수 없습니다");
+                    throw new NotFoundException("해당 사용자를 찾을 수 없습니다");
                 default:
-                    throw new Exception500("토큰 발급 오류입니다");
+                    throw new InternalSeverErrorException("토큰 발급 오류입니다");
             }
         }
         catch (Exception e) {
-            throw new Exception500("토큰 발급 오류입니다");
+            throw new InternalSeverErrorException("토큰 발급 오류입니다");
         }
     }
 
@@ -177,7 +177,7 @@ public class AuthService {
         try {
             decodedCode = java.net.URLDecoder.decode(code, StandardCharsets.UTF_8.name());
         } catch (UnsupportedEncodingException e) {
-            throw new Exception400("잘못된 요청입니다");
+            throw new BadRequestException("잘못된 요청입니다");
         }
         return decodedCode;
     }
