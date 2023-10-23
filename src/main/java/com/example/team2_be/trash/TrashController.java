@@ -14,7 +14,7 @@ public class TrashController {
     private final TrashService trashService;
 
     //휴지통 조회 GET
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<ApiUtils.ApiResult<TrashesFindResponseDTO>> findTrashes (@PathVariable Long albumId){
         TrashesFindResponseDTO findDTO = trashService.findTrashes(albumId);
 
