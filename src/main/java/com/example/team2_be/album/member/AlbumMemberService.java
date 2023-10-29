@@ -3,7 +3,7 @@ package com.example.team2_be.album.member;
 import com.example.team2_be.album.Album;
 import com.example.team2_be.album.AlbumJPARepository;
 import com.example.team2_be.album.dto.AlbumMemberFindResponseDTO;
-import com.example.team2_be.core.error.exception.Exception404;
+import com.example.team2_be.core.error.exception.NotFoundException;
 import com.example.team2_be.user.User;
 import com.example.team2_be.user.UserJPARepository;
 import lombok.RequiredArgsConstructor;
@@ -36,9 +36,9 @@ public class AlbumMemberService {
         User user = userJPARepository.getReferenceById(userId);
         // 앨범이 없을 경우 예외 처리, 후에 추가 수정
         Album album = albumJPARepository.findById(albumId)
-                .orElseThrow(() -> new Exception404("해당 앨범이 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundException("해당 앨범이 존재하지 않습니다."));
 
-        AlbumMember albumMember = albumMemberJPARepository.findByUserIdAndGroupId(userId, albumId);
+        AlbumMember albumMember = albumMemberJPARepository.findByUserIdAndAlbumId(userId, albumId);
         if(albumMember == null) {
             albumMember = AlbumMember.builder()
                     .user(user)
@@ -50,7 +50,7 @@ public class AlbumMemberService {
 
     @Transactional
     public void deleteMember(Long userId, Long albumId){
-        AlbumMember albumMember = albumMemberJPARepository.findByUserIdAndGroupId(userId, albumId);
+        AlbumMember albumMember = albumMemberJPARepository.findByUserIdAndAlbumId(userId, albumId);
 
         albumMemberJPARepository.delete(albumMember);
     }

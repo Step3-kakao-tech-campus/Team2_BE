@@ -61,10 +61,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorize -> authorize
                         .antMatchers(swaggerPermitUrls).permitAll()
-                        .anyRequest().authenticated()
-        );
-
+                        .antMatchers("/auth/**").permitAll());
         return http.build();
     }
 }
-
