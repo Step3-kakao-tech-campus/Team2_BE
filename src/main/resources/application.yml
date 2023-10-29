@@ -17,6 +17,9 @@ spring:
         format_sql: true
       default_batch_fetch_size: 100
     open-in-view: false
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 jwt:
   secretKey: ENC(FFqIhuVHP55GbmEItS8qE6yuBnqu6uy8pH7iGmebJW9NB0AEtYPesSJndj1Mqb2H2CasgMESlggdCQDnY98j8US2kEbSVEiqip3xIbBrRlPNVbzzIb4wLrgfHxZks9gdmGCaqttRLw8=)

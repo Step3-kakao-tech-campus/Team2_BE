@@ -1,6 +1,5 @@
 package com.example.team2_be.user;
 
-import com.example.team2_be.core.security.CustomUserDetails;
 import com.example.team2_be.core.utils.ApiUtils;
 import com.example.team2_be.user.dto.UserInfoFindResponseDTO;
 import com.example.team2_be.user.dto.UserInfoUpdateRequestDTO;
@@ -8,7 +7,6 @@ import com.example.team2_be.user.dto.UserRewardFindResponseDTO;
 import com.example.team2_be.user.dto.UserTitleFindResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
