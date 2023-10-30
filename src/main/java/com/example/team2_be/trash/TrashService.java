@@ -1,7 +1,9 @@
 package com.example.team2_be.trash;
 
+import com.example.team2_be.album.page.AlbumPage;
 import com.example.team2_be.core.error.exception.NotFoundException;
 import com.example.team2_be.trash.dto.TrashesFindResponseDTO;
+import com.example.team2_be.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
