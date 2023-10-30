@@ -9,6 +9,9 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -45,6 +48,14 @@ public class TrashService {
                 .albumPage(albumPage)
                 .build());
 
+        Date sevenDaysLater = Date.from(Instant.now().plus(Duration.ofDays(7)));
+        //taskSceduler로 7일 이후 삭제
+        taskScheduler.schedule(new Runnable(){
+            @Override
+            public void run() {
+                purgeTrash(newTrash.getId());
+            }
+        }, sevenDaysLater);
         return newTrash;
     }
 }
