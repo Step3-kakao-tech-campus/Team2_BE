@@ -3,6 +3,8 @@ package com.example.team2_be.trash;
 import com.example.team2_be.core.error.exception.NotFoundException;
 import com.example.team2_be.trash.dto.TrashesFindResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +17,10 @@ public class TrashService {
 
     private final TrashJPARepository trashJPARepository;
 
-    public TrashesFindResponseDTO findTrashes(Long albumId){
-        List<Trash> trashes = trashJPARepository.findAllByAlbumId(albumId);
+    public TrashesFindResponseDTO findTrashes(Long albumId, Pageable pageable){
+        Page<Trash> trashes = trashJPARepository.findAllByAlbumId(albumId, pageable);
 
-        return new TrashesFindResponseDTO(albumId, trashes);
+        return new TrashesFindResponseDTO(albumId, trashes.getContent());
     }
 
     @Transactional
