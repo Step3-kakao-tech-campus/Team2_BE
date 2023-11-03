@@ -33,6 +33,7 @@ public class TrashesFindResponseDTO {
             // 휴지통 페이지 미리보기 이미지 추가
             this.deleter = trash.getUser().getNickname();
             this.createAt = trash.getCreateAt();
+            this.deleteAt = trash.getDeleteAt();
         }
     }
 }

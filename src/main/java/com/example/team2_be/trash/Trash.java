@@ -8,9 +8,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -25,11 +27,15 @@ public class Trash extends BaseEntity {
     @JoinColumn (name ="albumPage_id",nullable = false)
     private AlbumPage albumPage;
 
+    @Column(nullable = false)
+    private LocalDateTime deleteAt;
+
     @Builder
     public Trash(Long id, User user, AlbumPage albumPage) {
         super(id);
         this.user = user;
         this.albumPage =albumPage;
+        this.deleteAt = this.getCreateAt().plusDays(7);
     }
 }
 

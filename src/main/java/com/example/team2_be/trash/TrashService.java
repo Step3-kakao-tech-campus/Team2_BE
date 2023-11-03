@@ -6,12 +6,10 @@ import com.example.team2_be.trash.dto.TrashesFindResponseDTO;
 import com.example.team2_be.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,8 +35,10 @@ public class TrashService {
     }
 
     @Transactional
-    public void purgeTrash(Long trashId){
-        trashJPARepository.deleteById(trashId);
+    @Scheduled(cron = "0 59 23 * * ?")
+    public void deleteTrash(){
+        List<Trash> after7days = trashJPARepository.findTrashesToDelete();
+        trashJPARepository.deleteAllInBatch(after7days);
     }
 
     @Transactional
@@ -48,14 +48,6 @@ public class TrashService {
                 .albumPage(albumPage)
                 .build());
 
-        Date sevenDaysLater = Date.from(Instant.now().plus(Duration.ofDays(7)));
-        //taskSceduler로 7일 이후 삭제
-        taskScheduler.schedule(new Runnable(){
-            @Override
-            public void run() {
-                purgeTrash(newTrash.getId());
-            }
-        }, sevenDaysLater);
         return newTrash;
     }
 }
