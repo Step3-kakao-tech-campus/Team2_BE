@@ -14,6 +14,8 @@ import com.example.team2_be.user.dto.UserInfoUpdateRequestDTO;
 import com.example.team2_be.user.dto.UserRewardFindResponseDTO;
 import com.example.team2_be.user.dto.UserTitleFindResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,14 +71,14 @@ public class UserService {
         findUser.updateNickname(updateDTO.getNewNickname());
     }
 
-    public UserRewardFindResponseDTO findUserReward(Long id) {
-        List<Reward> findRewards = rewardJPARepository.findAll();
+    public UserRewardFindResponseDTO findUserReward(Long id, Pageable pageable) {
+        Page<Reward> findRewards = rewardJPARepository.findAll(pageable);
 
         User findUser = userJPARepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
         List<Progress> findProgresses = progressJPARepository.findByUserId(findUser.getId());
 
-        return new UserRewardFindResponseDTO(findRewards, findProgresses);
+        return new UserRewardFindResponseDTO(findRewards.getContent(), findProgresses);
     }
 
     public UserTitleFindResponseDTO findUserTitle(Long id) {

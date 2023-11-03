@@ -6,8 +6,10 @@ import com.example.team2_be.user.dto.UserInfoUpdateRequestDTO;
 import com.example.team2_be.user.dto.UserRewardFindResponseDTO;
 import com.example.team2_be.user.dto.UserTitleFindResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Pageable;
 
 import javax.validation.Valid;
 
@@ -32,8 +34,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/rewards")
-    public ResponseEntity<?> findReward(@PathVariable Long userId) {
-        UserRewardFindResponseDTO rewardFindResponseDTO = userService.findUserReward(userId);
+    public ResponseEntity<?> findReward(@PathVariable Long userId, @PageableDefault(size = 10) Pageable pageable) {
+        UserRewardFindResponseDTO rewardFindResponseDTO = userService.findUserReward(userId, pageable);
 
         return ResponseEntity.ok(ApiUtils.success(rewardFindResponseDTO));
     }
