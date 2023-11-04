@@ -9,12 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @RequiredArgsConstructor
 @Configuration
@@ -32,7 +27,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-         final String[] swaggerPermitUrls = {
+        final String[] swaggerPermitUrls = {
                 // swagger v2
                 "/v2/api-docs",
                 "/swagger-resources",
@@ -59,9 +54,12 @@ public class SecurityConfig {
                 .headers().frameOptions().sameOrigin();
 
         http
-                .authorizeRequests(authorize -> authorize
+                .authorizeRequests(
+                        authorize -> authorize
                         .antMatchers(swaggerPermitUrls).permitAll()
-                        .antMatchers("/auth/**").permitAll());
+                        .antMatchers("/auth/**").permitAll()
+                        .anyRequest().authenticated()
+                );
         return http.build();
     }
 }
