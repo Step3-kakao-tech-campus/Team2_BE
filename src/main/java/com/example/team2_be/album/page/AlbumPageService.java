@@ -9,7 +9,9 @@ import com.example.team2_be.album.page.image.AlbumPageImageJPARepository;
 import com.example.team2_be.core.error.exception.NotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,22 +41,21 @@ public class AlbumPageService {
     }
 
     private Album findAlbum(Long albumId) {
-        Album album = albumJPARepository.findById(albumId)
+        return albumJPARepository.findById(albumId)
                 .orElseThrow(() -> new NotFoundException("해당 id값을 가진 앨범을 찾을 수 없습니다. : " + albumId));
-        return album;
     }
 
     private void createImage(AlbumPage albumPage, Map<String, AssetDTO> assetDTOMap) {
-        for(AssetDTO assetDTO : assetDTOMap.values()){
-            AlbumPageImage albumPageImage = AlbumPageImage.builder()
-                    .albumPage(albumPage)
-                    .assetId(assetDTO.getId())
-                    .fileName(assetDTO.getFileName())
-                    .type(assetDTO.getType())
-                    .xSize(assetDTO.getSize()[0])
-                    .ySize(assetDTO.getSize()[1])
-                    .build();
-            albumPageImageJPARepository.save(albumPageImage);
-        }
+        List<AlbumPageImage> albumPageImages = assetDTOMap.values().stream()
+                .map(assetDTO -> AlbumPageImage.builder()
+                        .albumPage(albumPage)
+                        .assetId(assetDTO.getId())
+                        .fileName(assetDTO.getFileName())
+                        .type(assetDTO.getType())
+                        .xSize(assetDTO.getSize()[0])
+                        .ySize(assetDTO.getSize()[1])
+                        .build()).collect(Collectors.toList());
+
+        albumPageImageJPARepository.saveAll(albumPageImages);
     }
 }
