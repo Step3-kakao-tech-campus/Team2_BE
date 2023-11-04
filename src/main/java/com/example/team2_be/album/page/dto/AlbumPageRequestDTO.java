@@ -10,8 +10,7 @@ public class AlbumPageRequestDTO {
     @NotEmpty
     private Map<String, Object> shapes;
 
-    @NotEmpty
-    private String bindings;
+    private Map<String, Object> bindings;
 
     private Map<String, AssetDTO> assets;
 
