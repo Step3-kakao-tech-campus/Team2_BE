@@ -5,7 +5,7 @@ FROM gradle:8.2.1-jdk17 as build
 WORKDIR project
 
 # spring 소스 코드 이미지에 복사
-COPY --from=build /Team2_BE/build/libs/Team2_BE-0.0.1-SNAPSHOT.jar
+COPY --from=build /home/gradle/project/build/libs/Team2_BE-0.0.1-SNAPSHOT.jar
 RUN chmod +x gradlew
 
 # gradle 빌드시 proxy 설정을 gradle.properties에 추가
