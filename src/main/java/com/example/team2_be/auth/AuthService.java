@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -175,6 +176,14 @@ public class AuthService {
         }
         catch (Exception e) {
             throw new InternalSeverErrorException("토큰 발급 오류입니다");
+        }
+    }
+
+    @Transactional
+    public void logout(){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(redisTemplate.opsForValue().get("JWT_TOKEN:" + user.getId()) != null){
+            redisTemplate.delete("JWT_TOKEN:" + user.getId());
         }
     }
 
