@@ -13,6 +13,7 @@ import com.example.team2_be.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -29,6 +30,7 @@ public class AuthService {
     private final GoogleAuthClient googleAuthClient;
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Value("${kakao.rest-api-key}")
     private String kakaoRrestapiKey;
@@ -110,8 +112,10 @@ public class AuthService {
         }
 
         User user = userService.getUser(userAccount);
+        String token = jwtTokenProvider.create(user);
+        redisTemplate.opsForValue().set("JWT_TOKEN:" + user.getId(), token, JwtTokenProvider.EXP);
 
-        return jwtTokenProvider.create(user);
+        return token;
     }
 
     @Transactional
@@ -140,8 +144,10 @@ public class AuthService {
         }
 
         User user = userService.getUser(userAccount);
+        String token = jwtTokenProvider.create(user);
+        redisTemplate.opsForValue().set("JWT_TOKEN:" + user.getId(), token, JwtTokenProvider.EXP);
 
-        return jwtTokenProvider.create(user);
+        return token;
     }
 
     private GoogleTokenDTO getGoogleAccessToken(String code){
