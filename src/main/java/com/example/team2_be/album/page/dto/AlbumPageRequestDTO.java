@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public class AlbumPageRequestDTO {
     @NotEmpty
-    private String shapes;
+    private Map<String, Object> shapes;
 
     @NotEmpty
     private String bindings;
