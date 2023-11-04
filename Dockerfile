@@ -2,7 +2,7 @@
 FROM gradle:8.2.1-jdk17 as build
 
 # 작업 디렉토리 설정
-WORKDIR /home/gradle/project
+WORKDIR project
 
 # spring 소스 코드 이미지에 복사
 COPY . .
