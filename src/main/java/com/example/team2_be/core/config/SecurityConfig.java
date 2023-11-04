@@ -29,7 +29,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-         final String[] swaggerPermitUrls = {
+        final String[] swaggerPermitUrls = {
                 // swagger v2
                 "/v2/api-docs",
                 "/swagger-resources",
@@ -56,9 +56,12 @@ public class SecurityConfig {
                 .headers().frameOptions().sameOrigin();
 
         http
-                .authorizeRequests(authorize -> authorize
+                .authorizeRequests(
+                        authorize -> authorize
                         .antMatchers(swaggerPermitUrls).permitAll()
-                        .antMatchers("/auth/**").permitAll());
+                        .antMatchers("/auth/**").permitAll()
+                        .anyRequest().authenticated()
+                );
         return http.build();
     }
 }

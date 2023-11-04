@@ -43,3 +43,13 @@ google:
   redirect-url: http://localhost:3000/login/google
   client-id: ${GOOGLE_CLIENT_ID}
   client-secret: ${GOOGLE_CLIENT_SECRET}
+
+cloud:
+  aws:
+    s3:
+      bucket: kakaotechcampust-step3-nemobucket
+    stack.auto: false
+    region.static: ap-northeast-2
+    credentials:
+      accessKey: AKIAVBQDJ37FAVI2YLP2
+      secretKey: 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
