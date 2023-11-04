@@ -7,6 +7,7 @@ import com.example.team2_be.auth.dto.google.GoogleTokenDTO;
 import com.example.team2_be.auth.dto.kakao.KakaoAccessTokenRequestDTO;
 import com.example.team2_be.auth.dto.kakao.KakaoTokenDTO;
 import com.example.team2_be.core.error.exception.*;
+import com.example.team2_be.core.security.CustomUserDetails;
 import com.example.team2_be.core.security.JwtTokenProvider;
 import com.example.team2_be.user.User;
 import com.example.team2_be.user.UserService;
@@ -181,9 +182,12 @@ public class AuthService {
 
     @Transactional
     public void logout(){
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(redisTemplate.opsForValue().get("JWT_TOKEN:" + user.getId()) != null){
-            redisTemplate.delete("JWT_TOKEN:" + user.getId());
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof CustomUserDetails) {
+            User user = ((CustomUserDetails) principal).getUser();
+            if (redisTemplate.opsForValue().get("JWT_TOKEN:" + user.getId()) != null) {
+                redisTemplate.delete("JWT_TOKEN:" + user.getId());
+            }
         }
     }
 
