@@ -3,8 +3,10 @@ package com.example.team2_be.core.security;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.team2_be.core.error.exception.NotFoundException;
 import com.example.team2_be.user.Role;
 import com.example.team2_be.user.User;
+import com.example.team2_be.user.UserJPARepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,10 +24,12 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final UserJPARepository userJPARepository;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserJPARepository userJPARepository) {
         super(authenticationManager);
         this.jwtTokenProvider = jwtTokenProvider;
+        this.userJPARepository = userJPARepository;
     }
 
     @Override
@@ -40,13 +44,13 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         try {
             DecodedJWT decodedJWT = jwtTokenProvider.verify(jwt);
             Long id = decodedJWT.getClaim("id").asLong();
-            String role = decodedJWT.getClaim("role").asString();
-            Role userRole = Role.valueOf(role);
-            User user = User.builder().id(id).role(userRole).build();
+            User user = userJPARepository.findById(id).orElseThrow(
+                    () -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
             CustomUserDetails myUserDetails = new CustomUserDetails(user);
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(
                             myUserDetails,
+                            myUserDetails.getPassword(),
                             myUserDetails.getAuthorities()
                     );
             SecurityContextHolder.getContext().setAuthentication(authentication);
