@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/page")
+@RequestMapping("/albums")
 public class AlbumPageController {
     private final AlbumPageService albumPageService;
 
-    @PostMapping("/{albumId}")
+    @PostMapping("/{albumId}/pages")
     public ResponseEntity<ApiUtils.ApiResult> createPage(@RequestBody AlbumPageRequestDTO requestDTO, @PathVariable Long albumId) throws IOException {
         albumPageService.createPage(requestDTO, albumId);
         return ResponseEntity.ok(ApiUtils.success(null));
