@@ -1,6 +1,7 @@
-package com.example.team2_be.album.page;
+package com.example.team2_be.album.page.image;
 
 import com.example.team2_be.BaseEntity;
+import com.example.team2_be.album.page.AlbumPage;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -16,7 +17,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor
-public class AlbumImage extends BaseEntity {
+public class AlbumPageImage extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "AlbumPage")
     private AlbumPage albumPage;
@@ -37,7 +38,7 @@ public class AlbumImage extends BaseEntity {
     private double ySize;
 
     @Builder
-    public AlbumImage(AlbumPage albumPage, String assetId, String fileName, String type, double xSize, double ySize) {
+    public AlbumPageImage(AlbumPage albumPage, String assetId, String fileName, String type, double xSize, double ySize) {
         this.albumPage = albumPage;
         this.assetId = assetId;
         this.fileName = fileName;
