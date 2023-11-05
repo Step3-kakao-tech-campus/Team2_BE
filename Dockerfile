@@ -7,6 +7,9 @@ WORKDIR /home/gradle/project
 # spring 소스 코드 이미지에 복사
 COPY . .
 
+# gradle 빌드시 proxy 설정을 gradle.properties에 추가
+RUN echo "systemProp.http.proxyHost=krmp-proxy.9rum.cc\nsystemProp.http.proxyPort=3128\nsystemProp.https.proxyHost=krmp-proxy.9rum.cc\nsystemProp.https.proxyPort=3128" > /root/.gradle/gradle.properties
+
 # gradlew를 이용한 프로젝트 필드
 RUN chmod +x gradlew
 RUN ./gradlew clean build -x test
