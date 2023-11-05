@@ -21,7 +21,7 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # 빌드 결과 복사
-COPY --from=build /home/gradle/project/build/libs/Team2_BE-0.0.1-SNAPSHOT.jar ./app.jar
+COPY --from=build /home/gradle/project/build/libs/Team2_BE-0.0.1-SNAPSHOT.jar /home/gradle/project/build/libs/Team2_BE-0.0.1-SNAPSHOT.jar
 
 # 빌드 결과 jar 파일을 실행
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java", "-jar", "/home/gradle/project/build/libs/Team2_BE-0.0.1-SNAPSHOT.jar"]
