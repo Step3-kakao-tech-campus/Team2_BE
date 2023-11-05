@@ -8,6 +8,7 @@ import com.example.team2_be.user.Role;
 import com.example.team2_be.user.User;
 import com.example.team2_be.user.UserJPARepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,12 +25,14 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final RedisTemplate<String, Object> redisTemplate;
     private final UserJPARepository userJPARepository;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserJPARepository userJPARepository) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserJPARepository userJPARepository, RedisTemplate<String, Object> redisTemplate) {
         super(authenticationManager);
         this.jwtTokenProvider = jwtTokenProvider;
         this.userJPARepository = userJPARepository;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
@@ -53,8 +56,14 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
                             myUserDetails.getPassword(),
                             myUserDetails.getAuthorities()
                     );
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.debug("디버그 : 인증 객체 만들어짐");
+            String key = "JWT_TOKEN:" + id;
+            Object storedToken = redisTemplate.opsForValue().get(key);
+
+            // 로그인 여부 체크
+            if (Boolean.TRUE.equals(redisTemplate.hasKey(key)) && storedToken != null) {
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                log.debug("디버그 : 인증 객체 만들어짐");
+            }
         } catch (SignatureVerificationException sve) {
             log.error("토큰 검증 실패");
         } catch (TokenExpiredException tee) {
