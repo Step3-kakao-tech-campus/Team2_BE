@@ -5,7 +5,7 @@ FROM gradle:8.2.1-jdk11 as build
 WORKDIR project
 
 # spring 소스 코드 이미지에 복사
-COPY . .
+#COPY . .
 RUN chmod +x gradlew
 
 # gradle 빌드시 proxy 설정을 gradle.properties에 추가
@@ -19,4 +19,4 @@ COPY ./build/libs/Team2_BE-0.0.1-SNAPSHOT.jar .
 ENV DATABASE_URL=jdbc:mariadb://mariadb/krampoline
 
 # 빌드 결과 jar 파일을 실행
-CMD ["java", "-jar", "-Dspring.profiles.active=prod", "/home/gradle/project/build/libs/Team2_BE-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "-Dspring.profiles.active=prod", "./build/libs/Team2_BE-0.0.1-SNAPSHOT.jar"]
