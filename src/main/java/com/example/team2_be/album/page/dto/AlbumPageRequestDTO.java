@@ -1,31 +1,31 @@
-// package com.example.team2_be.album.page.dto;
+package com.example.team2_be.album.page.dto;
 
-// import java.util.Map;
-// import javax.validation.constraints.NotEmpty;
-// import javax.validation.constraints.NotNull;
-// import lombok.Getter;
+import java.util.Map;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import lombok.Getter;
 
-// @Getter
-// public class AlbumPageRequestDTO {
-//     @NotEmpty
-//     private Map<String, Object> shapes;
+@Getter
+public class AlbumPageRequestDTO {
+    @NotEmpty
+    private Map<String, Object> shapes;
 
-//     @NotEmpty
-//     private String bindings;
+    @NotEmpty
+    private String bindings;
 
-//     private Map<String, AssetDTO> assets;
+    private Map<String, AssetDTO> assets;
 
-//     @Getter
-//     public static class AssetDTO {
-//         @NotEmpty
-//         private String id;
-//         @NotEmpty
-//         private String type;
-//         @NotEmpty
-//         private String fileName;
-//         @NotEmpty
-//         private String src;
-//         @NotNull
-//         private double[] size;
-//     }
-// }
+    @Getter
+    public static class AssetDTO {
+        @NotEmpty
+        private String id;
+        @NotEmpty
+        private String type;
+        @NotEmpty
+        private String fileName;
+        @NotEmpty
+        private String src;
+        @NotNull
+        private double[] size;
+    }
+}
