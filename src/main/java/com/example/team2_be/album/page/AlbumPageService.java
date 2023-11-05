@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.team2_be.album.Album;
 import com.example.team2_be.album.AlbumJPARepository;
+import com.example.team2_be.album.page.dto.AlbumPageFindResponseDTO;
 import com.example.team2_be.album.page.dto.AlbumPageRequestDTO;
 import com.example.team2_be.album.page.dto.AlbumPageRequestDTO.AssetDTO;
 import com.example.team2_be.album.page.image.AlbumPageImage;
@@ -44,6 +45,14 @@ public class AlbumPageService {
                 .build();
         AlbumPage saveAlbumPage = albumPageJPARepository.save(albumPage);
         createImage(saveAlbumPage, assetDTOMap);
+    }
+
+    public AlbumPageFindResponseDTO findPage(Long pageId) {
+        AlbumPage albumPage = albumPageJPARepository.findById(pageId).orElseThrow(
+                () -> new NotFoundException("해당 페이지를 찾을 수 없습니다."));
+        AlbumPageImage albumPageImage = albumPageImageJPARepository.findByAlbumPageId(pageId);
+
+        return new AlbumPageFindResponseDTO(albumPage, albumPageImage);
     }
 
     private Album findAlbum(Long albumId) {
