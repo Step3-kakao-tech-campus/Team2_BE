@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: my-app-container-env
-          image: krmp-d2hub-idock.9rum.cc/dev-test/repo_c9dd8d31b05d
+          image: krmp-d2hub-idock.9rum.cc/dev-test/repo_cd64090e28b6
           env:
             - name: GOOGLE_CLIENT_ID
               valueFrom:
