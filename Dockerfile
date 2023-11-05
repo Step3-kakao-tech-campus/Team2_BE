@@ -13,7 +13,7 @@ RUN echo "systemProp.http.proxyHost=krmp-proxy.9rum.cc\nsystemProp.http.proxyPor
 
 # gradlew를 이용한 프로젝트 필드
 RUN ./gradlew clean build -x test
-COPY --from=builder /home/gradle/project/build/libs/Team2_BE-0.0.1-SNAPSHOT.jar .
+COPY --from=build /home/gradle/project/build/libs/Team2_BE-0.0.1-SNAPSHOT.jar .
 
 # DATABASE_URL을 환경 변수로 삽입
 ENV DATABASE_URL=jdbc:mariadb://mariadb/krampoline
