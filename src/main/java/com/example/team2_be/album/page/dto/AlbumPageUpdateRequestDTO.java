@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
-public class AlbumPageRequestDTO {
+public class AlbumPageUpdateRequestDTO {
     @NotEmpty
     private Map<String, Object> shapes;
 
