@@ -23,16 +23,23 @@ public class AlbumPage extends BaseEntity {
     @JoinColumn(name = "album_id")
     private Album album;
 
-    @Column(columnDefinition = "longtext", nullable = false)
+    @Column(columnDefinition = "longtext")
     private String shapes;
 
     @Column(columnDefinition = "longtext")
     private String bindings;
 
+    @Column(length = 512)
+    private String capturePageUrl;
+
     @Builder
-    public AlbumPage(Album album, String shapes, String bindings) {
+    public AlbumPage(Album album) {
         this.album = album;
+    }
+
+    void updateAlbumPage(String  shapes, String bindings, String capturePageUrl){
         this.shapes = shapes;
         this.bindings = bindings;
+        this.capturePageUrl = capturePageUrl;
     }
 }

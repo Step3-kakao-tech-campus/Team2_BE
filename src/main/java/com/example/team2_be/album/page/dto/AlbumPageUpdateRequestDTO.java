@@ -7,12 +7,14 @@ import lombok.Getter;
 
 @Getter
 public class AlbumPageUpdateRequestDTO {
-    @NotEmpty
     private Map<String, Object> shapes;
 
     private Map<String, Object> bindings;
 
     private Map<String, AssetDTO> assets;
+
+    @NotEmpty
+    private String capturePage;
 
     @Getter
     public static class AssetDTO {
