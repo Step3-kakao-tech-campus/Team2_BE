@@ -1,6 +1,6 @@
 namespace: default
 resources:
-  - mysql.yaml
+  - mariadb.yaml
   - backend.yaml
   - frontend.yaml
   - deployment.yaml
