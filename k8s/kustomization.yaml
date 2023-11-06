@@ -3,3 +3,4 @@ resources:
   - mariadb.yaml
   - backend.yaml
   - deployment.yaml
+  - nginx.yaml
