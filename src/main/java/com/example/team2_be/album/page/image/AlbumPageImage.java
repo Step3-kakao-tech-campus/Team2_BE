@@ -22,10 +22,10 @@ public class AlbumPageImage extends BaseEntity {
     @JoinColumn(name = "AlbumPage")
     private AlbumPage albumPage;
 
-    @Column(length = 128, nullable = false, unique = true)
+    @Column(length = 128, nullable = false)
     private String assetId;
 
-    @Column(length = 128, nullable = false, unique = true)
+    @Column(length = 128, nullable = false)
     private String fileName;
 
     @Column(length = 16, nullable = false)
