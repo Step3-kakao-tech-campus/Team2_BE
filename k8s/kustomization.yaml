@@ -4,6 +4,7 @@ resources:
   - backend.yaml
   - deployment.yaml
   - nginx.yaml
+  - redis.yaml
 configMapGenerator:
   - name: nginx
     files:
