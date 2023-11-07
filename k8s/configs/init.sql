@@ -114,8 +114,6 @@ CREATE TABLE album_members
     id  BIGINT  AUTO_INCREMENT  PRIMARY KEY,
     user_id  BIGINT,
     album_id  BIGINT,
-    create_at  DATETIME  DEFAULT CURRENT_TIMESTAMP,
-    update_at  DATETIME  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (album_id) REFERENCES albums (id)
 );
