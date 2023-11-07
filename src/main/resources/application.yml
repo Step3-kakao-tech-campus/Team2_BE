@@ -53,3 +53,10 @@ cloud:
     credentials:
       accessKey: AKIAVBQDJ37FAVI2YLP2
       secretKey: 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
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils : error
