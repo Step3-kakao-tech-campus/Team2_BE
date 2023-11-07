@@ -1,11 +1,14 @@
 namespace: default
 resources:
-  - mariadb.yaml
+  # - mariadb.yaml
   - backend.yaml
-  - frontend.yaml
   - deployment.yaml
   - nginx.yaml
+  - redis.yaml
 configMapGenerator:
   - name: nginx
     files:
       - configs/default.conf
+  - name: init-db
+    files:
+      - configs/init.sql
