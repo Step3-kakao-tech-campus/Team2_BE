@@ -30,7 +30,7 @@ public class TrashesFindResponseDTO {
 
         public TrashDTO(Trash trash) {
             this.trashId = trash.getId();
-            // 휴지통 페이지 미리보기 이미지 추가
+            this.image = trash.getAlbumPage().getCapturePageUrl();
             this.deleter = trash.getUser().getNickname();
             this.createAt = trash.getCreateAt();
             this.deleteAt = trash.getDeleteAt();
