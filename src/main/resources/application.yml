@@ -41,7 +41,7 @@ kakao:
   token-url: https://kauth.kakao.com/oauth/token
   user-api-url: https://kapi.kakao.com/v2/user/me
   rest-api-key: 0efff2c2f5f7de603b91cb6230b131ab
-  redirect-url:  http://localhost:3000
+  redirect-url:  http://localhost:3000/login/kakao
 
 google:
   token-url: https://oauth2.googleapis.com/token
