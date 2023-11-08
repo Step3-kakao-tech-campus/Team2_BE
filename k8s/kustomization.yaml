@@ -1,6 +1,6 @@
 namespace: default
 resources:
-  # - mariadb.yaml
+  - mariadb.yaml
   - backend.yaml
   - deployment.yaml
   - nginx.yaml
