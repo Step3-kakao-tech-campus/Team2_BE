@@ -5,7 +5,6 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.team2_be.album.Album;
 import com.example.team2_be.album.AlbumJPARepository;
 import com.example.team2_be.album.page.dto.AlbumPageFindResponseDTO;
-import com.example.team2_be.album.page.dto.AlbumPageFindResponseDTO.AssetFindDTO;
 import com.example.team2_be.album.page.dto.AlbumPageUpdateRequestDTO;
 import com.example.team2_be.album.page.dto.AlbumPageUpdateRequestDTO.AssetUpdateDTO;
 import com.example.team2_be.album.page.image.AlbumPageImage;
@@ -18,11 +17,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import javax.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +43,7 @@ public class AlbumPageService {
         checkEmptyAssetDTOMap(requestDTO.getAssets(), albumPage);
 
         String capturePageImageFileName =
-                albumPage.getAlbum().getId() + "번 앨범 내 " + albumPage.getId() + "번 앨범페이지 현재 상태 캡처 사진.png";
+                albumPage.getAlbum().getId() + "번 앨범 내 " + albumPage.getId() + "번 앨범페이지 현재 상태 캡처 사진.jpg";
         uploadImageToS3(requestDTO.getCapturePage(), capturePageImageFileName);
         albumPage.updateAlbumPage(shapes, bindings, getImageUrl(capturePageImageFileName));
     }
@@ -60,27 +59,13 @@ public class AlbumPageService {
     }
 
     @Transactional
-    public AlbumPageFindResponseDTO findPage(Long pageId) {
-        AlbumPage albumPage = albumPageJPARepository.findById(pageId).orElseThrow(
-                () -> new NotFoundException("해당 페이지를 찾을 수 없습니다."));
-        List<AlbumPageImage> albumPageImagesByPageId = albumPageImageJPARepository.findAllById(pageId);
+    public AlbumPageFindResponseDTO findPage(Pageable pageable) {
+        Page<AlbumPage> albumPages = albumPageJPARepository.findAll(pageable);
 
-        List<AssetFindDTO> assetFindDTOs = albumPageImagesByPageId.stream()
-                .map(albumPageImage -> AssetFindDTO.builder()
-                        .albumPageImage(albumPageImage)
-                        .url(getImageUrl(albumPageImage.getFileName()))
-                        .build())
-                .collect(Collectors.toList());
-
-        return AlbumPageFindResponseDTO.builder()
-                .shapes(albumPage.getShapes())
-                .bindings(albumPage.getBindings())
-                .assets(assetFindDTOs)
-                .build();
+        return new AlbumPageFindResponseDTO(albumPages.getContent());
     }
 
-    private void checkEmptyAssetDTOMap(Map<String, AssetUpdateDTO> assetDTOMap, AlbumPage albumPage)
-            throws IOException {
+    private void checkEmptyAssetDTOMap(Map<String, AssetUpdateDTO> assetDTOMap, AlbumPage albumPage) throws IOException {
         if (assetDTOMap != null) {
             createAlbumPageImage(albumPage, assetDTOMap);
         }
@@ -90,12 +75,13 @@ public class AlbumPageService {
         for (AssetUpdateDTO assetDTO : assetDTOMap.values()) {
             uploadImageToS3(assetDTO.getSrc(), assetDTO.getFileName());
             AlbumPageImage albumPageImage = AlbumPageImage.builder()
-                    .albumPage(albumPage)
                     .assetId(assetDTO.getId())
+                    .albumPage(albumPage)
                     .fileName(assetDTO.getFileName())
                     .type(assetDTO.getType())
                     .xSize(assetDTO.getSize()[0])
                     .ySize(assetDTO.getSize()[1])
+                    .url(getImageUrl(assetDTO.getFileName()))
                     .build();
             albumPageImageJPARepository.save(albumPageImage);
         }

@@ -5,6 +5,8 @@ import com.example.team2_be.album.page.dto.AlbumPageUpdateRequestDTO;
 import com.example.team2_be.core.utils.ApiUtils;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,9 +34,9 @@ public class AlbumPageController {
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
-    @GetMapping("/{pageId}")
-    public ResponseEntity<ApiUtils.ApiResult> findPage(@PathVariable Long albumId, @PathVariable Long pageId) {
-        AlbumPageFindResponseDTO findDTO = albumPageService.findPage(pageId);
+    @GetMapping
+    public ResponseEntity<ApiUtils.ApiResult> findPage(@PageableDefault(size = 4) Pageable pageable) {
+        AlbumPageFindResponseDTO findDTO = albumPageService.findPage(pageable);
         return ResponseEntity.ok(ApiUtils.success(findDTO));
     }
 }
