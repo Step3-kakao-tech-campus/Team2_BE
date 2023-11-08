@@ -16,26 +16,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/albums")
+@RequestMapping("/api/albums/{albumId}/pages")
 public class AlbumPageController {
     private final AlbumPageService albumPageService;
 
-    @PutMapping("/{albumId}/pages/{pageId}")
+    @PutMapping("/{pageId}")
     public ResponseEntity<ApiUtils.ApiResult> updatePage(@RequestBody AlbumPageUpdateRequestDTO requestDTO, @PathVariable Long pageId) throws IOException {
         albumPageService.updatePage(requestDTO, pageId);
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
-    @PostMapping("/{albumId}/pages")
-    public ResponseEntity<ApiUtils.ApiResult> createPage(@PathVariable Long albumId){
+    @PostMapping
+    public ResponseEntity<ApiUtils.ApiResult> createPage(@PathVariable Long albumId) {
         albumPageService.createPage(albumId);
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
-
-
-    @GetMapping("/{albumId}/pages/{pageId}")
-    public ResponseEntity<ApiUtils.ApiResult> find(@PathVariable Long albumId, @PathVariable Long pageId) throws IOException {
+    @GetMapping("/{pageId}")
+    public ResponseEntity<ApiUtils.ApiResult> findPage(@PathVariable Long albumId, @PathVariable Long pageId) {
         AlbumPageFindResponseDTO findDTO = albumPageService.findPage(pageId);
         return ResponseEntity.ok(ApiUtils.success(findDTO));
     }
