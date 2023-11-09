@@ -176,6 +176,7 @@ public class AuthService {
             }
         }
         catch (Exception e) {
+            System.out.println(e);
             throw new InternalSeverErrorException("토큰 발급 오류입니다");
         }
     }
