@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "album")
@@ -31,17 +30,17 @@ public class Album extends BaseEntity {
     private Category category;
 
     @Builder
-    public Album (String albumName, String description, String image, Category category){
-        this.albumName=albumName;
-        this.description=description;
-        this.image=image;
-        this.category=category;
+    public Album(String albumName, String description, String image, Category category) {
+        this.albumName = albumName;
+        this.description = description;
+        this.image = image;
+        this.category = category;
     }
 
     // 앨범 업데이트
-    public void update (String albumName, String description, String image){
-        this.albumName=albumName;
-        this.description=description;
-        this.image=image;
+    public void updateAlbum(String albumName, String description, String image) {
+        this.albumName = albumName;
+        this.description = description;
+        this.image = image;
     }
 }

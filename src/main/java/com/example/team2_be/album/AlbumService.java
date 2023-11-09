@@ -44,7 +44,7 @@ public class AlbumService {
         String updatedDescription = requestDTO.getDescription() != null ? requestDTO.getDescription() : album.getDescription();
         String updatedImage = requestDTO.getImage() != null ? requestDTO.getImage() : album.getImage();
 
-        album.update(updatedAlbumName,updatedDescription,updatedImage);
+        album.updateAlbum(updatedAlbumName,updatedDescription,updatedImage);
 
         return album;
     }
