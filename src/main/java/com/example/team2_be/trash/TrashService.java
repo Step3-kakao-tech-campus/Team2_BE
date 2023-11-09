@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TrashService {
-
+    private static final String BUKET_NAME = "kakaotechcampust-step3-nemobucket";
     private final TrashJPARepository trashJPARepository;
     private final AlbumPageJPARepository albumPageJPARepository;
     private final AmazonS3Client amazonS3Client;
@@ -50,7 +50,7 @@ public class TrashService {
 
         deletePages.forEach(albumPage -> {
             albumPage.getAlbumPageImages().forEach(albumPageImage -> {
-                amazonS3Client.deleteObject("kakaotechcampust-step3-nemobucket", albumPageImage.getFileName());
+                amazonS3Client.deleteObject(BUKET_NAME, albumPageImage.getFileName());
             });
         });
 

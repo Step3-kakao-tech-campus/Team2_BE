@@ -20,14 +20,14 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<ApiUtils.ApiResult<UserInfoFindResponseDTO>> find(@PathVariable Long userId) {
+    public ResponseEntity<ApiUtils.ApiResult<UserInfoFindResponseDTO>> findUser(@PathVariable Long userId) {
         UserInfoFindResponseDTO findDTO = userService.findUserInfo(userId);
 
         return ResponseEntity.ok(ApiUtils.success(findDTO));
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<?> update(@PathVariable Long userId, @RequestBody @Valid UserInfoUpdateRequestDTO updateDTO) {
+    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody @Valid UserInfoUpdateRequestDTO updateDTO) {
         userService.updateUserInfo(updateDTO, userId);
 
         return ResponseEntity.ok(ApiUtils.success(null));
