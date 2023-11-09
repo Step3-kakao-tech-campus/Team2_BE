@@ -14,8 +14,8 @@ RUN echo "systemProp.http.proxyHost=krmp-proxy.9rum.cc\nsystemProp.http.proxyPor
 RUN chmod +x gradlew
 RUN ./gradlew clean build -x test
 
-# # DATABASE_URL을 환경 변수로 삽입
-# ENV DATABASE_URL=jdbc:mysql://mysql:3306/krampoline
+# DATABASE_URL을 환경 변수로 삽입
+ENV DATABASE_URL=jdbc:mysql://mysql:3306/krampoline
 
 # 빌드 결과를 위한 새로운 단계
 FROM openjdk:11-jre-slim
