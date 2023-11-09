@@ -13,28 +13,28 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "albumImage")
+@Table(name = "album_images")
 @Getter
 @ToString
 @NoArgsConstructor
 public class AlbumPageImage extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "albumPage")
+    @JoinColumn(name = "album_page_id")
     private AlbumPage albumPage;
 
-    @Column(length = 128, nullable = false)
+    @Column(name = "asset_id", length = 128, nullable = false)
     private String assetId;
 
-    @Column(length = 128, nullable = false)
+    @Column(name = "file_name", length = 128, nullable = false)
     private String fileName;
 
     @Column(length = 16, nullable = false)
     private String type;
 
-    @Column(nullable = false)
+    @Column(name = "x_size", nullable = false)
     private double xSize;
 
-    @Column(nullable = false)
+    @Column(name = "y_size", nullable = false)
     private double ySize;
 
     @Column(length = 2056)

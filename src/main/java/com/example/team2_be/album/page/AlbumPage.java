@@ -18,7 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-@Table(name = "albumPage")
+@Table(name = "album_pages")
 @Getter
 @ToString
 @NoArgsConstructor
@@ -33,7 +33,7 @@ public class AlbumPage extends BaseEntity {
     @Column(columnDefinition = "longtext")
     private String bindings;
 
-    @Column(length = 512)
+    @Column(name = "capture_page_url", length = 512)
     private String capturePageUrl;
 
     @OneToMany(mappedBy = "albumPage")
