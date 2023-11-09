@@ -19,7 +19,6 @@ public class AlbumService {
     private final AlbumJPARepository albumJPARepository;
     private final UserJPARepository userJPARepository;
 
-    //앨범 생성 기능
     @Transactional
     public Album createAlbum(AlbumCreateRequestDTO requestDTO){
 
@@ -34,7 +33,6 @@ public class AlbumService {
         return newAlbum;
     }
 
-    //앨범 정보 수정 기능
     @Transactional
     public Album updateAlbum(AlbumUpdaterequestDTO requestDTO, Long AlbumId) {
         Album album = albumJPARepository.findById(AlbumId)

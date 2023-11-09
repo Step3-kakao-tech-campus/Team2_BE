@@ -23,11 +23,14 @@ import org.springframework.web.client.HttpStatusCodeException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AuthService {
+    private final String JWT_TOKEN = "JWT_TOKEN:";
+    private final String AUTHORIZATION_CODE = "authorization_code";
     private final KakaoAuthClient kakaoAuthClient;
     private final GoogleAuthClient googleAuthClient;
     private final UserService userService;
@@ -62,16 +65,16 @@ public class AuthService {
     private String googleUserUrl;
 
 
-    private KakaoTokenDTO getKakaoAccessToken(String code){
+    private KakaoTokenDTO getKakaoAccessToken(String code) {
         try {
             return kakaoAuthClient.getToken(URI.create(kakaoTokenUrl), KakaoAccessTokenRequestDTO.builder()
                     .clientId(kakaoRrestapiKey)
                     .code(code)
                     .redirectUri(kakaoRedirectUrl)
-                    .grantType("authorization_code")
+                    .grantType(AUTHORIZATION_CODE)
                     .build());
-        } catch (HttpStatusCodeException e){
-            switch (e.getStatusCode().value()){
+        } catch (HttpStatusCodeException e) {
+            switch (e.getStatusCode().value()) {
                 case 400:
                     throw new BadRequestException("잘못된 요청입니다");
                 case 401:
@@ -83,20 +86,20 @@ public class AuthService {
                 default:
                     throw new InternalSeverErrorException("토큰 발급 오류입니다");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new InternalSeverErrorException("토큰 발급 오류입니다");
         }
     }
 
-    public String kakaoLogin(String code){
+    public String kakaoLogin(String code) {
         KakaoTokenDTO userToken = getKakaoAccessToken(code);
         UserAccountDTO userAccount = null;
 
         try {
-            userAccount = kakaoAuthClient.getInfo(URI.create(kakaoUserUrl), userToken.getTokenType() + " " + userToken.getAccessToken());
-        } catch (HttpStatusCodeException e){
-            switch (e.getStatusCode().value()){
+            userAccount = kakaoAuthClient.getInfo(URI.create(kakaoUserUrl),
+                    userToken.getTokenType() + " " + userToken.getAccessToken());
+        } catch (HttpStatusCodeException e) {
+            switch (e.getStatusCode().value()) {
                 case 400:
                     throw new BadRequestException("잘못된 요청입니다");
                 case 401:
@@ -108,27 +111,27 @@ public class AuthService {
                 default:
                     throw new InternalSeverErrorException("유저 정보 확인 오류입니다");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new InternalSeverErrorException("유저 정보 확인 오류입니다");
         }
 
         User user = userService.getUser(userAccount);
         String token = jwtTokenProvider.create(user);
-        redisTemplate.opsForValue().set("JWT_TOKEN:" + user.getId(), token, JwtTokenProvider.EXP);
+        redisTemplate.opsForValue().set(JWT_TOKEN + user.getId(), token, JwtTokenProvider.EXP);
 
         return token;
     }
 
     @Transactional
-    public String googleLogin(String code){
+    public String googleLogin(String code) {
         GoogleTokenDTO googleTokenDTO = getGoogleAccessToken(code);
         GoogleAccountDTO userAccount = null;
 
         try {
-            userAccount = googleAuthClient.getInfo(URI.create(googleUserUrl), googleTokenDTO.getTokenType() + " " + decoding(googleTokenDTO.getAccessToken()));
-        } catch (HttpStatusCodeException e){
-            switch (e.getStatusCode().value()){
+            userAccount = googleAuthClient.getInfo(URI.create(googleUserUrl),
+                    googleTokenDTO.getTokenType() + " " + decoding(googleTokenDTO.getAccessToken()));
+        } catch (HttpStatusCodeException e) {
+            switch (e.getStatusCode().value()) {
                 case 400:
                     throw new BadRequestException("잘못된 요청입니다");
                 case 401:
@@ -140,19 +143,18 @@ public class AuthService {
                 default:
                     throw new InternalSeverErrorException("유저 정보 확인 오류입니다");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new InternalSeverErrorException("유저 정보 확인 오류입니다");
         }
 
         User user = userService.getUser(userAccount);
         String token = jwtTokenProvider.create(user);
-        redisTemplate.opsForValue().set("JWT_TOKEN:" + user.getId(), token, JwtTokenProvider.EXP);
+        redisTemplate.opsForValue().set(JWT_TOKEN + user.getId(), token, JwtTokenProvider.EXP);
 
         return token;
     }
 
-    private GoogleTokenDTO getGoogleAccessToken(String code){
+    private GoogleTokenDTO getGoogleAccessToken(String code) {
         try {
             return googleAuthClient.getToken(URI.create(googleTokenUrl), GoogleAccessTokenRequestDTO.builder()
                     .clientId(googleClientId)
@@ -161,8 +163,8 @@ public class AuthService {
                     .code(decoding(code))
                     .grantType("authorization_code")
                     .build());
-        } catch (HttpStatusCodeException e){
-            switch (e.getStatusCode().value()){
+        } catch (HttpStatusCodeException e) {
+            switch (e.getStatusCode().value()) {
                 case 400:
                     throw new BadRequestException("잘못된 요청입니다");
                 case 401:
@@ -174,24 +176,23 @@ public class AuthService {
                 default:
                     throw new InternalSeverErrorException("토큰 발급 오류입니다");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new InternalSeverErrorException("토큰 발급 오류입니다");
         }
     }
 
     @Transactional
-    public void logout(){
+    public void logout() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof CustomUserDetails) {
             User user = ((CustomUserDetails) principal).getUser();
-            if (redisTemplate.opsForValue().get("JWT_TOKEN:" + user.getId()) != null) {
-                redisTemplate.delete("JWT_TOKEN:" + user.getId());
+            if (redisTemplate.opsForValue().get(JWT_TOKEN + user.getId()) != null) {
+                redisTemplate.delete(JWT_TOKEN + user.getId());
             }
         }
     }
 
-    private String decoding(String code){
+    private String decoding(String code) {
         String decodedCode = "";
         try {
             decodedCode = java.net.URLDecoder.decode(code, StandardCharsets.UTF_8.name());

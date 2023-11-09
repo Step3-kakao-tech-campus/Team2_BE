@@ -28,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class AlbumPageService {
+    private static final String IMAGE_DATA_DELIMITER = ",";
+    private static final String BUKET_NAME = "kakaotechcampust-step3-nemobucket";
     private final AlbumJPARepository albumJPARepository;
     private final AlbumPageJPARepository albumPageJPARepository;
     private final AlbumPageImageJPARepository albumPageImageJPARepository;
@@ -65,7 +67,8 @@ public class AlbumPageService {
         return new AlbumPageFindResponseDTO(albumPages.getContent());
     }
 
-    private void checkEmptyAssetDTOMap(Map<String, AssetUpdateDTO> assetDTOMap, AlbumPage albumPage) throws IOException {
+    private void checkEmptyAssetDTOMap(Map<String, AssetUpdateDTO> assetDTOMap, AlbumPage albumPage)
+            throws IOException {
         if (assetDTOMap != null) {
             createAlbumPageImage(albumPage, assetDTOMap);
         }
@@ -104,7 +107,7 @@ public class AlbumPageService {
     }
 
     private File getImageFromBase64(String src, String fileName) throws IOException {
-        String base64Image = src.split(",")[1];
+        String base64Image = src.split(IMAGE_DATA_DELIMITER)[1];
         byte[] data = DatatypeConverter.parseBase64Binary(base64Image);
         File file = new File(fileName);
         try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file))) {
@@ -114,8 +117,7 @@ public class AlbumPageService {
     }
 
     private String getImageUrl(String fileName) {
-        URL url = amazonS3Client.getUrl("kakaotechcampust-step3-nemobucket", fileName);
-        String urltext = "" + url;
-        return urltext;
+        URL url = amazonS3Client.getUrl(BUKET_NAME, fileName);
+        return "" + url;
     }
 }

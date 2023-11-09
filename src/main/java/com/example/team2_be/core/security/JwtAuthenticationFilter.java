@@ -23,7 +23,7 @@ import java.io.IOException;
 
 @Slf4j
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
-
+    private static final String JWT_TOKEN = "JWT_TOKEN:";
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, Object> redisTemplate;
     private final UserJPARepository userJPARepository;
@@ -56,7 +56,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
                             myUserDetails.getPassword(),
                             myUserDetails.getAuthorities()
                     );
-            String key = "JWT_TOKEN:" + id;
+            String key = JWT_TOKEN + id;
             Object storedToken = redisTemplate.opsForValue().get(key);
 
             // 로그인 여부 체크
