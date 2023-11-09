@@ -18,7 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-@Table(name = "albumPage")
+@Table(name = "album_page")
 @Getter
 @ToString
 @NoArgsConstructor
@@ -36,7 +36,7 @@ public class AlbumPage extends BaseEntity {
     @Column(length = 512)
     private String capturePageUrl;
 
-    @OneToMany(mappedBy = "albumPage")
+    @OneToMany(mappedBy = "album_page")
     private List<AlbumPageImage> albumPageImages = new ArrayList<>();
 
     @Builder

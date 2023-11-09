@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "albumImage")
+@Table(name = "album_image")
 @Getter
 @ToString
 @NoArgsConstructor
 public class AlbumPageImage extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "albumPage")
+    @JoinColumn(name = "album_page")
     private AlbumPage albumPage;
 
     @Column(length = 128, nullable = false)
