@@ -30,4 +30,4 @@ COPY --from=build /home/gradle/project/build/libs/Team2_BE-0.0.1-SNAPSHOT.jar /h
 EXPOSE 8080
 
 # 빌드 결과 jar 파일을 실행
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "/home/gradle/project/build/libs/Team2_BE-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=pord", "/home/gradle/project/build/libs/Team2_BE-0.0.1-SNAPSHOT.jar"]
