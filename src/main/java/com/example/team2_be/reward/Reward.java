@@ -8,20 +8,20 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "rewards")
 @Getter
 @ToString
 @NoArgsConstructor
 public class Reward extends BaseEntity {
-    @Column(length = 128, nullable = false)
+    @Column(name = "reward_name", length = 128, nullable = false)
     private String rewardName;
 
     @Column(length = 256, nullable = false)
     private String description;
 
-    @Column(length = 16, nullable = false)
+    @Column(name = "reward_level", length = 16, nullable = false)
     private String level;
 
-    @Column(nullable = false)
+    @Column(name = "goal_count", nullable = false)
     private int goalCount;
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/albums/{albumId}/members")
+@RequestMapping("/api/albums/{albumId}/members")
 public class AlbumMemberController {
 
     private final AlbumMemberService albumMemberService;
