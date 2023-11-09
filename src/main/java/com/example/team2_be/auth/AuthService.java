@@ -9,11 +9,13 @@ import com.example.team2_be.auth.dto.kakao.KakaoTokenDTO;
 import com.example.team2_be.core.error.exception.*;
 import com.example.team2_be.core.security.CustomUserDetails;
 import com.example.team2_be.core.security.JwtTokenProvider;
+import com.example.team2_be.core.utils.GoogleAuthProperties;
+import com.example.team2_be.core.utils.KakaoAuthProperties;
 import com.example.team2_be.user.User;
 import com.example.team2_be.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -37,40 +39,17 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, Object> redisTemplate;
 
-    @Value("${kakao.rest-api-key}")
-    private String kakaoRrestapiKey;
-
-    @Value("${kakao.redirect-url}")
-    private String kakaoRedirectUrl;
-
-    @Value("${kakao.token-url}")
-    private String kakaoTokenUrl;
-
-    @Value("${kakao.user-api-url}")
-    private String kakaoUserUrl;
-
-    @Value("${google.client-id}")
-    private String googleClientId;
-
-    @Value("${google.client-secret}")
-    private String googleClientSecret;
-
-    @Value("${google.redirect-url}")
-    private String googleRedirectUrl;
-
-    @Value("${google.token-url}")
-    private String googleTokenUrl;
-
-    @Value("${google.user-api-url}")
-    private String googleUserUrl;
-
+    @Autowired
+    KakaoAuthProperties kakaoAuthProperties;
+    @Autowired
+    GoogleAuthProperties googleAuthProperties;
 
     private KakaoTokenDTO getKakaoAccessToken(String code) {
         try {
-            return kakaoAuthClient.getToken(URI.create(kakaoTokenUrl), KakaoAccessTokenRequestDTO.builder()
-                    .clientId(kakaoRrestapiKey)
+            return kakaoAuthClient.getToken(URI.create(kakaoAuthProperties.getTokenUrl()), KakaoAccessTokenRequestDTO.builder()
+                    .clientId(kakaoAuthProperties.getRestApiKey())
                     .code(code)
-                    .redirectUri(kakaoRedirectUrl)
+                    .redirectUri(kakaoAuthProperties.getRedirectUrl())
                     .grantType(AUTHORIZATION_CODE)
                     .build());
         } catch (HttpStatusCodeException e) {
@@ -96,7 +75,7 @@ public class AuthService {
         UserAccountDTO userAccount = null;
 
         try {
-            userAccount = kakaoAuthClient.getInfo(URI.create(kakaoUserUrl),
+            userAccount = kakaoAuthClient.getInfo(URI.create(kakaoAuthProperties.getUserApiUrl()),
                     userToken.getTokenType() + " " + userToken.getAccessToken());
         } catch (HttpStatusCodeException e) {
             switch (e.getStatusCode().value()) {
@@ -128,7 +107,7 @@ public class AuthService {
         GoogleAccountDTO userAccount = null;
 
         try {
-            userAccount = googleAuthClient.getInfo(URI.create(googleUserUrl),
+            userAccount = googleAuthClient.getInfo(URI.create(googleAuthProperties.getUserApiUrl()),
                     googleTokenDTO.getTokenType() + " " + decoding(googleTokenDTO.getAccessToken()));
         } catch (HttpStatusCodeException e) {
             switch (e.getStatusCode().value()) {
@@ -149,17 +128,17 @@ public class AuthService {
 
         User user = userService.getUser(userAccount);
         String token = jwtTokenProvider.create(user);
-        redisTemplate.opsForValue().set(JWT_TOKEN + user.getId(), token, JwtTokenProvider.EXP);
+        redisTemplate.opsForValue().set("JWT_TOKEN:" + user.getId(), token, JwtTokenProvider.EXP);
 
         return token;
     }
 
     private GoogleTokenDTO getGoogleAccessToken(String code) {
         try {
-            return googleAuthClient.getToken(URI.create(googleTokenUrl), GoogleAccessTokenRequestDTO.builder()
-                    .clientId(googleClientId)
-                    .clientSecret(googleClientSecret)
-                    .redirectUri(googleRedirectUrl)
+            return googleAuthClient.getToken(URI.create(googleAuthProperties.getTokenUrl()), GoogleAccessTokenRequestDTO.builder()
+                    .clientId(googleAuthProperties.getClientId())
+                    .clientSecret(googleAuthProperties.getClientSecret())
+                    .redirectUri(googleAuthProperties.getRedirectUrl())
                     .code(decoding(code))
                     .grantType("authorization_code")
                     .build());
