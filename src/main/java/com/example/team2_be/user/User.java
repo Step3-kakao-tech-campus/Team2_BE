@@ -25,7 +25,7 @@ public class User extends BaseEntity {
     private String image;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(length = 16, nullable = false)
+    @Column(name = "user_role", length = 16, nullable = false)
     private Role role;
 
     @Builder

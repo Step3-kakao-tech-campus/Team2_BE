@@ -11,12 +11,12 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "progresses")
 @Getter
 @ToString
 @NoArgsConstructor
 public class Progress extends BaseEntity {
-    @Column(nullable = false)
+    @Column(name = "progress_count", nullable = false)
     private int count;
 
     @Column(length = 1, nullable = false)
