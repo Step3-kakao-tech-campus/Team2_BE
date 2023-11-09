@@ -19,4 +19,10 @@ public class AuthController {
     public @ResponseBody ResponseEntity<ApiUtils.ApiResult<String>> googleLogin(@RequestBody String code){
         return ResponseEntity.ok(ApiUtils.success(authService.googleLogin(code)));
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<ApiUtils.ApiResult<Void>> logout(){
+        authService.logout();
+        return ResponseEntity.ok(ApiUtils.success(null));
+    }
 }

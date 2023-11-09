@@ -1,3 +1,9 @@
+server:
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true
+  port: 8080
 spring:
   datasource:
     url: jdbc:h2:mem:test;MODE=MySQL
@@ -17,6 +23,12 @@ spring:
         format_sql: true
       default_batch_fetch_size: 100
     open-in-view: false
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  redis:
+    host: localhost
+    port: 6379
 
 jwt:
   secretKey: ENC(FFqIhuVHP55GbmEItS8qE6yuBnqu6uy8pH7iGmebJW9NB0AEtYPesSJndj1Mqb2H2CasgMESlggdCQDnY98j8US2kEbSVEiqip3xIbBrRlPNVbzzIb4wLrgfHxZks9gdmGCaqttRLw8=)
@@ -35,5 +47,23 @@ google:
   token-url: https://oauth2.googleapis.com/token
   user-api-url: https://www.googleapis.com/oauth2/v3/userinfo
   redirect-url: http://localhost:3000/login/google
-  client-id: ${GOOGLE_CLIENT_ID}
-  client-secret: ${GOOGLE_CLIENT_SECRET}
+  client-id: ${env:GOOGLE_CLIENT_ID}
+  client-secret: ${env:GOOGLE_CLIENT_SECRET}
+
+cloud:
+  aws:
+    s3:
+      bucket: kakaotechcampust-step3-nemobucket
+    stack.auto: false
+    region.static: ap-northeast-2
+    credentials:
+      accessKey: AKIAVBQDJ37FAVI2YLP2
+      secretKey: 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
+      
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils : error
+

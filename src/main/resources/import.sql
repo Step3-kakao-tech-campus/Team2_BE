@@ -19,6 +19,8 @@ INSERT INTO progress (`id`, `count`, `success`, `user_id`, `reward_id`) VALUES (
 INSERT INTO progress (`id`, `count`, `success`, `user_id`, `reward_id`) VALUES ('2', '0', 'N', '1', '2');
 INSERT INTO progress (`id`, `count`, `success`, `user_id`, `reward_id`) VALUES ('3', '0', 'Y', '1', '3');
 
+-- 앨범
+INSERT INTO album (`id` , `album_name`, `description`, `image`, `category`) VALUES ('1', '테스트 앨범', '테스트용 앨범', '""', 'Friends');
 
 -- 칭호
 INSERT INTO title (`id` , `title_name`, `reward_id`) VALUES ('1', '내가 관리자라니!!', '1');
