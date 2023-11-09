@@ -5,15 +5,6 @@ server:
       force: true
   port: 8080
 spring:
-  datasource:
-    url: jdbc:h2:mem:test;MODE=MySQL
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
   jpa:
     hibernate:
       ddl-auto: create
@@ -47,8 +38,8 @@ google:
   token-url: https://oauth2.googleapis.com/token
   user-api-url: https://www.googleapis.com/oauth2/v3/userinfo
   redirect-url: https://localhost:3000/login/google
-  client-id: ${env:GOOGLE_CLIENT_ID}
-  client-secret: ${env:GOOGLE_CLIENT_SECRET}
+  client-id: ${GOOGLE_CLIENT_ID}
+  client-secret: ${GOOGLE_CLIENT_SECRET}
 
 cloud:
   aws:

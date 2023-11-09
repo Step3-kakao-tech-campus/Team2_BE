@@ -14,9 +14,6 @@ RUN echo "systemProp.http.proxyHost=krmp-proxy.9rum.cc\nsystemProp.http.proxyPor
 RUN chmod +x gradlew
 RUN ./gradlew clean build -x test
 
-# # DATABASE_URL을 환경 변수로 삽입
-# ENV DATABASE_URL=jdbc:mariadb://mariadb/krampoline
-
 # 빌드 결과를 위한 새로운 단계
 FROM openjdk:11-jre-slim
 
@@ -26,5 +23,8 @@ WORKDIR /app
 # 빌드 결과 복사
 COPY --from=build /home/gradle/project/build/libs/Team2_BE-0.0.1-SNAPSHOT.jar /home/gradle/project/build/libs/Team2_BE-0.0.1-SNAPSHOT.jar
 
+# 서버가 실행될 때 사용되는 포트
+EXPOSE 8080
+
 # 빌드 결과 jar 파일을 실행
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "/home/gradle/project/build/libs/Team2_BE-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=pord", "/home/gradle/project/build/libs/Team2_BE-0.0.1-SNAPSHOT.jar"]
