@@ -4,6 +4,7 @@ server:
       charset: utf-8
       force: true
   port: 8080
+spring:
   jpa:
     hibernate:
       ddl-auto: create
