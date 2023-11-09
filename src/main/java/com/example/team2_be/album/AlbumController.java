@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/albums")
+@RequestMapping("/api/albums")
 public class AlbumController {
     private final AlbumService albumService;
     private final AlbumMemberService albumMemberService;

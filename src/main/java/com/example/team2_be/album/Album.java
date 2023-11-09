@@ -10,12 +10,13 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "album")
+@Table(name = "albums")
 @Getter
 @ToString
 @NoArgsConstructor
 public class Album extends BaseEntity {
-    @Column(length = 32, nullable = false)
+
+    @Column(name = "album_name", length = 32, nullable = false)
     private String albumName;
 
     @Column(length = 512, nullable = false)

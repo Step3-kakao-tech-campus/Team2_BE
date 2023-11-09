@@ -22,9 +22,11 @@ public abstract class BaseEntity {
     private Long id;
 
     @CreatedDate
+    @Column(name = "create_at")
     private LocalDateTime createAt;
 
     @LastModifiedDate
+    @Column(name = "update_at")
     private LocalDateTime updateAt;
 
     public BaseEntity(Long id) {

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/albums/{albumId}/trashes")
+@RequestMapping("/api/albums/{albumId}/trashes")
 public class TrashController {
     private final TrashService trashService;
 
