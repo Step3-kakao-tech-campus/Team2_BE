@@ -11,13 +11,24 @@ public class AlbumPageUpdateRequestDTO {
 
     private Map<String, Object> bindings;
 
-    private Map<String, AssetDTO> assets;
+    private Map<String, AssetUpdateDTO> assets;
 
     @NotEmpty
     private String capturePage;
 
+    public AlbumPageUpdateRequestDTO(Map<String, Object> shapes,
+                                     Map<String, Object> bindings,
+                                     Map<String, AssetUpdateDTO> assets,
+                                     String capturePage)
+    {
+        this.shapes = shapes;
+        this.bindings = bindings;
+        this.assets = assets;
+        this.capturePage = capturePage;
+    }
+
     @Getter
-    public static class AssetDTO {
+    public static class AssetUpdateDTO {
         @NotEmpty
         private String id;
         @NotEmpty
@@ -28,5 +39,13 @@ public class AlbumPageUpdateRequestDTO {
         private String src;
         @NotNull
         private double[] size;
+
+        public AssetUpdateDTO(String id, String type, String fileName, String src, @NotNull double[] size) {
+            this.id = id;
+            this.type = type;
+            this.fileName = fileName;
+            this.src = src;
+            this.size = size;
+        }
     }
 }

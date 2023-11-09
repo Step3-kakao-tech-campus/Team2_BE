@@ -1,7 +1,9 @@
 package com.example.team2_be.trash;
 
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.example.team2_be.album.page.AlbumPage;
 import com.example.team2_be.album.page.AlbumPageJPARepository;
+import com.example.team2_be.album.page.image.AlbumPageImage;
 import com.example.team2_be.core.error.exception.NotFoundException;
 import com.example.team2_be.trash.dto.TrashesFindResponseDTO;
 import com.example.team2_be.user.User;
@@ -22,6 +24,7 @@ public class TrashService {
 
     private final TrashJPARepository trashJPARepository;
     private final AlbumPageJPARepository albumPageJPARepository;
+    private final AmazonS3Client amazonS3Client;
 
     public TrashesFindResponseDTO findTrashes(Long albumId, Pageable pageable){
         Page<Trash> trashes = trashJPARepository.findAllByAlbumId(albumId, pageable);
@@ -44,6 +47,13 @@ public class TrashService {
         List<AlbumPage> deletePages = after7days.stream()
                 .map(Trash::getAlbumPage)
                 .collect(Collectors.toList());
+
+        deletePages.forEach(albumPage -> {
+            albumPage.getAlbumPageImages().forEach(albumPageImage -> {
+                amazonS3Client.deleteObject("kakaotechcampust-step3-nemobucket", albumPageImage.getFileName());
+            });
+        });
+
         albumPageJPARepository.deleteAllInBatch(deletePages);
     }
 
