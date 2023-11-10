@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class S3Config {
-    @Autowired
     CloudProperties cloudProperties;
 
     @Autowired
@@ -21,10 +20,10 @@ public class S3Config {
 
     @Bean
     public AmazonS3Client amazonS3Client() {
-        BasicAWSCredentials credentials = new BasicAWSCredentials(cloudProperties.getCredentialsAccessKey(),
-                cloudProperties.getCredentialsSecretKey());
+        BasicAWSCredentials credentials = new BasicAWSCredentials(cloudProperties.getCredentials().get("accessKey"),
+                cloudProperties.getCredentials().get("secretKey"));
         return (AmazonS3Client) AmazonS3ClientBuilder.standard()
-                .withRegion(cloudProperties.getRegionStatic())
+                .withRegion(cloudProperties.getRegion().get("static"))
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .build();
     }
