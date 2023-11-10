@@ -14,6 +14,7 @@ public class KakaoTokenDTO {
     private String refreshToken;
     private Long expiresIn;
     private Long refreshTokenExpiresIn;
+    private String idToken;
 
     public static KakaoTokenDTO fail(){
         return new KakaoTokenDTO(null, null);

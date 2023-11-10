@@ -4,6 +4,7 @@ import com.example.team2_be.auth.dto.UserAccountDTO;
 import com.example.team2_be.auth.dto.google.GoogleAccessTokenRequestDTO;
 import com.example.team2_be.auth.dto.google.GoogleAccountDTO;
 import com.example.team2_be.auth.dto.google.GoogleTokenDTO;
+import com.example.team2_be.auth.dto.kakao.KakaoAccountDTO;
 import com.example.team2_be.auth.dto.kakao.KakaoTokenDTO;
 import com.example.team2_be.core.error.exception.*;
 import com.example.team2_be.core.security.CustomUserDetails;
@@ -71,11 +72,12 @@ public class AuthService {
 
     public String kakaoLogin(String code) {
         KakaoTokenDTO userToken = getKakaoAccessToken(code);
-        UserAccountDTO userAccount = null;
+        KakaoAccountDTO kakaoAccount = null;
 
         try {
-            userAccount = kakaoAuthClient.getInfo(URI.create(kakaoAuthProperties.getUserApiUrl()),
-                    userToken.getTokenType() + " " + userToken.getAccessToken());
+            kakaoAccount = kakaoAuthClient.getInfo(URI.create(kakaoAuthProperties.getUserApiUrl()),
+                    userToken.getTokenType() + " " + userToken.getAccessToken()).getKakaoAccount();
+            System.out.println(kakaoAccount);
         } catch (HttpStatusCodeException e) {
             switch (e.getStatusCode().value()) {
                 case 400:
@@ -92,6 +94,7 @@ public class AuthService {
         } catch (Exception e) {
             throw new InternalSeverErrorException("유저 정보 확인 오류입니다");
         }
+        UserAccountDTO userAccount = new UserAccountDTO(kakaoAccount.getEmail(), kakaoAccount.getProfile().getNickname());
 
         User user = userService.getUser(userAccount);
         String token = jwtTokenProvider.create(user);
@@ -103,10 +106,10 @@ public class AuthService {
     @Transactional
     public String googleLogin(String code) {
         GoogleTokenDTO googleTokenDTO = getGoogleAccessToken(code);
-        GoogleAccountDTO userAccount = null;
+        GoogleAccountDTO googleAccount = null;
 
         try {
-            userAccount = googleAuthClient.getInfo(URI.create(googleAuthProperties.getUserApiUrl()),
+            googleAccount = googleAuthClient.getInfo(URI.create(googleAuthProperties.getUserApiUrl()),
                     googleTokenDTO.getTokenType() + " " + urlDecoding(googleTokenDTO.getAccessToken()));
         } catch (HttpStatusCodeException e) {
             switch (e.getStatusCode().value()) {
@@ -124,6 +127,7 @@ public class AuthService {
         } catch (Exception e) {
             throw new InternalSeverErrorException("유저 정보 확인 오류입니다");
         }
+        UserAccountDTO userAccount = new UserAccountDTO(googleAccount.getEmail(), googleAccount.getName());
 
         User user = userService.getUser(userAccount);
         String token = jwtTokenProvider.create(user);
