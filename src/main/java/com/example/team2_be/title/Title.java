@@ -10,12 +10,12 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "titles")
 @Getter
 @ToString
 @NoArgsConstructor
 public class Title extends BaseEntity {
-    @Column(length = 16, nullable = false)
+    @Column(name = "title_name", length = 16, nullable = false)
     private String titleName;
 
     @OneToOne(fetch = FetchType.LAZY)

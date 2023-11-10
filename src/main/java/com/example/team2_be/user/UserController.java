@@ -17,7 +17,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
     private final UserService userService;
 
@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<?> update(@PathVariable Long userId, @RequestBody @Valid UserInfoUpdateRequestDTO updateDTO) {
+    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody @Valid UserInfoUpdateRequestDTO updateDTO) {
         userService.updateUserInfo(updateDTO, userId);
 
         return ResponseEntity.ok(ApiUtils.success(null));

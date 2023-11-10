@@ -12,7 +12,6 @@ public class TrashesFindResponseDTO {
     private Long albumId;
     private List<TrashDTO> trashes;
 
-
     public TrashesFindResponseDTO(Long albumId, List<Trash> trashes){
         this.albumId = albumId;
         this.trashes = trashes.stream()
