@@ -4,6 +4,7 @@ import com.example.team2_be.album.Album;
 import com.example.team2_be.album.AlbumJPARepository;
 import com.example.team2_be.album.dto.AlbumMemberFindResponseDTO;
 import com.example.team2_be.core.error.exception.NotFoundException;
+import com.example.team2_be.core.error.exception.UnauthorizedException;
 import com.example.team2_be.user.User;
 import com.example.team2_be.user.UserJPARepository;
 import lombok.RequiredArgsConstructor;
@@ -53,5 +54,13 @@ public class AlbumMemberService {
         AlbumMember albumMember = albumMemberJPARepository.findByAlbumIdAndUserId(albumId, userId);
 
         albumMemberJPARepository.delete(albumMember);
+    }
+
+    // 해당 앨범 멤버 판별 기능
+    public void checkMembership(Long userId, Long albumId){
+        AlbumMember member = albumMemberJPARepository.findByAlbumIdAndUserId(albumId, userId);
+        if(member == null){
+            throw new UnauthorizedException("해당 앨범에 접근이 불가합니다.");
+        }
     }
 }
