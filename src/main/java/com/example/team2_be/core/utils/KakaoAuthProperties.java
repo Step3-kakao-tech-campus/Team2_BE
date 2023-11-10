@@ -11,5 +11,6 @@ public class KakaoAuthProperties {
     private String tokenUrl;
     private String userApiUrl;
     private String restApiKey;
+    private String clientSecret;
     private String redirectUrl;
 }
