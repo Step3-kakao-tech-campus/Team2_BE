@@ -39,9 +39,6 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, Object> redisTemplate;
 
-    @Value("${kakao.client-secret}")
-    private String kakaoClientSecret;
-
     @Autowired
     KakaoAuthProperties kakaoAuthProperties;
     @Autowired
@@ -49,9 +46,9 @@ public class AuthService {
 
     private KakaoTokenDTO getKakaoAccessToken(String code) {
         try {
-            return kakaoAuthClient.getToken(URI.create(kakaoAuthProperties.getTokenUrl()), KakaoAccessTokenRequestDTO.builder()
+            return kakaoAuthClient.getToken(URI.create(kakaoAuthProperties.getTokenUrl()),
                     kakaoAuthProperties.getRestApiKey(),
-                    kakaoClientSecret,
+                    kakaoAuthProperties.getClientSecret(),
                     kakaoAuthProperties.getRedirectUrl(),
                     code,
                     AUTHORIZATION_CODE);
@@ -158,7 +155,7 @@ public class AuthService {
                 default:
                     throw new InternalSeverErrorException("토큰 발급 오류입니다");
             }
-        } catch (Exception e) {
+        catch (Exception e) {
             throw new InternalSeverErrorException("토큰 발급 오류입니다");
         }
     }
