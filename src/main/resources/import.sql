@@ -17,6 +17,13 @@ INSERT INTO rewards (`id`, `reward_name`, `description`, `reward_level`, `goal_c
 INSERT INTO progresses (`id`, `progress_count`, `success`, `user_id`, `reward_id`) VALUES ('1', '10000000', 'Y', '1', '1');
 INSERT INTO progresses (`id`, `progress_count`, `success`, `user_id`, `reward_id`) VALUES ('2', '0', 'N', '1', '2');
 INSERT INTO progresses (`id`, `progress_count`, `success`, `user_id`, `reward_id`) VALUES ('3', '0', 'Y', '1', '3');
+INSERT INTO progresses (`id`, `progress_count`, `success`, `user_id`, `reward_id`) VALUES ('4', '0', 'N', '1', '4');
+INSERT INTO progresses (`id`, `progress_count`, `success`, `user_id`, `reward_id`) VALUES ('5', '0', 'N', '1', '5');
+INSERT INTO progresses (`id`, `progress_count`, `success`, `user_id`, `reward_id`) VALUES ('6', '0', 'N', '1', '6');
+INSERT INTO progresses (`id`, `progress_count`, `success`, `user_id`, `reward_id`) VALUES ('7', '0', 'N', '1', '7');
+INSERT INTO progresses (`id`, `progress_count`, `success`, `user_id`, `reward_id`) VALUES ('8', '0', 'N', '1', '8');
+INSERT INTO progresses (`id`, `progress_count`, `success`, `user_id`, `reward_id`) VALUES ('9', '0', 'N', '1', '9');
+INSERT INTO progresses (`id`, `progress_count`, `success`, `user_id`, `reward_id`) VALUES ('10', '0', 'N', '1', '10');
 
 -- 앨범
 INSERT INTO albums (`id` , `album_name`, `description`, `image`, `category`) VALUES ('1', '테스트 앨범', '테스트용 앨범', '""', 'Friends');
