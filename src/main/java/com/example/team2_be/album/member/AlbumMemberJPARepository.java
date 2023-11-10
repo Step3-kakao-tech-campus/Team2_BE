@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface AlbumMemberJPARepository extends JpaRepository<AlbumMember, Long> {
 
-    AlbumMember findByUserIdAndAlbumId(@Param("userId") Long userId, @Param("albumId") Long albumId);
-
     List<AlbumMember> findAllByAlbumId(Long albumId);
+
+    AlbumMember findByAlbumIdAndUserId(@Param("albumId") Long albumId, @Param("userId") Long userId);
 }

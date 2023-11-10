@@ -22,7 +22,7 @@ public class AlbumMemberService {
     private final AlbumJPARepository albumJPARepository;
     private final AlbumMemberJPARepository albumMemberJPARepository;
 
-    public AlbumMemberFindResponseDTO findMembers(Long albumId) {
+    public AlbumMemberFindResponseDTO getMembers(Long albumId) {
         List<AlbumMember> members = albumMemberJPARepository.findAllByAlbumId(albumId);
         List<User> users = members.stream()
                 .map(member -> userJPARepository.getReferenceById(member.getUser().getId()))
@@ -38,7 +38,7 @@ public class AlbumMemberService {
         Album album = albumJPARepository.findById(albumId)
                 .orElseThrow(() -> new NotFoundException("해당 앨범이 존재하지 않습니다."));
 
-        AlbumMember albumMember = albumMemberJPARepository.findByUserIdAndAlbumId(userId, albumId);
+        AlbumMember albumMember = albumMemberJPARepository.findByAlbumIdAndUserId(albumId, userId);
         if (albumMember == null) {
             albumMember = AlbumMember.builder()
                     .user(user)
@@ -50,7 +50,7 @@ public class AlbumMemberService {
 
     @Transactional
     public void deleteMembers(Long userId, Long albumId) {
-        AlbumMember albumMember = albumMemberJPARepository.findByUserIdAndAlbumId(userId, albumId);
+        AlbumMember albumMember = albumMemberJPARepository.findByAlbumIdAndUserId(albumId, userId);
 
         albumMemberJPARepository.delete(albumMember);
     }

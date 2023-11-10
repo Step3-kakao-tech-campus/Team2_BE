@@ -16,7 +16,7 @@ public class AlbumMemberController {
 
     @GetMapping
     public ResponseEntity<ApiUtils.ApiResult<AlbumMemberFindResponseDTO>> getMembers(@PathVariable Long albumId) {
-        AlbumMemberFindResponseDTO albumMemberFindResponseDTO = albumMemberService.findMembers(albumId);
+        AlbumMemberFindResponseDTO albumMemberFindResponseDTO = albumMemberService.getMembers(albumId);
 
         return ResponseEntity.ok(ApiUtils.success(albumMemberFindResponseDTO));
     }
