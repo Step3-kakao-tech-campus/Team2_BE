@@ -11,19 +11,16 @@ import com.example.team2_be.album.page.image.AlbumPageImage;
 import com.example.team2_be.album.page.image.AlbumPageImageJPARepository;
 import com.example.team2_be.core.error.exception.NotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URL;
-import java.util.Map;
-import javax.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.xml.bind.DatatypeConverter;
+import java.io.*;
+import java.net.URL;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -94,7 +91,7 @@ public class AlbumPageService {
                 .orElseThrow(() -> new NotFoundException("해당 id값을 가진 앨범을 찾을 수 없습니다. : " + albumId));
     }
 
-    private AlbumPage findAlbumPageById(Long pageId) {
+    public AlbumPage findAlbumPageById(Long pageId) {
         return albumPageJPARepository.findById(pageId)
                 .orElseThrow(() -> new NotFoundException("해당 id를 가진 앨범페이지를 찾을 수 없습니다." + pageId));
     }
