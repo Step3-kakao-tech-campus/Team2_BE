@@ -32,13 +32,13 @@ kakao:
   token-url: https://kauth.kakao.com/oauth/token
   user-api-url: https://kapi.kakao.com/v2/user/me
   rest-api-key: ${KAKAO_CLIENT_ID}
-  redirect-url:  http://localhost:3000/login/kakao
+  redirect-url:  ${REDIRECT_URL}/login/kakao
   client-secret: ${KAKAO_CLIENT_SECRET}
 
 google:
   token-url: https://oauth2.googleapis.com/token
   user-api-url: https://www.googleapis.com/oauth2/v3/userinfo
-  redirect-url: http://localhost:3000/login/google
+  redirect-url: ${REDIRECT_URL}/login/google
   client-id: ${GOOGLE_CLIENT_ID}
   client-secret: ${GOOGLE_CLIENT_SECRET}
 
