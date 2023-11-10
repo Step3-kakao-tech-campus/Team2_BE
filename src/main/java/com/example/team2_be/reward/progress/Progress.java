@@ -11,7 +11,7 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "progresses")
+@Table(name = "progresses", indexes = {@Index(name = "idx_user_id", columnList = "user_id", unique = true)})
 @Getter
 @ToString
 @NoArgsConstructor
