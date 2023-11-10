@@ -26,7 +26,7 @@ public class AlbumController {
         Long userId = userDetails.getUser().getId();
         Album newAlbum = albumService.createAlbum(requestDTO);
         // album을 생성하는 유저를 albumMember로 추가
-        albumMemberService.addMember(newAlbum.getId(),userId);
+        albumMemberService.addMembers(newAlbum.getId(),userId);
 
         return ResponseEntity.ok(ApiUtils.success(null));
     }

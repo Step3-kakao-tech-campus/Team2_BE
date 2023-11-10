@@ -15,7 +15,6 @@ import java.util.Base64;
 @ToString
 @NoArgsConstructor
 public class Error extends BaseEntity {
-
     @Column(length = 1024, nullable = false)
     private String message;
 

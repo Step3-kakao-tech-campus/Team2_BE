@@ -28,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class AlbumPageService {
+    private static final String IMAGE_DATA_DELIMITER = ",";
+    private static final String BUKET_NAME = "kakaotechcampust-step3-nemobucket";
     private final AlbumJPARepository albumJPARepository;
     private final AlbumPageJPARepository albumPageJPARepository;
     private final AlbumPageImageJPARepository albumPageImageJPARepository;
@@ -39,7 +41,7 @@ public class AlbumPageService {
         String shapes = objectMapper.writeValueAsString(requestDTO.getShapes());
         String bindings = objectMapper.writeValueAsString(requestDTO.getBindings());
 
-        AlbumPage albumPage = findAlbumPageByPageId(pageId);
+        AlbumPage albumPage = findAlbumPageById(pageId);
         checkEmptyAssetDTOMap(requestDTO.getAssets(), albumPage);
 
         String capturePageImageFileName =
@@ -50,7 +52,7 @@ public class AlbumPageService {
 
     @Transactional
     public void createPage(Long albumId) {
-        Album album = findAlbumByAlbumId(albumId);
+        Album album = findAlbumById(albumId);
 
         AlbumPage albumPage = AlbumPage.builder()
                 .album(album)
@@ -67,11 +69,11 @@ public class AlbumPageService {
 
     private void checkEmptyAssetDTOMap(Map<String, AssetUpdateDTO> assetDTOMap, AlbumPage albumPage) throws IOException {
         if (assetDTOMap != null) {
-            createAlbumPageImage(albumPage, assetDTOMap);
+            createPageImage(albumPage, assetDTOMap);
         }
     }
 
-    private void createAlbumPageImage(AlbumPage albumPage, Map<String, AssetUpdateDTO> assetDTOMap) throws IOException {
+    private void createPageImage(AlbumPage albumPage, Map<String, AssetUpdateDTO> assetDTOMap) throws IOException {
         for (AssetUpdateDTO assetDTO : assetDTOMap.values()) {
             uploadImageToS3(assetDTO.getSrc(), assetDTO.getFileName());
             AlbumPageImage albumPageImage = AlbumPageImage.builder()
@@ -87,12 +89,12 @@ public class AlbumPageService {
         }
     }
 
-    private Album findAlbumByAlbumId(Long albumId) {
+    private Album findAlbumById(Long albumId) {
         return albumJPARepository.findById(albumId)
                 .orElseThrow(() -> new NotFoundException("해당 id값을 가진 앨범을 찾을 수 없습니다. : " + albumId));
     }
 
-    private AlbumPage findAlbumPageByPageId(Long pageId) {
+    private AlbumPage findAlbumPageById(Long pageId) {
         return albumPageJPARepository.findById(pageId)
                 .orElseThrow(() -> new NotFoundException("해당 id를 가진 앨범페이지를 찾을 수 없습니다." + pageId));
     }
@@ -104,7 +106,7 @@ public class AlbumPageService {
     }
 
     private File getImageFromBase64(String src, String fileName) throws IOException {
-        String base64Image = src.split(",")[1];
+        String base64Image = src.split(IMAGE_DATA_DELIMITER)[1];
         byte[] data = DatatypeConverter.parseBase64Binary(base64Image);
         File file = new File(fileName);
         try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file))) {
@@ -114,8 +116,7 @@ public class AlbumPageService {
     }
 
     private String getImageUrl(String fileName) {
-        URL url = amazonS3Client.getUrl("kakaotechcampust-step3-nemobucket", fileName);
-        String urltext = "" + url;
-        return urltext;
+        URL url = amazonS3Client.getUrl(BUKET_NAME, fileName);
+        return "" + url;
     }
 }
