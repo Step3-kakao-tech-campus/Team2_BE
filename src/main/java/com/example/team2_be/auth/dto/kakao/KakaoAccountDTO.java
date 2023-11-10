@@ -6,6 +6,6 @@ import lombok.ToString;
 @Getter
 @ToString
 public class KakaoAccountDTO{
-    private Profile profile;
+    private ProfileDTO profile;
     private String email;
 }
