@@ -46,6 +46,9 @@ public class AuthService {
     @Value("${kakao.user-api-url}")
     private String kakaoUserUrl;
 
+    @Value("${kakao.client-secret}")
+    private String kakaoClientSecret;
+
     @Value("${google.client-id}")
     private String googleClientId;
 
@@ -64,12 +67,12 @@ public class AuthService {
 
     private KakaoTokenDTO getKakaoAccessToken(String code){
         try {
-            return kakaoAuthClient.getToken(URI.create(kakaoTokenUrl), KakaoAccessTokenRequestDTO.builder()
-                    .clientId(kakaoRrestapiKey)
-                    .code(code)
-                    .redirectUri(kakaoRedirectUrl)
-                    .grantType("authorization_code")
-                    .build());
+            return kakaoAuthClient.getToken(URI.create(kakaoTokenUrl),
+                    kakaoRrestapiKey,
+                    kakaoClientSecret,
+                    kakaoRedirectUrl,
+                    code,
+                    "authorization_code");
         } catch (HttpStatusCodeException e){
             switch (e.getStatusCode().value()){
                 case 400:
@@ -85,6 +88,7 @@ public class AuthService {
             }
         }
         catch (Exception e) {
+            System.out.println(e);
             throw new InternalSeverErrorException("토큰 발급 오류입니다");
         }
     }
