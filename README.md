@@ -6,7 +6,7 @@
 
 프론트 배포 인스턴스 주소 :
 
-백 배포 인스턴스 주소 :
+백 배포 인스턴스 주소 : [백 배포 인스턴스 주소](https://k255e0ec5dd13a.user-app.krampoline.com)
 
 ## 🗂️ 최종 ERD
 
@@ -41,13 +41,11 @@ MZ세대들의 소통창구인 인스타그램 해시태그 게시물 수에 따
 #### 1. 소셜 로그인
 
 - 카카오 소셜로그인, 구글 소셜 로그인 이용
-- 
-  깃헙 url
+- [깃허브 URL](https://github.com/Step3-kakao-tech-campus/Team2_BE/tree/weekly/src/main/java/com/example/team2_be/auth)
 
 #### 2. 실시간 웹 소켓 통신
 
-깃헙 url
+- [깃허브 URL](https://github.com/Step3-kakao-tech-campus/Team2_BE/blob/weekly/src/main/java/com/example/team2_be/album/page/AlbumPageSocketHandler.java)
 
 #### 3. 앨범 페이지 기능
-
-깃헙 url
+- [깃허브 URL](https://github.com/Step3-kakao-tech-campus/Team2_BE/tree/weekly/src/main/java/com/example/team2_be/album/page)
