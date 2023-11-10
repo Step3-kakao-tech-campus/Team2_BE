@@ -155,7 +155,7 @@ public class AuthService {
                 default:
                     throw new InternalSeverErrorException("토큰 발급 오류입니다");
             }
-        } catch (Exception e) {
+        catch (Exception e) {
             throw new InternalSeverErrorException("토큰 발급 오류입니다");
         }
     }
