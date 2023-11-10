@@ -39,6 +39,9 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, Object> redisTemplate;
 
+    @Value("${kakao.client-secret}")
+    private String kakaoClientSecret;
+
     @Autowired
     KakaoAuthProperties kakaoAuthProperties;
     @Autowired
@@ -47,11 +50,11 @@ public class AuthService {
     private KakaoTokenDTO getKakaoAccessToken(String code) {
         try {
             return kakaoAuthClient.getToken(URI.create(kakaoAuthProperties.getTokenUrl()), KakaoAccessTokenRequestDTO.builder()
-                    .clientId(kakaoAuthProperties.getRestApiKey())
-                    .code(code)
-                    .redirectUri(kakaoAuthProperties.getRedirectUrl())
-                    .grantType(AUTHORIZATION_CODE)
-                    .build());
+                    kakaoAuthProperties.getRestApiKey(),
+                    kakaoClientSecret,
+                    kakaoAuthProperties.getRedirectUrl(),
+                    code,
+                    AUTHORIZATION_CODE);
         } catch (HttpStatusCodeException e) {
             switch (e.getStatusCode().value()) {
                 case 400:
