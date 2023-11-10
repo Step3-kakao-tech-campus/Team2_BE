@@ -4,6 +4,7 @@ import com.example.team2_be.BaseEntity;
 import com.example.team2_be.album.page.AlbumPage;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "album_images")
+@Table(name = "album_images", indexes = {@Index(name = "idx_album_page_id_and_asset_id", columnList = "album_page_id, asset_id", unique = true)})
 @Getter
 @ToString
 @NoArgsConstructor
