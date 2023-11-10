@@ -77,7 +77,6 @@ public class AuthService {
         try {
             kakaoAccount = kakaoAuthClient.getInfo(URI.create(kakaoAuthProperties.getUserApiUrl()),
                     userToken.getTokenType() + " " + userToken.getAccessToken()).getKakaoAccount();
-            System.out.println(kakaoAccount);
         } catch (HttpStatusCodeException e) {
             switch (e.getStatusCode().value()) {
                 case 400:
