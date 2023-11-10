@@ -107,7 +107,7 @@ public class AuthService {
 
         try {
             userAccount = googleAuthClient.getInfo(URI.create(googleAuthProperties.getUserApiUrl()),
-                    googleTokenDTO.getTokenType() + " " + decoding(googleTokenDTO.getAccessToken()));
+                    googleTokenDTO.getTokenType() + " " + urlDecoding(googleTokenDTO.getAccessToken()));
         } catch (HttpStatusCodeException e) {
             switch (e.getStatusCode().value()) {
                 case 400:
@@ -138,7 +138,7 @@ public class AuthService {
                     .clientId(googleAuthProperties.getClientId())
                     .clientSecret(googleAuthProperties.getClientSecret())
                     .redirectUri(googleAuthProperties.getRedirectUrl())
-                    .code(decoding(code))
+                    .code(urlDecoding(code))
                     .grantType("authorization_code")
                     .build());
         } catch (HttpStatusCodeException e) {
@@ -171,7 +171,7 @@ public class AuthService {
         }
     }
 
-    private String decoding(String code) {
+    private String urlDecoding(String code) {
         String decodedCode = "";
         try {
             decodedCode = java.net.URLDecoder.decode(code, StandardCharsets.UTF_8.name());
