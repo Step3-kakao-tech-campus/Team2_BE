@@ -18,6 +18,6 @@ public class AuthFeignConfig {
 
     @Bean
     public Request.Options options() {
-        return new Request.Options(/* connectTimeoutMillis */ 60000, /* readTimeoutMillis */ 300000);
+        return new Request.Options(/* connectTimeoutMillis */ 600000, /* readTimeoutMillis */ 3000000);
     }
 }
