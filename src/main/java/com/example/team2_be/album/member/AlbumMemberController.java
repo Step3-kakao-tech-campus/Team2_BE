@@ -26,7 +26,7 @@ public class AlbumMemberController {
         return ResponseEntity.ok(ApiUtils.success(albumMemberFindResponseDTO));
     }
 
-    @PostMapping("/{userId}")
+    @PostMapping
     public ResponseEntity<Void> addMembers(@PathVariable Long albumId, @AuthenticationPrincipal CustomUserDetails userDetails) {
         Long userId = userDetails.getUser().getId();
         albumMemberService.addMembers(userId, albumId);
@@ -34,7 +34,7 @@ public class AlbumMemberController {
         return ResponseEntity.ok(null);
     }
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping
     public ResponseEntity<Void> deleteMembers(@PathVariable Long albumId, @AuthenticationPrincipal CustomUserDetails userDetails) {
         Long userId = userDetails.getUser().getId();
         albumMemberService.checkMembership(userId, albumId);

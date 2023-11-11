@@ -31,7 +31,7 @@ public class AlbumController {
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
-    // 앨범 수정 기능 PUT "/albums/{albumId}"
+    // 앨범 수정 기능 PUT "/albums/"
     @PutMapping("/{albumId}")
     public ResponseEntity<ApiUtils.ApiResult> updateAlbum (@RequestBody AlbumUpdaterequestDTO requestDTO, @PathVariable Long albumId, @AuthenticationPrincipal CustomUserDetails userDetails){
         Long userId = userDetails.getUser().getId();
