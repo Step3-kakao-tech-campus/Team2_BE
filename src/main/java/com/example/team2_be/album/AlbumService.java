@@ -25,18 +25,20 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 public class AlbumService {
+    private static final String PNG = ".png";
     private final AlbumJPARepository albumJPARepository;
     private final UserJPARepository userJPARepository;
     private final AmazonS3Client amazonS3Client;
 
     @Transactional
     public Album createAlbum(AlbumCreateRequestDTO requestDTO) throws IOException {
-        uploadImageToS3(requestDTO.getImage(), requestDTO.getAlbumName());
+        uploadImageToS3(requestDTO.getImage(), requestDTO.getAlbumName() + PNG);
+        String url = getImageUrl(requestDTO.getAlbumName()+PNG);
 
         Album newAlbum = Album.builder()
                 .albumName(requestDTO.getAlbumName())
                 .description(requestDTO.getDescription())
-                .image(getImageUrl(requestDTO.getAlbumName()))
+                .image(url)
                 .category(requestDTO.getCategory())
                 .build();
         albumJPARepository.save(newAlbum);
@@ -50,16 +52,17 @@ public class AlbumService {
                 .orElseThrow(() -> new NotFoundException("해당 id값을 가진 앨범을 찾을 수 없습니다. : " + AlbumId));
 
         String updatedAlbumName = requestDTO.getAlbumName() != null ? requestDTO.getAlbumName() : album.getAlbumName();
-        String updatedDescription = requestDTO.getDescription() != null ? requestDTO.getDescription() : album.getDescription();
+        String updatedDescription =
+                requestDTO.getDescription() != null ? requestDTO.getDescription() : album.getDescription();
         String updatedImage = requestDTO.getImage() != null ? requestDTO.getImage() : album.getImage();
 
-        album.updateAlbum(updatedAlbumName,updatedDescription,updatedImage);
+        album.updateAlbum(updatedAlbumName, updatedDescription, updatedImage);
 
         return album;
     }
 
     // 앨범 조회 기능
-    public AlbumFindAllResponseDTO findAllAlbum (Long userId){
+    public AlbumFindAllResponseDTO findAllAlbum(Long userId) {
         User findUser = userJPARepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
 

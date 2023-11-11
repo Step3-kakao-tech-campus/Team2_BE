@@ -48,7 +48,7 @@ public class AlbumPageController {
         Long userId = userDetails.getUser().getId();
         albumMemberService.checkMembership(userId, albumId);
 
-        AlbumPageFindResponseDTO findDTO = albumPageService.findPage(pageable);
+        AlbumPageFindResponseDTO findDTO = albumPageService.findPage(pageable, albumId);
         return ResponseEntity.ok(ApiUtils.success(findDTO));
     }
 
