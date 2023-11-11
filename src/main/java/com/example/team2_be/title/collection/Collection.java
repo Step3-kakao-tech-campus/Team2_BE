@@ -12,7 +12,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "collections", indexes = {@Index(name = "idx_user_id", columnList = "user_id", unique = true), @Index(name = "idx_title_id", columnList = "title_id")})
+@Table(name = "collections", indexes = {@Index(name = "idx_user_id", columnList = "user_id"), @Index(name = "idx_title_id", columnList = "title_id")})
 @Getter
 @ToString
 @NoArgsConstructor

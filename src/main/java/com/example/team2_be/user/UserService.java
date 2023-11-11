@@ -59,8 +59,9 @@ public class UserService {
     public UserInfoFindResponseDTO findUserInfo(Long id) {
         User findUser = userJPARepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
+        List<Collection> collections = collectionJPARepository.findByUserId(findUser.getId());
 
-        return new UserInfoFindResponseDTO(findUser);
+        return new UserInfoFindResponseDTO(findUser, collections);
     }
 
     @Transactional

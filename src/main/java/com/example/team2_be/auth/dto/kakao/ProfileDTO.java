@@ -5,7 +5,6 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class KakaoAccountDTO{
-    private ProfileDTO profile;
-    private String email;
+public class ProfileDTO {
+    private String nickname;
 }
