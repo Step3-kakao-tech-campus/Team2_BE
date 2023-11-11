@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -23,13 +24,15 @@ import java.io.IOException;
 
 @Slf4j
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
+    private final CustomUserDetailsService customUserDetailsService;
     private static final String JWT_TOKEN = "JWT_TOKEN:";
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, Object> redisTemplate;
     private final UserJPARepository userJPARepository;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserJPARepository userJPARepository, RedisTemplate<String, Object> redisTemplate) {
+    public JwtAuthenticationFilter(CustomUserDetailsService customUserDetailsService, AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserJPARepository userJPARepository, RedisTemplate<String, Object> redisTemplate) {
         super(authenticationManager);
+        this.customUserDetailsService = customUserDetailsService;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userJPARepository = userJPARepository;
         this.redisTemplate = redisTemplate;
@@ -47,11 +50,12 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
         try {
             DecodedJWT decodedJWT = jwtTokenProvider.verify(jwt);
+            String email = decodedJWT.getClaim("email").asString();
             Long id = decodedJWT.getClaim("id").asLong();
             log.info("cccccccccccccccccccccc");
-            User user = userJPARepository.findById(id).orElseThrow(
-                    () -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
-            CustomUserDetails myUserDetails = new CustomUserDetails(user);
+//            User user = userJPARepository.findById(id).orElseThrow(
+//                    () -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
+            UserDetails myUserDetails = customUserDetailsService.loadUserByUsername(email);
             log.info("dddddddddddddddddddd");
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(
@@ -72,10 +76,9 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             log.error("토큰 검증 실패");
         } catch (TokenExpiredException tee) {
             log.error("토큰 만료됨");
+        } finally {
+            log.info("bbbbbbbbbbbbbbbbbbb");
+            chain.doFilter(request, response);
         }
-//        } finally {
-//            log.info("bbbbbbbbbbbbbbbbbbb");
-//            chain.doFilter(request, response);
-//        }
     }
 }
