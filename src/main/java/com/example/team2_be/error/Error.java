@@ -18,7 +18,7 @@ public class Error extends BaseEntity {
     @Column(length = 1024, nullable = false)
     private String message;
 
-    @Column(length = 4096, nullable = false)
+    @Column(name = "stack_trace", length = 4096, nullable = false)
     private String stackTrace;
 
     @Builder
