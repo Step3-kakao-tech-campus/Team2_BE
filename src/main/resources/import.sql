@@ -1,5 +1,6 @@
 -- 유저
 INSERT INTO users (`email`, `nickname`, `title`, `image`, `user_role`, `create_at`) VALUES ('admin', 'admin', '내가 관리자라니!!', '이미지', 'ROLE_ADMIN', '2023-08-29 13:54:19.823');
+
 -- 도전과제
 INSERT INTO rewards (`reward_name`, `description`, `reward_level`, `goal_count`) VALUES ('어드민 유저가 뭔데?', '관리자가 되어보세요.', 'challenger', '10000000');
 INSERT INTO rewards (`reward_name`, `description`, `reward_level`, `goal_count`) VALUES ('우리들의 첫번째 추억 기록', '첫번째 앨범 페이지를 생성해보세요.', 'bronze', '1');
