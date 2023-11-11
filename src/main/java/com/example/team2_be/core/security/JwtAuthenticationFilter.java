@@ -41,30 +41,25 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String jwt = request.getHeader(jwtTokenProvider.HEADER);
-        log.info(jwt);
 
         if (jwt == null) {
-            log.info("aaaaaaaaaaa");
             chain.doFilter(request, response);
             return;
         }
 
         try {
             DecodedJWT decodedJWT = jwtTokenProvider.verify(jwt);
-            String email = decodedJWT.getClaim("email").asString();
+            String email = decodedJWT.getClaim("sub").asString();
             Long id = decodedJWT.getClaim("id").asLong();
-            log.info("cccccccccccccccccccccc");
 //            User user = userJPARepository.findById(id).orElseThrow(
 //                    () -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
             UserDetails myUserDetails = customUserDetailsService.loadUserByUsername(email);
-            log.info("dddddddddddddddddddd");
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(
                             myUserDetails,
                             myUserDetails.getPassword(),
                             myUserDetails.getAuthorities()
                     );
-            log.info("eeeeeeeeeeeeeeeeeeeee");
             String key = JWT_TOKEN + id;
             Object storedToken = redisTemplate.opsForValue().get(key);
 
@@ -78,7 +73,6 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         } catch (TokenExpiredException tee) {
             log.error("토큰 만료됨");
         } finally {
-            log.info("bbbbbbbbbbbbbbbbbbb");
             chain.doFilter(request, response);
         }
     }
