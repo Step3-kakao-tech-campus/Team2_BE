@@ -72,11 +72,13 @@ public class AuthService {
 
     public String kakaoLogin(String code) {
         KakaoTokenDTO userToken = getKakaoAccessToken(code);
+        log.info("get kakao token");
         KakaoAccountDTO kakaoAccount = null;
 
         try {
             kakaoAccount = kakaoAuthClient.getInfo(URI.create(kakaoAuthProperties.getUserApiUrl()),
                     userToken.getTokenType() + " " + userToken.getAccessToken()).getKakaoAccount();
+            log.info("get kakao account");
         } catch (HttpStatusCodeException e) {
             switch (e.getStatusCode().value()) {
                 case 400:
@@ -94,9 +96,12 @@ public class AuthService {
             throw new InternalSeverErrorException("유저 정보 확인 오류입니다");
         }
         UserAccountDTO userAccount = new UserAccountDTO(kakaoAccount.getEmail(), kakaoAccount.getProfile().getNickname());
+        log.info("kakao account: " + userAccount.toString());
 
         User user = userService.getUser(userAccount);
+        log.info("kakao user");
         String token = jwtTokenProvider.create(user);
+        log.info("kakao jwt token");
         redisTemplate.opsForValue().set(JWT_TOKEN + user.getId(), token, JwtTokenProvider.EXP);
 
         return token;
