@@ -1,23 +1,39 @@
 package com.example.team2_be.core.config;
 
 import feign.Client;
-import feign.Request;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 
 @Configuration
 public class AuthFeignConfig {
 
     @Bean
     public Client feignClient() {
-        return new Client.Default(HttpsURLConnection.getDefaultSSLSocketFactory(),
-                HttpsURLConnection.getDefaultHostnameVerifier());
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("krmp-proxy.9rum.cc", 3128));
+        SSLSocketFactory sslSocketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+        return new Client.Default(sslSocketFactory, new ProxySelectorHostnameVerifier(proxy));
     }
 
-    @Bean
-    public Request.Options options() {
-        return new Request.Options(/* connectTimeoutMillis */ 600000, /* readTimeoutMillis */ 3000000);
+    public static class ProxySelectorHostnameVerifier implements HostnameVerifier {
+        private final Proxy proxy;
+
+        public ProxySelectorHostnameVerifier(Proxy proxy) {
+            this.proxy = proxy;
+        }
+
+        @Override
+        public boolean verify(String s, SSLSession sslSession) {
+            return true;
+        }
+
+        public Proxy getProxy() {
+            return this.proxy;
+        }
     }
 }
