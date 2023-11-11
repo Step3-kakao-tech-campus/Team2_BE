@@ -40,6 +40,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         String jwt = request.getHeader(jwtTokenProvider.HEADER);
 
         if (jwt == null) {
+            log.info("aaaaaaaaaaa");
             chain.doFilter(request, response);
             return;
         }
@@ -47,15 +48,18 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         try {
             DecodedJWT decodedJWT = jwtTokenProvider.verify(jwt);
             Long id = decodedJWT.getClaim("id").asLong();
+            log.info("cccccccccccccccccccccc");
             User user = userJPARepository.findById(id).orElseThrow(
                     () -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
             CustomUserDetails myUserDetails = new CustomUserDetails(user);
+            log.info("dddddddddddddddddddd");
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(
                             myUserDetails,
                             myUserDetails.getPassword(),
                             myUserDetails.getAuthorities()
                     );
+            log.info("eeeeeeeeeeeeeeeeeeeee");
             String key = JWT_TOKEN + id;
             Object storedToken = redisTemplate.opsForValue().get(key);
 
@@ -69,6 +73,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         } catch (TokenExpiredException tee) {
             log.error("토큰 만료됨");
         } finally {
+            log.info("bbbbbbbbbbbbbbbbbbb");
             chain.doFilter(request, response);
         }
     }
