@@ -51,8 +51,6 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             DecodedJWT decodedJWT = jwtTokenProvider.verify(jwt);
             String email = decodedJWT.getClaim("sub").asString();
             Long id = decodedJWT.getClaim("id").asLong();
-//            User user = userJPARepository.findById(id).orElseThrow(
-//                    () -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
             UserDetails myUserDetails = customUserDetailsService.loadUserByUsername(email);
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(
