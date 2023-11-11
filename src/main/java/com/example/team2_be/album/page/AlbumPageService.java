@@ -48,13 +48,14 @@ public class AlbumPageService {
     }
 
     @Transactional
-    public void createPage(Long albumId) {
+    public Long createPage(Long albumId) {
         Album album = findAlbumById(albumId);
 
         AlbumPage albumPage = AlbumPage.builder()
                 .album(album)
                 .build();
         albumPageJPARepository.save(albumPage);
+        return albumPage.getId();
     }
 
     @Transactional
