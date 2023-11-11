@@ -29,7 +29,9 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody @Valid UserInfoUpdateRequestDTO updateDTO) {
+    public ResponseEntity<?> updateUser(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody @Valid UserInfoUpdateRequestDTO updateDTO) {
+        Long userId = userDetails.getUser().getId();
+
         userService.updateUserInfo(updateDTO, userId);
 
         return ResponseEntity.ok(ApiUtils.success(null));
