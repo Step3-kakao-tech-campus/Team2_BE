@@ -21,12 +21,12 @@ public class AlbumController {
     private final AlbumMemberService albumMemberService;
 
     // 앨범 생성기능 POST "/albums"
-    @PostMapping ("")
+    @PostMapping
     public ResponseEntity<ApiUtils.ApiResult> createAlbum(@RequestBody @Valid AlbumCreateRequestDTO requestDTO, Error errors, @AuthenticationPrincipal CustomUserDetails userDetails){
         Long userId = userDetails.getUser().getId();
         Album newAlbum = albumService.createAlbum(requestDTO);
         // album을 생성하는 유저를 albumMember로 추가
-        albumMemberService.addMembers(newAlbum.getId(),userId);
+        albumMemberService.addMembers(userId, newAlbum.getId());
 
         return ResponseEntity.ok(ApiUtils.success(null));
     }
@@ -42,7 +42,7 @@ public class AlbumController {
     }
 
     // 앨범 조회 기능 GET "/albums"
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<ApiUtils.ApiResult<AlbumFindAllResponseDTO>> findAllAlbum (@AuthenticationPrincipal CustomUserDetails userDetails){
         Long userId = userDetails.getUser().getId();
         AlbumFindAllResponseDTO findDTO = albumService.findAllAlbum(userId);
