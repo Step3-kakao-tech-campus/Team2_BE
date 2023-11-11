@@ -59,6 +59,6 @@ public class AlbumPageController {
 
         AlbumPage albumPage = albumPageService.findAlbumPageById(pageId);
         Trash trash = trashService.createTrash(user, albumPage);
-        return ResponseEntity.ok(ApiUtils.success(trash));
+        return ResponseEntity.ok(ApiUtils.success(null));
     }
 }
