@@ -183,4 +183,14 @@ public class AuthService {
         }
         return decodedCode;
     }
+
+    @Transactional
+    public String testLogin(){
+        UserAccountDTO userAccount = new UserAccountDTO("admin", "admin");
+        User user = userService.getUser(userAccount);
+        String token = jwtTokenProvider.create(user);
+        redisTemplate.opsForValue().set("JWT_TOKEN:" + user.getId(), token, JwtTokenProvider.EXP);
+
+        return token;
+    }
 }

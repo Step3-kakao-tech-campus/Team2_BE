@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -23,13 +24,15 @@ import java.io.IOException;
 
 @Slf4j
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
+    private final CustomUserDetailsService customUserDetailsService;
     private static final String JWT_TOKEN = "JWT_TOKEN:";
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, Object> redisTemplate;
     private final UserJPARepository userJPARepository;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserJPARepository userJPARepository, RedisTemplate<String, Object> redisTemplate) {
+    public JwtAuthenticationFilter(CustomUserDetailsService customUserDetailsService, AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserJPARepository userJPARepository, RedisTemplate<String, Object> redisTemplate) {
         super(authenticationManager);
+        this.customUserDetailsService = customUserDetailsService;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userJPARepository = userJPARepository;
         this.redisTemplate = redisTemplate;
@@ -46,10 +49,9 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
         try {
             DecodedJWT decodedJWT = jwtTokenProvider.verify(jwt);
+            String email = decodedJWT.getClaim("sub").asString();
             Long id = decodedJWT.getClaim("id").asLong();
-            User user = userJPARepository.findById(id).orElseThrow(
-                    () -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
-            CustomUserDetails myUserDetails = new CustomUserDetails(user);
+            UserDetails myUserDetails = customUserDetailsService.loadUserByUsername(email);
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(
                             myUserDetails,

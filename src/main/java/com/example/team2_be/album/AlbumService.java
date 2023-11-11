@@ -5,6 +5,8 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.team2_be.album.dto.AlbumCreateRequestDTO;
 import com.example.team2_be.album.dto.AlbumFindAllResponseDTO;
 import com.example.team2_be.album.dto.AlbumUpdaterequestDTO;
+import com.example.team2_be.album.member.AlbumMember;
+import com.example.team2_be.album.member.AlbumMemberJPARepository;
 import com.example.team2_be.core.error.exception.NotFoundException;
 import com.example.team2_be.user.User;
 import com.example.team2_be.user.UserJPARepository;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -29,6 +32,8 @@ public class AlbumService {
     private final AlbumJPARepository albumJPARepository;
     private final UserJPARepository userJPARepository;
     private final AmazonS3Client amazonS3Client;
+    private final AlbumMemberJPARepository albumMemberJPARepository;
+
 
     @Transactional
     public Album createAlbum(AlbumCreateRequestDTO requestDTO) throws IOException {
@@ -66,7 +71,10 @@ public class AlbumService {
         User findUser = userJPARepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
 
-        List<Album> albums = albumJPARepository.findAllByUserId(userId);
+        List<AlbumMember> members = albumMemberJPARepository.findAllByUserId(userId);
+        List<Album> albums = members.stream()
+                .map(AlbumMember::getAlbum)
+                .collect(Collectors.toList());
 
         return new AlbumFindAllResponseDTO(albums);
     }
