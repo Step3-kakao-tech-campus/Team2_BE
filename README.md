@@ -72,9 +72,9 @@
 
 ## 🖇 ️팀 내 배포 링크 모음
 
-**프론트 배포 인스턴스 주소** :
+**프론트 배포 인스턴스 주소** : [프론트 배포 인스턴스 주소](https://k5ebddfe59255a.user-app.krampoline.com)
 
-**백 배포 인스턴스 주소** : [백 배포 인스턴스 주소](https://k0a2a9086b015a.user-app.krampoline.com)
+**백 배포 인스턴스 주소** : [백 배포 인스턴스 주소](https://k59de1f11b350a.user-app.krampoline.com)
 
 <br>
 
