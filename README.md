@@ -125,7 +125,21 @@
 ## 🎯 중점을 둔 기능
 
 ### FE
+#### 1. 캔버스 기반의 도형 및 드로잉 기능 (TLdraw 활용)
 
+-   사용자가 웹 애플리케이션 내에서 직관적으로 드로잉하고 도형을 그릴 수 있는 기능을 제공할 수 있도록 구현했습니다.
+-   [깃허브 URL](https://github.com/Step3-kakao-tech-campus/Team2_FE/tree/master/src/pages/Canvas)
+
+#### 2. 웹 소켓 통신을 이용한 실시간 협업 및 동시 편집 기능
+
+-   Yjs 라이브러리(yjs, y-websocket, y-presence)를 활용하여 실시간 협업 및 동시 편집 기능을 구현하여 여러 사용자가 동일한 캔버스(TLdraw) 페이지에 대해 동시에 작업할 수 있도록 했습니다.
+
+#### 3. 반응형 디자인 및 최적화된 사용자 인터페이스
+
+-   react-select, react-modal 등의 라이브러리를 활용하여 사용자 인터페이스를 최적화하고, 반응형 웹 디자인을 구현하여 다양한 디바이스에서의 사용자 경험을 향상시킵니다.
+-   [깃허브 URL](https://github.com/Step3-kakao-tech-campus/Team2_FE/tree/master/src/pages)
+
+#### 3. 소셜 로그인 및 사용자 인증
 ### BE
 
 #### 1. 소셜 로그인
