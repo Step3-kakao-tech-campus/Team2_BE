@@ -22,7 +22,7 @@ public class Album extends BaseEntity {
     @Column(length = 512, nullable = false)
     private String description;
 
-    @Column(length = 512, nullable = false)
+    @Column(columnDefinition = "longtext")
     private String image;
 
     @Enumerated(value = EnumType.STRING)
