@@ -36,11 +36,11 @@ public class AlbumPageController {
 
     @PostMapping
     public ResponseEntity<ApiUtils.ApiResult> createPage(@PathVariable Long albumId, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        Long userId = userDetails.getUser().getId();
-        albumMemberService.checkMembership(userId, albumId);
+//        Long userId = userDetails.getUser().getId();
+//        albumMemberService.checkMembership(userId, albumId);
 
-        albumPageService.createPage(albumId);
-        return ResponseEntity.ok(ApiUtils.success(null));
+        Long pageId = albumPageService.createPage(albumId);
+        return ResponseEntity.ok(ApiUtils.success(pageId));
     }
 
     @GetMapping
@@ -48,7 +48,7 @@ public class AlbumPageController {
         Long userId = userDetails.getUser().getId();
         albumMemberService.checkMembership(userId, albumId);
 
-        AlbumPageFindResponseDTO findDTO = albumPageService.findPage(pageable);
+        AlbumPageFindResponseDTO findDTO = albumPageService.findPage(pageable, albumId);
         return ResponseEntity.ok(ApiUtils.success(findDTO));
     }
 

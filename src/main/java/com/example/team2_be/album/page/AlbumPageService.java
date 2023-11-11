@@ -48,20 +48,23 @@ public class AlbumPageService {
     }
 
     @Transactional
-    public void createPage(Long albumId) {
+    public Long createPage(Long albumId) {
         Album album = findAlbumById(albumId);
 
         AlbumPage albumPage = AlbumPage.builder()
                 .album(album)
                 .build();
         albumPageJPARepository.save(albumPage);
+        return albumPage.getId();
     }
 
     @Transactional
-    public AlbumPageFindResponseDTO findPage(Pageable pageable) {
+    public AlbumPageFindResponseDTO findPage(Pageable pageable, Long albumId) {
         Page<AlbumPage> albumPages = albumPageJPARepository.findAll(pageable);
 
-        return new AlbumPageFindResponseDTO(albumPages.getContent());
+        Album album = findAlbumById(albumId);
+
+        return new AlbumPageFindResponseDTO(albumPages.getContent(), album.getImage());
     }
 
     private void checkEmptyAssetDTOMap(Map<String, AssetUpdateDTO> assetDTOMap, AlbumPage albumPage) throws IOException {
