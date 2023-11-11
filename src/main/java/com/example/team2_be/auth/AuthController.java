@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
     private final AuthService authService;
 
@@ -18,6 +18,11 @@ public class AuthController {
     @PostMapping("/google/login")
     public @ResponseBody ResponseEntity<ApiUtils.ApiResult<String>> googleLogin(@RequestBody String code){
         return ResponseEntity.ok(ApiUtils.success(authService.googleLogin(code)));
+    }
+
+    @PostMapping("/test/admin")
+    public @ResponseBody ResponseEntity<ApiUtils.ApiResult<String>> testLogin(){
+        return ResponseEntity.ok(ApiUtils.success(authService.testLogin()));
     }
 
     @PostMapping("/logout")

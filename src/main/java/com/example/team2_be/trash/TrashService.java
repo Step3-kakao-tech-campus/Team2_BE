@@ -9,8 +9,10 @@ import com.example.team2_be.trash.dto.TrashesFindResponseDTO;
 import com.example.team2_be.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TrashService {
-
+    private static final String BUKET_NAME = "kakaotechcampust-step3-nemobucket";
     private final TrashJPARepository trashJPARepository;
     private final AlbumPageJPARepository albumPageJPARepository;
     private final AmazonS3Client amazonS3Client;
@@ -40,21 +42,33 @@ public class TrashService {
         trashJPARepository.delete(trash);
     }
 
-    @Transactional
+    @Transactional(noRollbackFor = {RuntimeException.class})
     @Scheduled(cron = "0 59 23 * * ?")
     public void deleteTrash(){
-        List<Trash> after7days = trashJPARepository.findTrashesToDelete();
-        List<AlbumPage> deletePages = after7days.stream()
-                .map(Trash::getAlbumPage)
-                .collect(Collectors.toList());
+        int pageSize = 1000;
+        int pageNumber = 0;
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+        Page<Trash> after7days;
 
-        deletePages.forEach(albumPage -> {
-            albumPage.getAlbumPageImages().forEach(albumPageImage -> {
-                amazonS3Client.deleteObject("kakaotechcampust-step3-nemobucket", albumPageImage.getFileName());
+        while (true) {
+            after7days = trashJPARepository.findTrashesToDelete(pageRequest);
+
+            List<AlbumPage> deletePages = after7days.stream()
+                    .map(Trash::getAlbumPage)
+                    .collect(Collectors.toList());
+
+            deletePages.forEach(albumPage -> {
+                albumPage.getAlbumPageImages().forEach(albumPageImage -> {
+                    amazonS3Client.deleteObject(BUKET_NAME, albumPageImage.getFileName());
+                });
             });
-        });
 
-        albumPageJPARepository.deleteAllInBatch(deletePages);
+            albumPageJPARepository.deleteAllInBatch(deletePages);
+
+            if(!pageRequest.next().isPaged()){
+                break;
+            }
+        }
     }
 
     @Transactional

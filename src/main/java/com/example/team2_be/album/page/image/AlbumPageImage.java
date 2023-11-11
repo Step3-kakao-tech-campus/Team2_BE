@@ -4,6 +4,7 @@ import com.example.team2_be.BaseEntity;
 import com.example.team2_be.album.page.AlbumPage;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -13,28 +14,28 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "albumImage")
+@Table(name = "album_images", indexes = {@Index(name = "idx_album_page_id_and_asset_id", columnList = "album_page_id, asset_id", unique = true)})
 @Getter
 @ToString
 @NoArgsConstructor
 public class AlbumPageImage extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "albumPage")
+    @JoinColumn(name = "album_page_id")
     private AlbumPage albumPage;
 
-    @Column(length = 128, nullable = false)
+    @Column(name = "asset_id", length = 128, nullable = false)
     private String assetId;
 
-    @Column(length = 128, nullable = false)
+    @Column(name = "file_name", length = 128, nullable = false)
     private String fileName;
 
     @Column(length = 16, nullable = false)
     private String type;
 
-    @Column(nullable = false)
+    @Column(name = "x_size", nullable = false)
     private double xSize;
 
-    @Column(nullable = false)
+    @Column(name = "y_size", nullable = false)
     private double ySize;
 
     @Column(length = 2056)

@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/albums")
+@RequestMapping("/api/albums")
 public class AlbumController {
     private final AlbumService albumService;
     private final AlbumMemberService albumMemberService;
@@ -26,14 +26,16 @@ public class AlbumController {
         Long userId = userDetails.getUser().getId();
         Album newAlbum = albumService.createAlbum(requestDTO);
         // album을 생성하는 유저를 albumMember로 추가
-        albumMemberService.addMember(newAlbum.getId(),userId);
+        albumMemberService.addMembers(newAlbum.getId(),userId);
 
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
     // 앨범 수정 기능 PUT "/albums/{albumId}"
     @PutMapping("/{albumId}")
-    public ResponseEntity<ApiUtils.ApiResult> updateAlbum (@RequestBody AlbumUpdaterequestDTO requestDTO, @PathVariable Long albumId){
+    public ResponseEntity<ApiUtils.ApiResult> updateAlbum (@RequestBody AlbumUpdaterequestDTO requestDTO, @PathVariable Long albumId, @AuthenticationPrincipal CustomUserDetails userDetails){
+        Long userId = userDetails.getUser().getId();
+        albumMemberService.checkMembership(userId, albumId);
         albumService.updateAlbum(requestDTO,albumId);
 
         return ResponseEntity.ok(ApiUtils.success(null));

@@ -63,6 +63,14 @@ dependencies {
 	//MySQL
 	implementation 'mysql:mysql-connector-java:8.0.26'
 
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version: '2.6.4', ext: 'pom'
+
+	//Web Socket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+  annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
 }
 
 tasks.named('test') {

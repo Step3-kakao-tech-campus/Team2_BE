@@ -6,7 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", indexes = {@Index(name = "idx_email", columnList = "email", unique = true)})
 @Getter
 @ToString
 @NoArgsConstructor
@@ -15,7 +15,7 @@ public class User extends BaseEntity {
     @Column(length = 128, nullable = false, unique = true)
     private String email;
 
-    @Column(length = 32, nullable = false, unique = true)
+    @Column(length = 32, nullable = false)
     private String nickname;
 
     @Column(length = 16)
@@ -25,7 +25,7 @@ public class User extends BaseEntity {
     private String image;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(length = 16, nullable = false)
+    @Column(name = "user_role", length = 16, nullable = false)
     private Role role;
 
     @Builder

@@ -4,6 +4,7 @@ import com.example.team2_be.album.Album;
 import com.example.team2_be.album.AlbumJPARepository;
 import com.example.team2_be.album.dto.AlbumMemberFindResponseDTO;
 import com.example.team2_be.core.error.exception.NotFoundException;
+import com.example.team2_be.core.error.exception.UnauthorizedException;
 import com.example.team2_be.user.User;
 import com.example.team2_be.user.UserJPARepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class AlbumMemberService {
     private final AlbumJPARepository albumJPARepository;
     private final AlbumMemberJPARepository albumMemberJPARepository;
 
-    public AlbumMemberFindResponseDTO findMembers(Long albumId){
+    public AlbumMemberFindResponseDTO getMembers(Long albumId) {
         List<AlbumMember> members = albumMemberJPARepository.findAllByAlbumId(albumId);
         List<User> users = members.stream()
                 .map(member -> userJPARepository.getReferenceById(member.getUser().getId()))
@@ -32,14 +33,14 @@ public class AlbumMemberService {
     }
 
     @Transactional
-    public void addMember(Long userId, Long albumId){
+    public void addMembers(Long userId, Long albumId) {
         User user = userJPARepository.getReferenceById(userId);
         // 앨범이 없을 경우 예외 처리, 후에 추가 수정
         Album album = albumJPARepository.findById(albumId)
                 .orElseThrow(() -> new NotFoundException("해당 앨범이 존재하지 않습니다."));
 
-        AlbumMember albumMember = albumMemberJPARepository.findByUserIdAndAlbumId(userId, albumId);
-        if(albumMember == null) {
+        AlbumMember albumMember = albumMemberJPARepository.findByAlbumIdAndUserId(albumId, userId);
+        if (albumMember == null) {
             albumMember = AlbumMember.builder()
                     .user(user)
                     .album(album)
@@ -49,9 +50,17 @@ public class AlbumMemberService {
     }
 
     @Transactional
-    public void deleteMember(Long userId, Long albumId){
-        AlbumMember albumMember = albumMemberJPARepository.findByUserIdAndAlbumId(userId, albumId);
+    public void deleteMembers(Long userId, Long albumId) {
+        AlbumMember albumMember = albumMemberJPARepository.findByAlbumIdAndUserId(albumId, userId);
 
         albumMemberJPARepository.delete(albumMember);
+    }
+
+    // 해당 앨범 멤버 판별 기능
+    public void checkMembership(Long userId, Long albumId){
+        AlbumMember member = albumMemberJPARepository.findByAlbumIdAndUserId(albumId, userId);
+        if(member == null){
+            throw new UnauthorizedException("해당 앨범에 접근이 불가합니다.");
+        }
     }
 }

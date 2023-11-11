@@ -1,5 +1,6 @@
 package com.example.team2_be.core.config;
 
+import com.example.team2_be.core.security.CustomUserDetailsService;
 import com.example.team2_be.core.security.JwtAuthenticationFilter;
 import com.example.team2_be.core.security.JwtTokenProvider;
 import com.example.team2_be.user.UserJPARepository;
@@ -19,6 +20,7 @@ public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, Object> redisTemplate;
     private final UserJPARepository userJPARepository;
+    private final CustomUserDetailsService customUserDetailsService;
 
     public class CustomSecurityFilterManager extends AbstractHttpConfigurer<CustomSecurityFilterManager, HttpSecurity> {
 
@@ -26,7 +28,7 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-            builder.addFilter(new JwtAuthenticationFilter(authenticationManager, jwtTokenProvider, userJPARepository, redisTemplate));
+            builder.addFilter(new JwtAuthenticationFilter(customUserDetailsService, authenticationManager, jwtTokenProvider, userJPARepository, redisTemplate));
             super.configure(builder);
         }
     }
@@ -35,16 +37,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         final String[] swaggerPermitUrls = {
                 // swagger v2
-                "/v2/api-docs",
-                "/swagger-resources",
-                "/swagger-resources/**",
-                "/configuration/ui",
-                "/configuration/security",
-                "/swagger-ui.html",
-                "/webjars/**",
+                "/api/v2/api-docs",
+                "/api/swagger-resources",
+                "/api/swagger-resources/**",
+                "/api/configuration/ui",
+                "/api/configuration/security",
+                "/api/swagger-ui.html",
+                "/api/webjars/**",
                 // swagger v3
-                "/v3/api-docs/**",
-                "/swagger-ui/**"
+                "/api/v3/api-docs/**",
+                "/api/swagger-ui/**"
         };
 
         http
@@ -63,7 +65,7 @@ public class SecurityConfig {
                 .authorizeRequests(
                         authorize -> authorize
                         .antMatchers(swaggerPermitUrls).permitAll()
-                        .antMatchers("/auth/**").permitAll()
+                        .antMatchers("/api/auth/**").permitAll()
                 );
         return http.build();
     }

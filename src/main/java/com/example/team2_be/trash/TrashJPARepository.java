@@ -13,5 +13,5 @@ public interface TrashJPARepository extends JpaRepository<Trash, Long> {
     Page<Trash> findAllByAlbumId(@Param("albumId") Long albumId, Pageable pageable);
   
     @Query("SELECT t FROM Trash t WHERE DATE(t.deleteAt) = CURRENT_DATE")
-    List<Trash> findTrashesToDelete();
+    Page<Trash> findTrashesToDelete(Pageable pageable);
 }
