@@ -11,13 +11,15 @@ import lombok.Getter;
 
 @Getter
 public class AlbumPageFindResponseDTO {
+    private final String AlbumImageUrl;
     private final List<AlbumPageFindDTO> albumPageFindDTOs;
 
     @Builder
-    public AlbumPageFindResponseDTO(List<AlbumPage> albumPages) {
+    public AlbumPageFindResponseDTO(List<AlbumPage> albumPages, String albumImageUrl) {
         this.albumPageFindDTOs = albumPages.stream()
                 .map(AlbumPageFindDTO::new)
                 .collect(Collectors.toList());
+        this.AlbumImageUrl = albumImageUrl;
     }
 
 
