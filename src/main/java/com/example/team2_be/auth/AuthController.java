@@ -20,6 +20,11 @@ public class AuthController {
         return ResponseEntity.ok(ApiUtils.success(authService.googleLogin(code)));
     }
 
+    @PostMapping("/test/admin")
+    public @ResponseBody ResponseEntity<ApiUtils.ApiResult<String>> testLogin(){
+        return ResponseEntity.ok(ApiUtils.success(authService.testLogin()));
+    }
+
     @PostMapping("/logout")
     public ResponseEntity<ApiUtils.ApiResult<Void>> logout(){
         authService.logout();
