@@ -74,7 +74,7 @@
 
 **프론트 배포 인스턴스 주소** : [프론트 배포 인스턴스 주소](https://k5ebddfe59255a.user-app.krampoline.com)
 
-**백 배포 인스턴스 주소** : [백 배포 인스턴스 주소](https://k59de1f11b350a.user-app.krampoline.com)
+**백 배포 인스턴스 주소** : [백 배포 인스턴스 주소](https://k1657ba1b1d9da.user-app.krampoline.com)
 
 <br>
 
